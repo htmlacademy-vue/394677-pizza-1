@@ -147,7 +147,7 @@
 <script>
 import pizza from "@/static/pizza";
 export default {
-  name: "Index.vue",
+  name: "Index",
   data() {
     return {
       doughList: pizza.dough,
