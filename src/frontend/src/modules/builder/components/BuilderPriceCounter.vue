@@ -1,7 +1,11 @@
 <template>
   <div class="content__result">
     <p>Итого: {{ totalPrice }} ₽</p>
-    <button type="button" class="button button--disabled" disabled>
+    <button
+      type="button"
+      :class="[disabled ? 'button--disabled' : '', 'button']"
+      :disabled="disabled"
+    >
       Готовьте!
     </button>
   </div>
@@ -16,6 +20,10 @@ export default {
       default() {
         return 0;
       },
+    },
+    disabled: {
+      type: Boolean,
+      required: true,
     },
   },
 };

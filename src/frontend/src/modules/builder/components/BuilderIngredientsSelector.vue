@@ -11,7 +11,13 @@
             :key="index"
             class="radio ingridients__input"
           >
-            <input type="radio" name="sauce" value="tomato" checked />
+            <input
+              type="radio"
+              name="sauce"
+              value="tomato"
+              :checked="sauce.checked"
+              @change="changeSauce(sauce)"
+            />
             <span>{{ sauce.name }}</span>
           </label>
         </div>
@@ -25,7 +31,7 @@
               :key="index"
               class="ingridients__item"
             >
-              <span class="filling filling--mushrooms">
+              <span class="filling" :class="'filling--' + ingredient.class">
                 {{ ingredient.name }}
               </span>
               <ItemCounter
@@ -62,9 +68,34 @@ export default {
     },
   },
   name: "BuilderIngredientsSelector",
+  data() {
+    return {
+      ingredientClassList: [],
+    };
+  },
+  mounted() {
+    this.changeSauce(this.sauces[0]);
+  },
   methods: {
-    countItem(value) {
-      this.$emit("countItem", value);
+    countItem(item) {
+      if (item.price < 0) {
+        for (let i = 0; i < this.ingredientClassList.length; i++) {
+          if (this.ingredientClassList[i] === item.class) {
+            this.ingredientClassList.splice(i, 1);
+            this.$emit("changeIngredientClassList", this.ingredientClassList);
+            this.$emit("countItem", item.price);
+            return;
+          }
+        }
+      } else {
+        this.ingredientClassList.push(item.class);
+        this.$emit("changeIngredientClassList", this.ingredientClassList);
+        this.$emit("countItem", item.price);
+      }
+    },
+
+    changeSauce(sauce) {
+      this.$emit("changeSauce", sauce);
     },
   },
 };

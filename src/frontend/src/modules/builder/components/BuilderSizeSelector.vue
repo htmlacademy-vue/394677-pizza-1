@@ -7,13 +7,16 @@
         <label
           v-for="(size, index) in sizes"
           :key="index"
-          class="diameter__input diameter__input--small"
+          :class="'diameter__input--' + size.class"
+          class="diameter__input"
         >
           <input
             type="radio"
             name="diameter"
-            value="small"
+            :value="size.name"
             class="visually-hidden"
+            :checked="size.checked"
+            @change="changeSize(size)"
           />
           <span>{{ size.name }}</span>
         </label>
@@ -33,6 +36,14 @@ export default {
     },
   },
   name: "BuilderSizeSelector",
+  mounted() {
+    this.changeSize(this.sizes[1]);
+  },
+  methods: {
+    changeSize(size) {
+      this.$emit("changeSize", size);
+    },
+  },
 };
 </script>
 

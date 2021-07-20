@@ -6,15 +6,17 @@
       <div class="sheet__content dough">
         <label
           v-for="(dough, index) in doughList"
+          class="dough__input"
           :key="index"
-          class="dough__input dough__input--light"
+          :class="'dough__input--' + dough.class"
         >
           <input
             type="radio"
             name="dought"
-            value="light"
             class="visually-hidden"
-            checked
+            :value="index"
+            :checked="dough.checked"
+            @change="changeDough(dough)"
           />
           <b>{{ dough.name }}</b>
           <span>{{ dough.description }}</span>
@@ -35,6 +37,14 @@ export default {
     },
   },
   name: "BuilderDoughSelector",
+  mounted() {
+    this.changeDough(this.doughList[0]);
+  },
+  methods: {
+    changeDough(dough) {
+      this.$emit("changeDough", dough);
+    },
+  },
 };
 </script>
 
