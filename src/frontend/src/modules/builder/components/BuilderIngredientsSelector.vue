@@ -31,14 +31,16 @@
               :key="index"
               class="ingridients__item"
             >
-              <span class="filling" :class="'filling--' + ingredient.class">
-                {{ ingredient.name }}
-              </span>
-              <ItemCounter
-                class="counter--orange ingridients__counter"
-                :item="ingredient"
-                @countItem="countItem"
-              ></ItemCounter>
+              <AppDrag :transferData="ingredient">
+                <span class="filling" :class="'filling--' + ingredient.class">
+                  {{ ingredient.name }}
+                </span>
+                <ItemCounter
+                  class="counter--orange ingridients__counter"
+                  :item="ingredient"
+                  @countItem="countItem"
+                ></ItemCounter>
+              </AppDrag>
             </li>
           </ul>
         </div>
@@ -49,9 +51,11 @@
 
 <script>
 import ItemCounter from "../../../common/components/ItemCounter";
+import AppDrag from "../../../common/components/AppDrag";
 export default {
   components: {
     ItemCounter,
+    AppDrag,
   },
   props: {
     sauces: {
