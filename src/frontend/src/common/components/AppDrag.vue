@@ -19,6 +19,10 @@ export default {
       type: Object,
       required: true,
     },
+    draggable: {
+      type: Boolean,
+      required: true,
+    },
   },
   methods: {
     onDrag({ dataTransfer }) {

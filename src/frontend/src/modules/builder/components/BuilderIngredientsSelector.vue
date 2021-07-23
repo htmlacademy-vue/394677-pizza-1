@@ -31,7 +31,7 @@
               :key="index"
               class="ingridients__item"
             >
-              <AppDrag :transferData="ingredient">
+              <AppDrag :transferData="ingredient" :draggable="draggable">
                 <span class="filling" :class="'filling--' + ingredient.class">
                   {{ ingredient.name }}
                 </span>
@@ -75,27 +75,21 @@ export default {
   data() {
     return {
       ingredientClassList: [],
+      ingredientCount: 0,
     };
   },
   mounted() {
     this.changeSauce(this.sauces[0]);
   },
+  computed: {
+    draggable() {
+      return this.ingredientCount < 3;
+    },
+  },
   methods: {
     countItem(item) {
-      if (item.price < 0) {
-        for (let i = 0; i < this.ingredientClassList.length; i++) {
-          if (this.ingredientClassList[i] === item.class) {
-            this.ingredientClassList.splice(i, 1);
-            this.$emit("changeIngredientClassList", this.ingredientClassList);
-            this.$emit("countItem", item.price);
-            return;
-          }
-        }
-      } else {
-        this.ingredientClassList.push(item.class);
-        this.$emit("changeIngredientClassList", this.ingredientClassList);
-        this.$emit("countItem", item.price);
-      }
+      this.ingredientCount = item.count;
+      this.$emit("countItem", item);
     },
 
     changeSauce(sauce) {

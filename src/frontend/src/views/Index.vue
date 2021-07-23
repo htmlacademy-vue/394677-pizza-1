@@ -16,7 +16,6 @@
           :ingredients="ingredients"
           @countItem="countItem"
           @changeSauce="changeSauce"
-          @changeIngredientClassList="changeIngredientClassList"
         ></BuilderIngredientsSelector>
         <BuilderPizzaView
           :name="name"
@@ -68,8 +67,20 @@ export default {
       this.name = name;
       this.checkDisabledButton();
     },
-    countItem(price) {
-      this.totalPrice += price;
+    countItem(item) {
+      if (item.price < 0) {
+        for (let i = 0; i < this.ingredientClassList.length; i++) {
+          if (this.ingredientClassList[i] === item.class) {
+            this.ingredientClassList.splice(i, 1);
+            this.checkDisabledButton();
+            return;
+          }
+        }
+      } else {
+        this.ingredientClassList.push(item.class);
+        this.checkDisabledButton();
+      }
+      this.totalPrice += item.price;
     },
     changeDough(dough) {
       if (this.previousDoughPrice !== dough.price) {
@@ -93,10 +104,6 @@ export default {
         this.previousSizePrice = size.price;
         this.totalPrice += this.previousSizePrice;
       }
-    },
-    changeIngredientClassList(ingredientClassList) {
-      this.ingredientClassList = ingredientClassList;
-      this.checkDisabledButton();
     },
     checkDisabledButton() {
       this.disabledButton = !(this.name && this.ingredientClassList.length);

@@ -41,25 +41,32 @@ export default {
     disabledAdd() {
       return this.value === 3;
     },
+    localItem() {
+      let cloneItem = {};
+      for (let key in this.item) {
+        cloneItem[key] = this.item[key];
+      }
+      return cloneItem;
+    },
   },
   methods: {
     add() {
       if (this.value < 3) {
         this.value++;
-        this.item.price = Math.abs(this.item.price);
-        this.countItem(this.item);
+        this.localItem.price = Math.abs(this.localItem.price);
+        this.countItem();
       }
     },
     reduce() {
       if (this.value > 0) {
         this.value--;
-        this.item.price = -Math.abs(this.item.price);
-        this.countItem(this.item);
+        this.localItem.price = -Math.abs(this.localItem.price);
+        this.countItem();
       }
     },
-    countItem(item) {
-      item.count = this.value;
-      this.$emit("countItem", item);
+    countItem() {
+      this.localItem.count = this.value;
+      this.$emit("countItem", this.localItem);
     },
   },
 };
