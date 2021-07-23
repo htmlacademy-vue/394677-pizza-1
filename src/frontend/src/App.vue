@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <AppLayout></AppLayout>
-    <Index></Index>
+    <AppLayout>
+      <Index></Index>
+    </AppLayout>
   </div>
 </template>
 
