@@ -32,9 +32,15 @@ export default {
   data() {
     return {
       value: 0,
-      disabledReduce: false,
-      disabledAdd: false,
     };
+  },
+  computed: {
+    disabledReduce() {
+      return this.value === 0;
+    },
+    disabledAdd() {
+      return this.value === 3;
+    },
   },
   methods: {
     add() {
@@ -42,10 +48,6 @@ export default {
         this.value++;
         this.item.price = Math.abs(this.item.price);
         this.countItem(this.item);
-        this.disabledReduce = false;
-      }
-      if (this.value === 3) {
-        this.disabledAdd = true;
       }
     },
     reduce() {
@@ -53,10 +55,6 @@ export default {
         this.value--;
         this.item.price = -Math.abs(this.item.price);
         this.countItem(this.item);
-        this.disabledAdd = false;
-      }
-      if (this.value === 0) {
-        this.disabledReduce = true;
       }
     },
     countItem(item) {
