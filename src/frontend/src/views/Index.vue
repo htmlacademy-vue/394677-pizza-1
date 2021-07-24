@@ -48,9 +48,6 @@ export default {
   data() {
     return {
       name: "",
-      doughList: pizza.dough,
-      sizes: pizza.sizes,
-      sauces: pizza.sauces,
       doughPrice: 0,
       saucePrice: 0,
       sizePrice: 0,
@@ -71,6 +68,49 @@ export default {
         localIngredients[i].class = className.split(".svg")[0];
       }
       return localIngredients;
+    },
+    sauces() {
+      let localSauces = [];
+      for (let i = 0; i < pizza.sauces.length; i++) {
+        localSauces[i] = pizza.sauces[i];
+        if (localSauces[i].name === "Томатный") {
+          localSauces[i].checked = true;
+          localSauces[i].pizzaClass = "tomato";
+        } else {
+          localSauces[i].pizzaClass = "creamy";
+        }
+      }
+      return localSauces;
+    },
+    sizes() {
+      let localSizes = [];
+      for (let i = 0; i < pizza.sizes.length; i++) {
+        localSizes[i] = pizza.sizes[i];
+        if (localSizes[i].name === "23 см") {
+          localSizes[i].checked = true;
+          localSizes[i].class = "small";
+        } else if (localSizes[i].name === "32 см") {
+          localSizes[i].class = "normal";
+        } else {
+          localSizes[i].class = "big";
+        }
+      }
+      return localSizes;
+    },
+    doughList() {
+      let localDough = [];
+      for (let i = 0; i < pizza.dough.length; i++) {
+        localDough[i] = pizza.dough[i];
+        if (localDough[i].name === "Тонкое") {
+          localDough[i].checked = true;
+          localDough[i].class = "light";
+          localDough[i].pizzaClass = "small";
+        } else {
+          localDough[i].class = "large";
+          localDough[i].pizzaClass = "big";
+        }
+      }
+      return localDough;
     },
     totalPrice() {
       return (

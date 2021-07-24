@@ -4,17 +4,12 @@
       "name": "Тонкое",
       "image": "/public/img/dough-light.svg",
       "description": "Из твердых сортов пшеницы",
-      "class": "light",
-      "pizzaClass": "small",
-      "checked": true,
       "price": 250
     },
     {
       "name": "Толстое",
       "image": "/public/img/dough-large.svg",
       "description": "Из твердых сортов пшеницы",
-      "class": "large",
-      "pizzaClass": "big",
       "price": 300
     }
   ],
@@ -38,14 +33,11 @@
   "sauces": [
     {
       "name": "Томатный",
-      "price": 50,
-      "checked": true,
-      "pizzaClass": "tomato"
+      "price": 50
     },
     {
       "name": "Сливочный",
-      "price": 55,
-      "pizzaClass": "creamy"
+      "price": 55
     }
   ],
   "sizes": [
@@ -53,23 +45,20 @@
       "name": "23 см",
       "image": "/public/img/diameter.svg",
       "multiplier": 1,
-      "price": 100,
-      "class": "small"
+      "price": 100
     },
     {
       "name": "32 см",
       "image": "/public/img/diameter.svg",
       "multiplier": 2,
       "checked": true,
-      "price": 200,
-      "class": "normal"
+      "price": 200
     },
     {
       "name": "45 см",
       "image": "/public/img/diameter.svg",
       "multiplier": 3,
-      "price": 300,
-      "class": "big"
+      "price": 300
     }
   ]
 }
