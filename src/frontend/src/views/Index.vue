@@ -14,18 +14,20 @@
         <BuilderIngredientsSelector
           :sauces="sauces"
           :ingredients="ingredients"
-          @countItem="countItem"
+          @countItem="countIngredient"
           @changeSauce="changeSauce"
         ></BuilderIngredientsSelector>
-        <BuilderPizzaView
-          :name="name"
-          :pizzaDoughClass="pizzaDoughClass"
-          :pizzaSauceClass="pizzaSauceClass"
-          :ingredientClassList="ingredientClassList"
-          :totalPrice="totalPrice"
-          :disabled="disabledButton"
-          @changeName="changeName"
-        ></BuilderPizzaView>
+        <AppDrop @drop="moveIngredient($event)">
+          <BuilderPizzaView
+            :name="name"
+            :pizzaDoughClass="pizzaDoughClass"
+            :pizzaSauceClass="pizzaSauceClass"
+            :ingredientClassList="ingredientClassList"
+            :totalPrice="totalPrice"
+            :disabled="disabledButton"
+            @changeName="changeName"
+          ></BuilderPizzaView>
+        </AppDrop>
       </div>
     </form>
   </main>
@@ -37,6 +39,7 @@ import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelec
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
+import AppDrop from "@/common/components/AppDrop";
 export default {
   name: "Index",
   components: {
@@ -44,6 +47,7 @@ export default {
     BuilderIngredientsSelector,
     BuilderSizeSelector,
     BuilderPizzaView,
+    AppDrop,
   },
   data() {
     return {
@@ -126,7 +130,7 @@ export default {
       this.name = name;
       this.checkDisabledButton();
     },
-    countItem(item, index) {
+    countIngredient(item, index) {
       if (item.price < 0) {
         for (let i = 0; i < this.ingredientClassList.length; i++) {
           if (this.ingredientClassList[i] === item.class) {
@@ -139,6 +143,14 @@ export default {
       this.ingredientsPrice += item.price;
       this.ingredients[index].count = item.count;
       this.checkDisabledButton();
+    },
+    moveIngredient(transferData) {
+      for (let i = 0; i < this.ingredients.length; i++) {
+        if (this.ingredients[i].name === transferData.name) {
+          transferData.count++;
+          this.countIngredient(transferData, i);
+        }
+      }
     },
     changeDough(dough) {
       if (this.doughPrice !== dough.price) {

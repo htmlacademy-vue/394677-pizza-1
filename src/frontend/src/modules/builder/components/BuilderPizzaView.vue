@@ -10,27 +10,23 @@
         @input="changeName"
       />
     </label>
-    <AppDrop>
-      <div class="content__constructor">
-        <div
-          class="pizza"
-          :class="
-            'pizza--foundation--' + pizzaDoughClass + '-' + pizzaSauceClass
-          "
-        >
-          <div class="pizza__wrapper">
-            <div class="pizza__filling"></div>
-            <template v-for="(ingredientClass, index) in pizzaClassList">
-              <div
-                class="pizza__filling"
-                :key="index"
-                :class="ingredientClass"
-              ></div>
-            </template>
-          </div>
+    <div class="content__constructor">
+      <div
+        class="pizza"
+        :class="'pizza--foundation--' + pizzaDoughClass + '-' + pizzaSauceClass"
+      >
+        <div class="pizza__wrapper">
+          <div class="pizza__filling"></div>
+          <template v-for="(ingredientClass, index) in pizzaClassList">
+            <div
+              class="pizza__filling"
+              :key="index"
+              :class="ingredientClass"
+            ></div>
+          </template>
         </div>
       </div>
-    </AppDrop>
+    </div>
     <BuilderPriceCounter
       :totalPrice="totalPrice"
       :disabled="disabled"
@@ -40,11 +36,10 @@
 
 <script>
 import BuilderPriceCounter from "@/modules/builder/components/BuilderPriceCounter";
-import AppDrop from "@/common/components/AppDrop";
 import { cloneDeep } from "lodash";
 export default {
   name: "BuilderPizzaView",
-  components: { BuilderPriceCounter, AppDrop },
+  components: { BuilderPriceCounter },
   props: {
     name: {
       type: String,
@@ -102,9 +97,6 @@ export default {
   methods: {
     changeName() {
       this.$emit("changeName", this.localName);
-    },
-    moveIngredient(transferData) {
-      this.$emit("moveIngredient", transferData);
     },
   },
 };

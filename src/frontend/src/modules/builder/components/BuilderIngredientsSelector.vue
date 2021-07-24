@@ -24,10 +24,9 @@
 
         <div class="ingridients__filling">
           <p>Начинка:</p>
-
           <ul class="ingridients__list">
             <li
-              v-for="(ingredient, index) in ingredients"
+              v-for="(ingredient, index) in localIngredients"
               :key="index"
               class="ingridients__item"
             >
@@ -53,6 +52,7 @@
 <script>
 import ItemCounter from "../../../common/components/ItemCounter";
 import AppDrag from "../../../common/components/AppDrag";
+import { cloneDeep } from "lodash";
 export default {
   components: {
     ItemCounter,
@@ -61,15 +61,11 @@ export default {
   props: {
     sauces: {
       type: Array,
-      default() {
-        return [];
-      },
+      default: () => [],
     },
     ingredients: {
       type: Array,
-      default() {
-        return [];
-      },
+      default: () => [],
     },
   },
   name: "BuilderIngredientsSelector",
@@ -77,10 +73,20 @@ export default {
     return {
       ingredientClassList: [],
       ingredientCount: 0,
+      localIngredients: [],
     };
   },
   mounted() {
     this.changeSauce(this.sauces[0]);
+  },
+  watch: {
+    ingredients: {
+      deep: true,
+      immediate: true,
+      handler() {
+        this.localIngredients = cloneDeep(this.ingredients);
+      },
+    },
   },
   computed: {
     draggable() {
