@@ -76,9 +76,6 @@ export default {
       localIngredients: [],
     };
   },
-  mounted() {
-    this.changeSauce(this.sauces[0]);
-  },
   watch: {
     ingredients: {
       deep: true,
