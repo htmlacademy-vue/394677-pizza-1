@@ -51,58 +51,70 @@ export default {
       doughList: pizza.dough,
       sizes: pizza.sizes,
       sauces: pizza.sauces,
-      ingredients: pizza.ingredients,
-      totalPrice: 0,
-      previousDoughPrice: 0,
-      previousSaucePrice: 0,
-      previousSizePrice: 0,
+      doughPrice: 0,
+      saucePrice: 0,
+      sizePrice: 0,
+      ingredientsPrice: 0,
       pizzaDoughClass: "small",
       pizzaSauceClass: "tomato",
       ingredientClassList: [],
       disabledButton: true,
     };
   },
+  computed: {
+    ingredients() {
+      let localIngredients = [];
+      for (let i = 0; i < pizza.ingredients.length; i++) {
+        localIngredients[i] = pizza.ingredients[i];
+        localIngredients[i].count = 0;
+        let className = pizza.ingredients[i].image.split("filling/")[1];
+        localIngredients[i].class = className.split(".svg")[0];
+      }
+      return localIngredients;
+    },
+    totalPrice() {
+      return (
+        this.doughPrice +
+        this.saucePrice +
+        this.sizePrice +
+        this.ingredientsPrice
+      );
+    },
+  },
   methods: {
     changeName(name) {
       this.name = name;
       this.checkDisabledButton();
     },
-    countItem(item) {
+    countItem(item, index) {
       if (item.price < 0) {
         for (let i = 0; i < this.ingredientClassList.length; i++) {
           if (this.ingredientClassList[i] === item.class) {
             this.ingredientClassList.splice(i, 1);
-            this.checkDisabledButton();
-            return;
           }
         }
       } else {
         this.ingredientClassList.push(item.class);
-        this.checkDisabledButton();
       }
-      this.totalPrice += item.price;
+      this.ingredientsPrice += item.price;
+      this.ingredients[index].count = item.count;
+      this.checkDisabledButton();
     },
     changeDough(dough) {
-      if (this.previousDoughPrice !== dough.price) {
-        this.totalPrice -= this.previousDoughPrice;
-        this.previousDoughPrice = dough.price;
-        this.totalPrice += this.previousDoughPrice;
+      if (this.doughPrice !== dough.price) {
+        this.doughPrice = dough.price;
       }
       this.pizzaDoughClass = dough.pizzaClass;
     },
     changeSauce(sauce) {
-      if (this.previousSaucePrice !== sauce.price) {
-        this.totalPrice -= this.previousSaucePrice;
-        this.previousSaucePrice = sauce.price;
-        this.totalPrice += this.previousSaucePrice;
+      if (this.saucePrice !== sauce.price) {
+        this.saucePrice = sauce.price;
       }
       this.pizzaSauceClass = sauce.pizzaClass;
     },
     changeSize(size) {
-      if (this.previousSizePrice !== size.price) {
-        this.totalPrice -= this.previousSizePrice;
-        this.previousSizePrice = size.price;
-        this.totalPrice += this.previousSizePrice;
+      if (this.sizePrice !== size.price) {
+        this.sizePrice = size.price;
       }
     },
     checkDisabledButton() {

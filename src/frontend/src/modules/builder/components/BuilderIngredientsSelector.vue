@@ -38,6 +38,7 @@
                 <ItemCounter
                   class="counter--orange ingridients__counter"
                   :item="ingredient"
+                  :index="index"
                   @countItem="countItem"
                 ></ItemCounter>
               </AppDrag>
@@ -87,9 +88,9 @@ export default {
     },
   },
   methods: {
-    countItem(item) {
+    countItem(item, index) {
       this.ingredientCount = item.count;
-      this.$emit("countItem", item);
+      this.$emit("countItem", item, index);
     },
 
     changeSauce(sauce) {

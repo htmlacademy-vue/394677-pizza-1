@@ -28,6 +28,10 @@ export default {
       type: Object,
       required: true,
     },
+    index: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
@@ -66,7 +70,7 @@ export default {
     },
     countItem() {
       this.localItem.count = this.value;
-      this.$emit("countItem", this.localItem);
+      this.$emit("countItem", this.localItem, this.index);
     },
   },
 };
