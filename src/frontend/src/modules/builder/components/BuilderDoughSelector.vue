@@ -8,7 +8,7 @@
           v-for="(dough, index) in doughList"
           class="dough__input"
           :key="index"
-          :class="'dough__input--' + dough.class"
+          :class="'dough__input--' + className(dough)"
         >
           <input
             type="radio"
@@ -40,6 +40,15 @@ export default {
   methods: {
     changeDough(index) {
       this.$emit("changeDough", index);
+    },
+    className(dough) {
+      let name = "";
+      if (dough.name === "Тонкое") {
+        name = "light";
+      } else {
+        name = "large";
+      }
+      return name;
     },
   },
 };

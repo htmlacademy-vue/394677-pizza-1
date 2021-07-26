@@ -81,7 +81,8 @@ export default {
       let classList = [];
       this.ingredients.forEach((ingredient) => {
         let count = ingredient.count;
-        let className = ingredient.class;
+        let className = ingredient.image.split("filling/")[1];
+        className = className.split(".svg")[0];
         if (count) {
           if (count === 2) {
             classList.push(
@@ -99,19 +100,27 @@ export default {
       return classList;
     },
     pizzaDoughClass() {
-      let className = "small";
+      let className = "";
       this.doughList.forEach((dough) => {
         if (dough.checked) {
-          className = dough.pizzaClass;
+          if (dough.name === "Тонкое") {
+            className = "small";
+          } else {
+            className = "big";
+          }
         }
       });
       return className;
     },
     pizzaSauceClass() {
-      let className = "tomato";
-      this.sauces.forEach((dough) => {
-        if (dough.checked) {
-          className = dough.pizzaClass;
+      let className = "";
+      this.sauces.forEach((sauce) => {
+        if (sauce.checked) {
+          if (sauce.name === "Сливочный") {
+            className = "creamy";
+          } else {
+            className = "tomato";
+          }
         }
       });
       return className;

@@ -53,7 +53,6 @@ export default {
         arr.forEach((item) => {
           if (item.checked) {
             price += item.price;
-            console.log(item.price);
           }
           if (item.count) {
             price += item.count * item.price;

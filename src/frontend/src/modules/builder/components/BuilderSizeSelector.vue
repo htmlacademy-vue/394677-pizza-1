@@ -7,7 +7,7 @@
         <label
           v-for="(size, index) in sizes"
           :key="index"
-          :class="'diameter__input--' + size.class"
+          :class="'diameter__input--' + className(size)"
           class="diameter__input"
         >
           <input
@@ -39,6 +39,17 @@ export default {
   methods: {
     changeSize(index) {
       this.$emit("changeSize", index);
+    },
+    className(size) {
+      let name = "";
+      if (size.name === "23 см") {
+        name = "small";
+      } else if (size.name === "32 см") {
+        name = "normal";
+      } else {
+        name = "big";
+      }
+      return name;
     },
   },
 };

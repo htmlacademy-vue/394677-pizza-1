@@ -31,7 +31,10 @@
               class="ingridients__item"
             >
               <AppDrag :transferData="ingredient">
-                <span class="filling" :class="'filling--' + ingredient.class">
+                <span
+                  class="filling"
+                  :class="'filling--' + ingredientClassName(ingredient)"
+                >
                   {{ ingredient.name }}
                 </span>
                 <ItemCounter
@@ -81,6 +84,11 @@ export default {
 
     changeSauce(index) {
       this.$emit("changeSauce", index);
+    },
+    ingredientClassName(ingredient) {
+      let className = ingredient.image.split("filling/")[1];
+      className = className.split(".svg")[0];
+      return className;
     },
   },
 };

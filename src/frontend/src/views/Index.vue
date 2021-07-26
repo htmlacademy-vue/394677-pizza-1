@@ -67,39 +67,18 @@ export default {
       for (let i = 0; i < pizza.ingredients.length; i++) {
         this.ingredients[i] = pizza.ingredients[i];
         this.ingredients[i].count = 0;
-        let className = this.ingredients[i].image.split("filling/")[1];
-        this.ingredients[i].class = className.split(".svg")[0];
       }
       for (let i = 0; i < pizza.sauces.length; i++) {
         this.sauces[i] = pizza.sauces[i];
-        if (this.sauces[i].name === "Томатный") {
-          this.sauces[i].checked = true;
-          this.sauces[i].pizzaClass = "tomato";
-        } else {
-          this.sauces[i].pizzaClass = "creamy";
-        }
+        this.sauces[0].checked = true;
       }
       for (let i = 0; i < pizza.sizes.length; i++) {
         this.sizes[i] = pizza.sizes[i];
-        if (this.sizes[i].name === "23 см") {
-          this.sizes[i].checked = true;
-          this.sizes[i].class = "small";
-        } else if (this.sizes[i].name === "32 см") {
-          this.sizes[i].class = "normal";
-        } else {
-          this.sizes[i].class = "big";
-        }
+        this.sizes[0].checked = true;
       }
       for (let i = 0; i < pizza.dough.length; i++) {
         this.doughList[i] = pizza.dough[i];
-        if (this.doughList[i].name === "Тонкое") {
-          this.doughList[i].checked = true;
-          this.doughList[i].class = "light";
-          this.doughList[i].pizzaClass = "small";
-        } else {
-          this.doughList[i].class = "large";
-          this.doughList[i].pizzaClass = "big";
-        }
+        this.doughList[0].checked = true;
       }
       this.mainKey++;
     },
