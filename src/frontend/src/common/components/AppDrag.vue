@@ -1,6 +1,6 @@
 <template>
   <div
-    :draggable="true"
+    :draggable="isDraggable"
     @dragstart.self="onDrag"
     @dragover.prevent
     @dragenter.prevent
@@ -19,9 +19,10 @@ export default {
       type: Object,
       required: true,
     },
-    draggable: {
-      type: Boolean,
-      required: true,
+  },
+  computed: {
+    isDraggable() {
+      return this.transferData.count < 3;
     },
   },
   methods: {

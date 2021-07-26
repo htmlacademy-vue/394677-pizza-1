@@ -28,8 +28,11 @@
       </div>
     </div>
     <BuilderPriceCounter
-      :totalPrice="totalPrice"
-      :disabled="disabled"
+      :name="name"
+      :ingredients="ingredients"
+      :sauces="sauces"
+      :sizes="sizes"
+      :doughList="doughList"
     ></BuilderPriceCounter>
   </div>
 </template>
@@ -45,53 +48,73 @@ export default {
       type: String,
       required: true,
     },
-    pizzaDoughClass: {
-      type: String,
-      required: true,
-    },
-    pizzaSauceClass: {
-      type: String,
-      required: true,
-    },
-    ingredientClassList: {
+    ingredients: {
       type: Array,
       required: true,
     },
-    totalPrice: {
-      type: Number,
-      default: 0,
+    sauces: {
+      type: Array,
+      required: true,
     },
-    disabled: {
-      type: Boolean,
+    sizes: {
+      type: Array,
+      required: true,
+    },
+    doughList: {
+      type: Array,
       required: true,
     },
   },
   data() {
     return {
       localName: cloneDeep(this.name),
+      doughPrice: 0,
+      saucePrice: 0,
+      sizePrice: 0,
+      ingredientsPrice: 0,
+      ingredientClassList: [],
+      disabledButton: true,
     };
   },
   computed: {
     pizzaClassList() {
-      let result = {};
       let classList = [];
-      this.ingredientClassList.forEach(function (a) {
-        if (result[a] !== undefined) ++result[a];
-        else result[a] = 1;
-      });
-      for (let key in result)
-        if (result[key] === 2) {
-          classList.push(
-            "pizza__filling--" + key + " " + "pizza__filling--second"
-          );
-        } else if (result[key] === 3) {
-          classList.push(
-            "pizza__filling--" + key + " " + "pizza__filling--third"
-          );
-        } else {
-          classList.push("pizza__filling--" + key);
+      this.ingredients.forEach((ingredient) => {
+        let count = ingredient.count;
+        let className = ingredient.class;
+        if (count) {
+          if (count === 2) {
+            classList.push(
+              "pizza__filling--" + className + " " + "pizza__filling--second"
+            );
+          } else if (count === 3) {
+            classList.push(
+              "pizza__filling--" + className + " " + "pizza__filling--third"
+            );
+          } else {
+            classList.push("pizza__filling--" + className);
+          }
         }
+      });
       return classList;
+    },
+    pizzaDoughClass() {
+      let className = "small";
+      this.doughList.forEach((dough) => {
+        if (dough.checked) {
+          className = dough.pizzaClass;
+        }
+      });
+      return className;
+    },
+    pizzaSauceClass() {
+      let className = "tomato";
+      this.sauces.forEach((dough) => {
+        if (dough.checked) {
+          className = dough.pizzaClass;
+        }
+      });
+      return className;
     },
   },
   methods: {

@@ -14,9 +14,9 @@
             type="radio"
             name="dought"
             class="visually-hidden"
-            :value="index"
+            :value="dough.class"
             :checked="dough.checked"
-            @change="changeDough(dough)"
+            @change="changeDough(index)"
           />
           <b>{{ dough.name }}</b>
           <span>{{ dough.description }}</span>
@@ -37,12 +37,9 @@ export default {
     },
   },
   name: "BuilderDoughSelector",
-  mounted() {
-    this.changeDough(this.doughList[0]);
-  },
   methods: {
-    changeDough(dough) {
-      this.$emit("changeDough", dough);
+    changeDough(index) {
+      this.$emit("changeDough", index);
     },
   },
 };

@@ -15,15 +15,52 @@
 export default {
   name: "BuilderPriceCounter",
   props: {
-    totalPrice: {
-      type: Number,
-      default() {
-        return 0;
-      },
-    },
-    disabled: {
-      type: Boolean,
+    ingredients: {
+      type: Array,
       required: true,
+    },
+    sauces: {
+      type: Array,
+      required: true,
+    },
+    sizes: {
+      type: Array,
+      required: true,
+    },
+    doughList: {
+      type: Array,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+  },
+  computed: {
+    disabled() {
+      let isSelectedIngredient = false;
+      this.ingredients.forEach((ingredient) => {
+        if (ingredient.count) {
+          isSelectedIngredient = true;
+        }
+      });
+      return !(isSelectedIngredient && this.name);
+    },
+    totalPrice() {
+      let items = [this.ingredients, this.sauces, this.sizes, this.doughList];
+      let price = 0;
+      items.forEach((arr) => {
+        arr.forEach((item) => {
+          if (item.checked) {
+            price += item.price;
+            console.log(item.price);
+          }
+          if (item.count) {
+            price += item.count * item.price;
+          }
+        });
+      });
+      return price;
     },
   },
 };

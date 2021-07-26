@@ -1,7 +1,7 @@
 <template>
   <main class="content">
     <form action="#" method="post">
-      <div class="content__wrapper">
+      <div class="content__wrapper" :key="mainKey">
         <h1 class="title title--big">Конструктор пиццы</h1>
         <BuilderDoughSelector
           :doughList="doughList"
@@ -14,17 +14,16 @@
         <BuilderIngredientsSelector
           :sauces="sauces"
           :ingredients="ingredients"
-          @countItem="countIngredient"
+          @countIngredient="countIngredient"
           @changeSauce="changeSauce"
         ></BuilderIngredientsSelector>
         <AppDrop @drop="moveIngredient($event)">
           <BuilderPizzaView
             :name="name"
-            :pizzaDoughClass="pizzaDoughClass"
-            :pizzaSauceClass="pizzaSauceClass"
-            :ingredientClassList="ingredientClassList"
-            :totalPrice="totalPrice"
-            :disabled="disabledButton"
+            :ingredients="ingredients"
+            :sauces="sauces"
+            :sizes="sizes"
+            :doughList="doughList"
             @changeName="changeName"
           ></BuilderPizzaView>
         </AppDrop>
@@ -40,6 +39,7 @@ import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngr
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
 import AppDrop from "@/common/components/AppDrop";
+
 export default {
   name: "Index",
   components: {
@@ -52,125 +52,93 @@ export default {
   data() {
     return {
       name: "",
-      doughPrice: 0,
-      saucePrice: 0,
-      sizePrice: 0,
-      ingredientsPrice: 0,
-      pizzaDoughClass: "small",
-      pizzaSauceClass: "tomato",
-      ingredientClassList: [],
-      disabledButton: true,
+      ingredients: [],
+      sauces: [],
+      sizes: [],
+      doughList: [],
+      mainKey: Math.random(),
     };
   },
-  computed: {
-    ingredients() {
-      let localIngredients = [];
-      for (let i = 0; i < pizza.ingredients.length; i++) {
-        localIngredients[i] = pizza.ingredients[i];
-        localIngredients[i].count = 0;
-        let className = pizza.ingredients[i].image.split("filling/")[1];
-        localIngredients[i].class = className.split(".svg")[0];
-      }
-      return localIngredients;
-    },
-    sauces() {
-      let localSauces = [];
-      for (let i = 0; i < pizza.sauces.length; i++) {
-        localSauces[i] = pizza.sauces[i];
-        if (localSauces[i].name === "Томатный") {
-          localSauces[i].checked = true;
-          localSauces[i].pizzaClass = "tomato";
-        } else {
-          localSauces[i].pizzaClass = "creamy";
-        }
-      }
-      return localSauces;
-    },
-    sizes() {
-      let localSizes = [];
-      for (let i = 0; i < pizza.sizes.length; i++) {
-        localSizes[i] = pizza.sizes[i];
-        if (localSizes[i].name === "23 см") {
-          localSizes[i].checked = true;
-          localSizes[i].class = "small";
-        } else if (localSizes[i].name === "32 см") {
-          localSizes[i].class = "normal";
-        } else {
-          localSizes[i].class = "big";
-        }
-      }
-      return localSizes;
-    },
-    doughList() {
-      let localDough = [];
-      for (let i = 0; i < pizza.dough.length; i++) {
-        localDough[i] = pizza.dough[i];
-        if (localDough[i].name === "Тонкое") {
-          localDough[i].checked = true;
-          localDough[i].class = "light";
-          localDough[i].pizzaClass = "small";
-        } else {
-          localDough[i].class = "large";
-          localDough[i].pizzaClass = "big";
-        }
-      }
-      return localDough;
-    },
-    totalPrice() {
-      return (
-        this.doughPrice +
-        this.saucePrice +
-        this.sizePrice +
-        this.ingredientsPrice
-      );
-    },
+  mounted() {
+    this.setInitialData();
   },
   methods: {
+    setInitialData() {
+      for (let i = 0; i < pizza.ingredients.length; i++) {
+        this.ingredients[i] = pizza.ingredients[i];
+        this.ingredients[i].count = 0;
+        let className = this.ingredients[i].image.split("filling/")[1];
+        this.ingredients[i].class = className.split(".svg")[0];
+      }
+      for (let i = 0; i < pizza.sauces.length; i++) {
+        this.sauces[i] = pizza.sauces[i];
+        if (this.sauces[i].name === "Томатный") {
+          this.sauces[i].checked = true;
+          this.sauces[i].pizzaClass = "tomato";
+        } else {
+          this.sauces[i].pizzaClass = "creamy";
+        }
+      }
+      for (let i = 0; i < pizza.sizes.length; i++) {
+        this.sizes[i] = pizza.sizes[i];
+        if (this.sizes[i].name === "23 см") {
+          this.sizes[i].checked = true;
+          this.sizes[i].class = "small";
+        } else if (this.sizes[i].name === "32 см") {
+          this.sizes[i].class = "normal";
+        } else {
+          this.sizes[i].class = "big";
+        }
+      }
+      for (let i = 0; i < pizza.dough.length; i++) {
+        this.doughList[i] = pizza.dough[i];
+        if (this.doughList[i].name === "Тонкое") {
+          this.doughList[i].checked = true;
+          this.doughList[i].class = "light";
+          this.doughList[i].pizzaClass = "small";
+        } else {
+          this.doughList[i].class = "large";
+          this.doughList[i].pizzaClass = "big";
+        }
+      }
+      this.mainKey++;
+    },
     changeName(name) {
       this.name = name;
-      this.checkDisabledButton();
     },
-    countIngredient(item, index) {
-      if (item.price < 0) {
-        for (let i = 0; i < this.ingredientClassList.length; i++) {
-          if (this.ingredientClassList[i] === item.class) {
-            this.ingredientClassList.splice(i, 1);
-          }
-        }
+    countIngredient(index, add) {
+      if (add) {
+        this.ingredients[index].count += 1;
       } else {
-        this.ingredientClassList.push(item.class);
+        this.ingredients[index].count -= 1;
       }
-      this.ingredientsPrice += item.price;
-      this.ingredients[index].count = item.count;
-      this.checkDisabledButton();
+      this.mainKey++;
     },
     moveIngredient(transferData) {
       for (let i = 0; i < this.ingredients.length; i++) {
         if (this.ingredients[i].name === transferData.name) {
-          transferData.count++;
-          this.countIngredient(transferData, i);
+          this.ingredients[i].count++;
+          this.mainKey++;
         }
       }
     },
-    changeDough(dough) {
-      if (this.doughPrice !== dough.price) {
-        this.doughPrice = dough.price;
+    changeDough(index) {
+      for (let i = 0; i < this.doughList.length; i++) {
+        this.doughList[i].checked = i === index;
       }
-      this.pizzaDoughClass = dough.pizzaClass;
+      this.mainKey++;
     },
-    changeSauce(sauce) {
-      if (this.saucePrice !== sauce.price) {
-        this.saucePrice = sauce.price;
+    changeSauce(index) {
+      for (let i = 0; i < this.sauces.length; i++) {
+        this.sauces[i].checked = i === index;
       }
-      this.pizzaSauceClass = sauce.pizzaClass;
+      this.mainKey++;
     },
-    changeSize(size) {
-      if (this.sizePrice !== size.price) {
-        this.sizePrice = size.price;
+    changeSize(index) {
+      for (let i = 0; i < this.sizes.length; i++) {
+        this.sizes[i].checked = i === index;
       }
-    },
-    checkDisabledButton() {
-      this.disabledButton = !(this.name && this.ingredientClassList.length);
+      this.mainKey++;
     },
   },
 };

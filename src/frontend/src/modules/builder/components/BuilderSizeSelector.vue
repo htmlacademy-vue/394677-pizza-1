@@ -13,10 +13,10 @@
           <input
             type="radio"
             name="diameter"
-            :value="size.name"
+            :value="size.class"
             class="visually-hidden"
             :checked="size.checked"
-            @change="changeSize(size)"
+            @change="changeSize(index)"
           />
           <span>{{ size.name }}</span>
         </label>
@@ -36,12 +36,9 @@ export default {
     },
   },
   name: "BuilderSizeSelector",
-  mounted() {
-    this.changeSize(this.sizes[1]);
-  },
   methods: {
-    changeSize(size) {
-      this.$emit("changeSize", size);
+    changeSize(index) {
+      this.$emit("changeSize", index);
     },
   },
 };

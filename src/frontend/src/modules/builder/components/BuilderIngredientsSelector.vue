@@ -14,9 +14,9 @@
             <input
               type="radio"
               name="sauce"
-              value="tomato"
+              :value="sauce.class"
               :checked="sauce.checked"
-              @change="changeSauce(sauce)"
+              @change="changeSauce(index)"
             />
             <span>{{ sauce.name }}</span>
           </label>
@@ -26,11 +26,11 @@
           <p>Начинка:</p>
           <ul class="ingridients__list">
             <li
-              v-for="(ingredient, index) in localIngredients"
+              v-for="(ingredient, index) in ingredients"
               :key="index"
               class="ingridients__item"
             >
-              <AppDrag :transferData="ingredient" :draggable="draggable">
+              <AppDrag :transferData="ingredient">
                 <span class="filling" :class="'filling--' + ingredient.class">
                   {{ ingredient.name }}
                 </span>
@@ -38,7 +38,7 @@
                   class="counter--orange ingridients__counter"
                   :item="ingredient"
                   :index="index"
-                  @countItem="countItem"
+                  @countItem="countIngredient"
                 ></ItemCounter>
               </AppDrag>
             </li>
@@ -52,7 +52,7 @@
 <script>
 import ItemCounter from "../../../common/components/ItemCounter";
 import AppDrag from "../../../common/components/AppDrag";
-import { cloneDeep } from "lodash";
+
 export default {
   components: {
     ItemCounter,
@@ -72,32 +72,15 @@ export default {
   data() {
     return {
       ingredientClassList: [],
-      ingredientCount: 0,
-      localIngredients: [],
     };
   },
-  watch: {
-    ingredients: {
-      deep: true,
-      immediate: true,
-      handler() {
-        this.localIngredients = cloneDeep(this.ingredients);
-      },
-    },
-  },
-  computed: {
-    draggable() {
-      return this.ingredientCount < 3;
-    },
-  },
   methods: {
-    countItem(item, index) {
-      this.ingredientCount = item.count;
-      this.$emit("countItem", item, index);
+    countIngredient(index, add) {
+      this.$emit("countIngredient", index, add);
     },
 
-    changeSauce(sauce) {
-      this.$emit("changeSauce", sauce);
+    changeSauce(index) {
+      this.$emit("changeSauce", index);
     },
   },
 };
