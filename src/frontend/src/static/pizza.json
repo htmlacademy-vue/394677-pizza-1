@@ -4,7 +4,7 @@
       "name": "Тонкое",
       "image": "/public/img/dough-light.svg",
       "description": "Из твердых сортов пшеницы",
-      "price": 250
+      "price": 300
     },
     {
       "name": "Толстое",
@@ -37,7 +37,7 @@
     },
     {
       "name": "Сливочный",
-      "price": 55
+      "price": 50
     }
   ],
   "sizes": [
