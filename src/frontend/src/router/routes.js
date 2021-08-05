@@ -3,6 +3,13 @@ export default [
     path: "/",
     name: "Index",
     component: () => import("../views/Index.vue"),
+    children: [
+      {
+        path: "/login",
+        name: "modalLogin",
+        component: () => import("../views/Login.vue"),
+      },
+    ],
   },
   {
     path: "/cart",
@@ -23,12 +30,5 @@ export default [
     path: "/login",
     name: "Login",
     component: () => import("../views/Login.vue"),
-    children: [
-      {
-        path: "/login",
-        name: "modalLogin",
-        component: () => import("../views/Login.vue"),
-      },
-    ],
   },
 ];
