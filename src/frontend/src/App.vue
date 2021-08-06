@@ -1,20 +1,22 @@
 <template>
   <div id="app">
-    <AppLayout>
-      <Index></Index>
-    </AppLayout>
+    <component :is="layout"> </component>
   </div>
 </template>
 
 <script>
 import AppLayout from "@/layouts/AppLayout";
-import Index from "@/views/Index.vue";
-
+const defaultLayout = "AppLayout";
 export default {
   name: "App",
   components: {
-    Index,
     AppLayout,
+  },
+  computed: {
+    layout() {
+      const layout = this.$route.meta.layout || defaultLayout;
+      return () => import(`@/layouts/${layout}.vue`);
+    },
   },
 };
 </script>
