@@ -1,14 +1,12 @@
 <template>
   <div id="app">
-    <AppLayout>
-      <component :is="layout" />
-    </AppLayout>
+    <component :is="layout"> </component>
   </div>
 </template>
 
 <script>
 import AppLayout from "@/layouts/AppLayout";
-const defaultLayout = "Index";
+const defaultLayout = "AppLayout";
 export default {
   name: "App",
   components: {
@@ -17,7 +15,7 @@ export default {
   computed: {
     layout() {
       const layout = this.$route.meta.layout || defaultLayout;
-      return () => import(`@/views/${layout}.vue`);
+      return () => import(`@/layouts/${layout}.vue`);
     },
   },
 };

@@ -20,7 +20,7 @@
         >
       </div>
     </header>
-    <slot></slot>
+    <router-view></router-view>
   </div>
 </template>
 

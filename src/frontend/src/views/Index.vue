@@ -29,6 +29,7 @@
         </AppDrop>
       </div>
     </form>
+    <router-view></router-view>
   </main>
 </template>
 
