@@ -1,6 +1,6 @@
 <template>
   <div class="content__result">
-    <p>Итого: {{ totalPrice }} ₽</p>
+    <p>Итого: {{ total }} ₽</p>
     <button
       type="button"
       :class="[disabled ? 'button--disabled' : '', 'button']"
@@ -12,54 +12,29 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "BuilderPriceCounter",
   props: {
-    ingredients: {
-      type: Array,
-      required: true,
-    },
-    sauces: {
-      type: Array,
-      required: true,
-    },
-    sizes: {
-      type: Array,
-      required: true,
-    },
-    doughList: {
-      type: Array,
-      required: true,
-    },
-    name: {
-      type: String,
-      required: true,
+    pizza: {
+      type: Object,
+      default: () => {
+        return {};
+      },
     },
   },
   computed: {
+    ...mapGetters("Builder", ["total"]),
     disabled() {
       let isSelectedIngredient = false;
-      this.ingredients.forEach((ingredient) => {
-        if (ingredient.count) {
-          isSelectedIngredient = true;
-        }
-      });
-      return !(isSelectedIngredient && this.name);
-    },
-    totalPrice() {
-      let items = [this.ingredients, this.sauces, this.sizes, this.doughList];
-      let price = 0;
-      items.forEach((arr) => {
-        arr.forEach((item) => {
-          if (item.checked) {
-            price += item.price;
-          }
-          if (item.count) {
-            price += item.count * item.price;
+      if (this.pizza.ingredients) {
+        this.pizza.ingredients.forEach((ingredient) => {
+          if (ingredient.count) {
+            isSelectedIngredient = true;
           }
         });
-      });
-      return price;
+      }
+      return !(isSelectedIngredient && this.pizza.name);
     },
   },
 };

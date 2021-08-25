@@ -7,7 +7,7 @@
         <div class="ingridients__sauce">
           <p>Основной соус:</p>
           <label
-            v-for="(sauce, index) in sauces"
+            v-for="(sauce, index) in pizza.sauces"
             :key="index"
             class="radio ingridients__input"
           >
@@ -26,7 +26,7 @@
           <p>Начинка:</p>
           <ul class="ingridients__list">
             <li
-              v-for="(ingredient, index) in ingredients"
+              v-for="(ingredient, index) in pizza.ingredients"
               :key="index"
               class="ingridients__item"
             >
@@ -55,20 +55,20 @@
 <script>
 import ItemCounter from "../../../common/components/ItemCounter";
 import AppDrag from "../../../common/components/AppDrag";
-
+import {
+  COUNT_INGREDIENT,
+  CHANGE_OPTIONS,
+} from "@/store/modules/mutation-types";
+import { mapMutations } from "vuex";
 export default {
   components: {
     ItemCounter,
     AppDrag,
   },
   props: {
-    sauces: {
-      type: Array,
-      default: () => [],
-    },
-    ingredients: {
-      type: Array,
-      default: () => [],
+    pizza: {
+      type: Object,
+      default: () => {},
     },
   },
   name: "BuilderIngredientsSelector",
@@ -78,17 +78,17 @@ export default {
     };
   },
   methods: {
-    countIngredient(index, add) {
-      this.$emit("countIngredient", index, add);
-    },
-
+    ...mapMutations("Builder", [COUNT_INGREDIENT, CHANGE_OPTIONS]),
     changeSauce(index) {
-      this.$emit("changeSauce", index);
+      this[CHANGE_OPTIONS]({ index: index, name: "sauces" });
     },
     ingredientClassName(ingredient) {
       let className = ingredient.image.split("filling/")[1];
       className = className.split(".svg")[0];
       return className;
+    },
+    countIngredient(index, add) {
+      this[COUNT_INGREDIENT]({ index: index, add: add });
     },
   },
 };
