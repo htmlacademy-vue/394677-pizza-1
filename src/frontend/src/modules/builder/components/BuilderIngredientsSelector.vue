@@ -41,6 +41,7 @@
                   class="counter--orange ingridients__counter"
                   :item="ingredient"
                   :index="index"
+                  :restrictions="3"
                   @countItem="countIngredient"
                 ></ItemCounter>
               </AppDrag>
@@ -53,8 +54,8 @@
 </template>
 
 <script>
-import ItemCounter from "../../../common/components/ItemCounter";
-import AppDrag from "../../../common/components/AppDrag";
+import ItemCounter from "@/common/components/ItemCounter";
+import AppDrag from "@/common/components/AppDrag";
 import {
   COUNT_INGREDIENT,
   CHANGE_OPTIONS,

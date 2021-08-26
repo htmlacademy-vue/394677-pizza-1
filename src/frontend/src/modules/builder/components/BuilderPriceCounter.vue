@@ -5,6 +5,7 @@
       type="button"
       :class="[disabled ? 'button--disabled' : '', 'button']"
       :disabled="disabled"
+      @click="addToCart"
     >
       Готовьте!
     </button>
@@ -12,7 +13,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
+import { SET_CART } from "@/store/modules/mutation-types";
 export default {
   name: "BuilderPriceCounter",
   props: {
@@ -35,6 +37,12 @@ export default {
         });
       }
       return !(isSelectedIngredient && this.pizza.name);
+    },
+  },
+  methods: {
+    ...mapMutations("Cart", [SET_CART]),
+    addToCart() {
+      this[SET_CART]({ pizza: this.pizza, total: this.total });
     },
   },
 };

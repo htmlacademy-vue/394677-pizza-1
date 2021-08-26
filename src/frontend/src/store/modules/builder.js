@@ -17,20 +17,20 @@ export default {
   },
   getters: {
     total(state) {
-      let price = 0;
+      let pizzaPrice = 0;
       Object.keys(state.pizza).forEach(function (key) {
         if (typeof state.pizza[key] !== "string") {
           state.pizza[key].forEach((item) => {
             if (item.checked) {
-              price += item.price;
+              pizzaPrice += item.price;
             }
             if (item.count) {
-              price += item.count * item.price;
+              pizzaPrice += item.count * item.price;
             }
           });
         }
       });
-      return price;
+      return pizzaPrice;
     },
   },
   mutations: {
