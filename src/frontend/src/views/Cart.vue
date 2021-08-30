@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <form>
     <header class="header">
       <div class="header__logo">
         <a href="index.html" class="logo">
@@ -35,7 +35,7 @@
       </div>
     </header>
 
-    <form action="test.html" method="post" class="layout-form">
+    <div action="test.html" method="post" class="layout-form">
       <main class="content cart">
         <div class="container">
           <div class="cart__title">
@@ -257,7 +257,7 @@
         <popap ref="popap" class="visually-hidden"></popap>
       </section>
     </div>
-  </div>
+  </form>
 </template>
 
 <script>
