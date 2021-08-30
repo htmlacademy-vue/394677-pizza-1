@@ -7,3 +7,4 @@ export const SET_CART = "SET_CART";
 export const SET_MISC = "SET_MISC";
 export const SET_PIZZA_COUNT = "SET_PIZZA_COUNT";
 export const SET_ADDITIONAL_COUNT = "SET_ADDITIONAL_COUNT";
+export const SET_USER = "SET_USER";

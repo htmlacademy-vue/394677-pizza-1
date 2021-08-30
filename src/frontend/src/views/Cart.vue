@@ -120,7 +120,11 @@
                 </div>
 
                 <div class="cart-list__button">
-                  <button type="button" class="cart-list__edit">
+                  <button
+                    type="button"
+                    class="cart-list__edit"
+                    @click="changePizza(index)"
+                  >
                     Изменить
                   </button>
                 </div>
@@ -164,44 +168,68 @@
               <div class="cart-form">
                 <label class="cart-form__select">
                   <span class="cart-form__label">Получение заказа:</span>
-
-                  <select name="test" class="select">
-                    <option value="1">Заберу сам</option>
-                    <option value="2">Новый адрес</option>
-                    <option value="3">Дом</option>
+                  <select
+                    v-model="shippingInformation.receiveOrder"
+                    name="test"
+                    class="select"
+                  >
+                    <option
+                      v-for="(item, index) in shippingOption"
+                      :key="index"
+                      :value="item"
+                    >
+                      {{ item }}
+                    </option>
                   </select>
                 </label>
 
                 <label class="input input--big-label">
                   <span>Контактный телефон:</span>
                   <input
+                    :value="phoneNumber"
                     type="text"
                     name="tel"
                     placeholder="+7 999-999-99-99"
                   />
                 </label>
 
-                <div class="cart-form__address">
-                  <span class="cart-form__label">Новый адрес:</span>
-
+                <div v-if="isDelivery" class="cart-form__address">
+                  <span v-if="newAddress" class="cart-form__label"
+                    >Новый адрес:</span
+                  >
+                  <span v-if="existingAddress" class="cart-form__label"
+                    >Существующий адрес:</span
+                  >
                   <div class="cart-form__input">
                     <label class="input">
                       <span>Улица*</span>
-                      <input type="text" name="street" />
+                      <input
+                        :value="shippingInformation.address.street"
+                        type="text"
+                        name="street"
+                      />
                     </label>
                   </div>
 
                   <div class="cart-form__input cart-form__input--small">
                     <label class="input">
                       <span>Дом*</span>
-                      <input type="text" name="house" />
+                      <input
+                        :value="shippingInformation.address.house"
+                        type="text"
+                        name="house"
+                      />
                     </label>
                   </div>
 
                   <div class="cart-form__input cart-form__input--small">
                     <label class="input">
                       <span>Квартира</span>
-                      <input type="text" name="apartment" />
+                      <input
+                        :value="shippingInformation.address.apartment"
+                        type="text"
+                        name="apartment"
+                      />
                     </label>
                   </div>
                 </div>
@@ -212,8 +240,8 @@
       </main>
       <section v-if="!isEmptyCart" class="footer">
         <div class="footer__more">
-          <a href="#" class="button button--border button--arrow"
-            >Хочу еще одну</a
+          <router-link to="/" class="button button--border button--arrow"
+            >Хочу еще одну</router-link
           >
         </div>
         <p class="footer__text">
@@ -224,10 +252,11 @@
         </div>
 
         <div class="footer__submit">
-          <button type="submit" class="button">Оформить заказ</button>
+          <button @click="showPopap" class="button">Оформить заказ</button>
         </div>
+        <popap ref="popap" class="visually-hidden"></popap>
       </section>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -236,34 +265,80 @@ import ItemCounter from "@/common/components/ItemCounter";
 import { mapState, mapMutations, mapGetters } from "vuex";
 import {
   SET_MISC,
+  SET_USER,
   SET_PIZZA_COUNT,
   SET_ADDITIONAL_COUNT,
 } from "@/store/modules/mutation-types";
+import popap from "@/common/components/popap";
 export default {
   name: "Cart",
   components: {
     ItemCounter,
+    popap,
   },
   mounted() {
     this.setInitialData();
   },
   computed: {
-    ...mapState("Cart", ["pizza", "total", "misc"]),
+    ...mapState("Cart", [
+      "pizza",
+      "total",
+      "misc",
+      "user",
+      "shippingInformation",
+    ]),
     isEmptyCart() {
       return this.pizza.length === 0;
     },
     ...mapGetters("Cart", ["finalOrderPrice"]),
+    shippingOption() {
+      if (this.user) {
+        return ["Получу сам", "Новый адрес", "Существующий адрес"];
+      } else {
+        return ["Получу сам", "Новый адрес"];
+      }
+    },
+    phoneNumber() {
+      if (this.user) {
+        return this.user.phone;
+      } else {
+        return "";
+      }
+    },
+    newAddress() {
+      return this.shippingInformation.receiveOrder === "Новый адрес";
+    },
+    existingAddress() {
+      return this.shippingInformation.receiveOrder === "Существующий адрес";
+    },
+    isDelivery() {
+      return this.shippingInformation.receiveOrder !== "Получу сам";
+    },
   },
   methods: {
-    ...mapMutations("Cart", [SET_MISC, SET_PIZZA_COUNT, SET_ADDITIONAL_COUNT]),
+    ...mapMutations("Cart", [
+      SET_MISC,
+      SET_USER,
+      SET_PIZZA_COUNT,
+      SET_ADDITIONAL_COUNT,
+    ]),
     setInitialData() {
       this[SET_MISC]();
+      this[SET_USER]();
     },
     countPizza(index, add) {
       this[SET_PIZZA_COUNT]({ index, add });
     },
     countAdditional(index, add) {
       this[SET_ADDITIONAL_COUNT]({ index, add });
+    },
+    changePizza(index) {
+      console.log(index);
+      this.$router.push("/");
+    },
+    showPopap() {
+      const element = this.$refs.popap.$el;
+      element.classList.remove("visually-hidden");
     },
   },
 };

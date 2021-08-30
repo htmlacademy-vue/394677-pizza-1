@@ -3,10 +3,12 @@ import Vuex from "vuex";
 import {
   SET_CART,
   SET_MISC,
+  SET_USER,
   SET_PIZZA_COUNT,
   SET_ADDITIONAL_COUNT,
 } from "./mutation-types";
 import misc from "@/static/misc";
+import user from "@/static/user";
 import { cloneDeep } from "lodash";
 Vue.use(Vuex);
 
@@ -16,16 +18,16 @@ export default {
     pizza: [],
     misc: [],
     total: 0,
-    receiveOrder: {
-      independently: true,
-      courier: false,
+    shippingInformation: {
+      receiveOrder: "",
+      phoneNumber: null,
+      address: {
+        street: "",
+        house: "",
+        apartment: "",
+      },
     },
-    phoneNumber: null,
-    address: {
-      street: "",
-      house: "",
-      apartment: "",
-    },
+    user: {},
   },
   getters: {
     finalOrderPrice(state) {
@@ -49,6 +51,9 @@ export default {
       state.misc.forEach((misc) => {
         Vue.set(misc, "count", 0);
       });
+    },
+    [SET_USER](state) {
+      state.user = user;
     },
     [SET_CART](state, payload) {
       let pizza = cloneDeep(payload.pizza);
