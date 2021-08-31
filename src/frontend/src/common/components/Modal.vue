@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "popap",
+  name: "Modal",
   props: {
     title: {
       type: String,

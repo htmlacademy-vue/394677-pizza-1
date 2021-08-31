@@ -56,10 +56,25 @@ export default {
       state.user = user;
     },
     [SET_CART](state, payload) {
-      let pizza = cloneDeep(payload.pizza);
-      pizza.count = 1;
-      pizza.total = payload.total;
-      state.pizza.push(pizza);
+      let newPizza = true;
+      console.log(typeof payload.pizza);
+      if (payload) {
+        Object.keys(payload.pizza).forEach((item) => {
+          if (item === "id") {
+            newPizza = false;
+          }
+        });
+        if (!newPizza) {
+          console.log("замена");
+          state.pizza.splice(payload.pizza.id, 1, payload.pizza);
+        } else {
+          console.log("новая");
+          let pizza = cloneDeep(payload.pizza);
+          pizza.count = 1;
+          pizza.total = payload.total;
+          state.pizza.push(pizza);
+        }
+      }
     },
     [SET_PIZZA_COUNT](state, payload) {
       let pizza = cloneDeep(state.pizza[payload.index]);

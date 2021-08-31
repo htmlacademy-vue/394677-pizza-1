@@ -33,10 +33,8 @@
 </template>
 
 <script>
-import Button from "./Button";
 export default {
   name: "ItemCounter",
-  comments: [Button],
   props: {
     item: {
       type: Object,

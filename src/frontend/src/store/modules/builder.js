@@ -19,7 +19,7 @@ export default {
     total(state) {
       let pizzaPrice = 0;
       Object.keys(state.pizza).forEach(function (key) {
-        if (typeof state.pizza[key] !== "string") {
+        if (typeof state.pizza[key] === "object") {
           state.pizza[key].forEach((item) => {
             if (item.checked) {
               pizzaPrice += item.price;
@@ -34,15 +34,21 @@ export default {
     },
   },
   mutations: {
-    [SET_BUILDER](state) {
-      state.pizza = pizza;
-      state.pizza.ingredients.forEach((ingredient) => {
-        Vue.set(ingredient, "count", 0);
-      });
-      Vue.set(state.pizza.sauces[0], "checked", true);
-      Vue.set(state.pizza.sizes[0], "checked", true);
-      Vue.set(state.pizza.dough[0], "checked", true);
-      Vue.set(state.pizza, "name", "");
+    [SET_BUILDER](state, payload) {
+      if (payload) {
+        state.pizza = payload.pizza;
+        Vue.set(state.pizza, "id", payload.index);
+      }
+      if (Object.keys(state.pizza).length === 0) {
+        state.pizza = pizza;
+        state.pizza.ingredients.forEach((ingredient) => {
+          Vue.set(ingredient, "count", 0);
+        });
+        Vue.set(state.pizza.sauces[0], "checked", true);
+        Vue.set(state.pizza.sizes[0], "checked", true);
+        Vue.set(state.pizza.dough[0], "checked", true);
+        Vue.set(state.pizza, "name", "");
+      }
     },
     [COUNT_INGREDIENT](state, payload) {
       let count = state.pizza.ingredients[payload.index].count;

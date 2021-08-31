@@ -123,7 +123,7 @@
                   <button
                     type="button"
                     class="cart-list__edit"
-                    @click="changePizza(index)"
+                    @click="changePizza(item, index)"
                   >
                     Изменить
                   </button>
@@ -252,9 +252,9 @@
         </div>
 
         <div class="footer__submit">
-          <button @click="showPopap" class="button">Оформить заказ</button>
+          <button @click="showModal" class="button">Оформить заказ</button>
         </div>
-        <popap ref="popap" class="visually-hidden"></popap>
+        <Modal ref="modal" class="visually-hidden"></Modal>
       </section>
     </div>
   </form>
@@ -266,15 +266,16 @@ import { mapState, mapMutations, mapGetters } from "vuex";
 import {
   SET_MISC,
   SET_USER,
+  SET_BUILDER,
   SET_PIZZA_COUNT,
   SET_ADDITIONAL_COUNT,
 } from "@/store/modules/mutation-types";
-import popap from "@/common/components/popap";
+import Modal from "@/common/components/Modal";
 export default {
   name: "Cart",
   components: {
     ItemCounter,
-    popap,
+    Modal,
   },
   mounted() {
     this.setInitialData();
@@ -322,6 +323,7 @@ export default {
       SET_PIZZA_COUNT,
       SET_ADDITIONAL_COUNT,
     ]),
+    ...mapMutations("Builder", [SET_BUILDER]),
     setInitialData() {
       this[SET_MISC]();
       this[SET_USER]();
@@ -332,13 +334,13 @@ export default {
     countAdditional(index, add) {
       this[SET_ADDITIONAL_COUNT]({ index, add });
     },
-    changePizza(index) {
-      console.log(index);
+    changePizza(pizza, index) {
+      this[SET_BUILDER]({ pizza, index });
       this.$router.push("/");
     },
-    showPopap() {
-      const element = this.$refs.popap.$el;
-      element.classList.remove("visually-hidden");
+    showModal() {
+      const element = this.$refs.modal.$el;
+      element.classList.toggle("visually-hidden");
     },
   },
 };
