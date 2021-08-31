@@ -76,7 +76,7 @@ export default {
     },
     classButton(data) {
       if (data.disabled) {
-        return "counter__button--disabled";
+        return "counter__button--disabled counter__button--" + data.operation;
       } else {
         return "counter__button--" + data.operation;
       }

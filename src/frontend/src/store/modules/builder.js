@@ -18,11 +18,16 @@ export default {
   getters: {
     total(state) {
       let pizzaPrice = 0;
+      let multiplier;
       Object.keys(state.pizza).forEach(function (key) {
         if (typeof state.pizza[key] === "object") {
           state.pizza[key].forEach((item) => {
             if (item.checked) {
-              pizzaPrice += item.price;
+              if (key === "sizes") {
+                multiplier = item.multiplier;
+              } else {
+                pizzaPrice += item.price;
+              }
             }
             if (item.count) {
               pizzaPrice += item.count * item.price;
@@ -30,7 +35,7 @@ export default {
           });
         }
       });
-      return pizzaPrice;
+      return pizzaPrice * multiplier;
     },
   },
   mutations: {
@@ -68,8 +73,8 @@ export default {
       });
     },
     [CHANGE_OPTIONS](state, payload) {
-      for (let i = 0; i < state.pizza.dough.length; i++) {
-        state.pizza[payload.name][i].checked = i === payload.index;
+      for (let i = 0; i < state.pizza[payload.name].length; i++) {
+        Vue.set(state.pizza[payload.name][i], "checked", i === payload.index);
       }
     },
     [INPUT_SET_NAME](state, payload) {
