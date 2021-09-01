@@ -2,7 +2,8 @@
   <div class="counter">
     <button
       type="button"
-      class="counter__button counter__button--disabled counter__button--minus"
+      class="counter__button"
+      :class="classButton({ operation: 'minus', disabled: disabledReduce })"
       :disabled="disabledReduce"
       @click="reduce"
     >
@@ -17,7 +18,12 @@
     />
     <button
       type="button"
-      class="counter__button counter__button--plus"
+      class="counter__button"
+      :class="
+        classButton({ operation: 'plus', disabled: disabledAdd }) +
+        ' ' +
+        classNameButton
+      "
       :disabled="disabledAdd"
       @click="add"
     >
@@ -38,14 +44,24 @@ export default {
       type: Number,
       required: true,
     },
+    classNameButton: {
+      type: String,
+      required: false,
+    },
+    restrictions: {
+      type: Number,
+      required: false,
+    },
   },
-
   computed: {
     disabledReduce() {
       return this.item.count === 0;
     },
     disabledAdd() {
-      return this.item.count === 3;
+      if (this.restrictions) {
+        return this.item.count === this.restrictions;
+      }
+      return false;
     },
   },
   methods: {
@@ -57,6 +73,13 @@ export default {
     },
     countItem(add) {
       this.$emit("countItem", this.index, add);
+    },
+    classButton(data) {
+      if (data.disabled) {
+        return "counter__button--disabled counter__button--" + data.operation;
+      } else {
+        return "counter__button--" + data.operation;
+      }
     },
   },
 };

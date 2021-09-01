@@ -3,7 +3,7 @@
     <label class="input">
       <span class="visually-hidden">Название пиццы</span>
       <input
-        v-model="localName"
+        :value="pizza.name"
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
@@ -27,47 +27,27 @@
         </div>
       </div>
     </div>
-    <BuilderPriceCounter
-      :name="name"
-      :ingredients="ingredients"
-      :sauces="sauces"
-      :sizes="sizes"
-      :doughList="doughList"
-    ></BuilderPriceCounter>
+    <BuilderPriceCounter :pizza="pizza"></BuilderPriceCounter>
   </div>
 </template>
 
 <script>
 import BuilderPriceCounter from "@/modules/builder/components/BuilderPriceCounter";
-import { cloneDeep } from "lodash";
+import { INPUT_SET_NAME } from "@/store/modules/mutation-types";
+import { mapMutations } from "vuex";
 export default {
   name: "BuilderPizzaView",
   components: { BuilderPriceCounter },
   props: {
-    name: {
-      type: String,
-      required: true,
-    },
-    ingredients: {
-      type: Array,
-      required: true,
-    },
-    sauces: {
-      type: Array,
-      required: true,
-    },
-    sizes: {
-      type: Array,
-      required: true,
-    },
-    doughList: {
-      type: Array,
-      required: true,
+    pizza: {
+      type: Object,
+      default: () => {
+        return {};
+      },
     },
   },
   data() {
     return {
-      localName: cloneDeep(this.name),
       doughPrice: 0,
       saucePrice: 0,
       sizePrice: 0,
@@ -79,56 +59,64 @@ export default {
   computed: {
     pizzaClassList() {
       let classList = [];
-      this.ingredients.forEach((ingredient) => {
-        let count = ingredient.count;
-        let className = ingredient.image.split("filling/")[1];
-        className = className.split(".svg")[0];
-        if (count) {
-          if (count === 2) {
-            classList.push(
-              "pizza__filling--" + className + " " + "pizza__filling--second"
-            );
-          } else if (count === 3) {
-            classList.push(
-              "pizza__filling--" + className + " " + "pizza__filling--third"
-            );
-          } else {
-            classList.push("pizza__filling--" + className);
+      if (this.pizza && this.pizza.ingredients) {
+        this.pizza.ingredients.forEach((ingredient) => {
+          let count = ingredient.count;
+          let className = ingredient.image.split("filling/")[1];
+          className = className.split(".svg")[0];
+          if (count) {
+            if (count === 2) {
+              classList.push(
+                "pizza__filling--" + className + " " + "pizza__filling--second"
+              );
+            } else if (count === 3) {
+              classList.push(
+                "pizza__filling--" + className + " " + "pizza__filling--third"
+              );
+            } else {
+              classList.push("pizza__filling--" + className);
+            }
           }
-        }
-      });
+        });
+      }
       return classList;
     },
     pizzaDoughClass() {
       let className = "";
-      this.doughList.forEach((dough) => {
-        if (dough.checked) {
-          if (dough.name === "Тонкое") {
-            className = "small";
-          } else {
-            className = "big";
+      if (this.pizza && this.pizza.dough) {
+        this.pizza.dough.forEach((dough) => {
+          if (dough.checked) {
+            if (dough.name === "Тонкое") {
+              className = "small";
+            } else {
+              className = "big";
+            }
           }
-        }
-      });
+        });
+      }
+
       return className;
     },
     pizzaSauceClass() {
       let className = "";
-      this.sauces.forEach((sauce) => {
-        if (sauce.checked) {
-          if (sauce.name === "Сливочный") {
-            className = "creamy";
-          } else {
-            className = "tomato";
+      if (this.pizza && this.pizza.sauces) {
+        this.pizza.sauces.forEach((sauce) => {
+          if (sauce.checked) {
+            if (sauce.name === "Сливочный") {
+              className = "creamy";
+            } else {
+              className = "tomato";
+            }
           }
-        }
-      });
+        });
+      }
       return className;
     },
   },
   methods: {
-    changeName() {
-      this.$emit("changeName", this.localName);
+    ...mapMutations("Builder", [INPUT_SET_NAME]),
+    changeName(e) {
+      this[INPUT_SET_NAME](e.target.value);
     },
   },
 };

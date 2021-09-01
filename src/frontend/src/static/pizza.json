@@ -51,7 +51,6 @@
       "name": "32 см",
       "image": "/public/img/diameter.svg",
       "multiplier": 2,
-      "checked": true,
       "price": 200
     },
     {

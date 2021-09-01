@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { CHANGE_OPTIONS } from "@/store/modules/mutation-types";
+import { mapMutations } from "vuex";
 export default {
   props: {
     doughList: {
@@ -38,8 +40,9 @@ export default {
   },
   name: "BuilderDoughSelector",
   methods: {
+    ...mapMutations("Builder", [CHANGE_OPTIONS]),
     changeDough(index) {
-      this.$emit("changeDough", index);
+      this[CHANGE_OPTIONS]({ index: index, name: "dough" });
     },
     className(dough) {
       let name = "";
