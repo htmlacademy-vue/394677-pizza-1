@@ -57,7 +57,6 @@ export default {
     },
     [SET_CART](state, payload) {
       let newPizza = true;
-      console.log(typeof payload.pizza);
       if (payload) {
         Object.keys(payload.pizza).forEach((item) => {
           if (item === "id") {
@@ -65,10 +64,8 @@ export default {
           }
         });
         if (!newPizza) {
-          console.log("замена");
-          state.pizza.splice(payload.pizza.id, 1, payload.pizza);
+          Vue.set(state.pizza[payload.pizza.id], "total", payload.total);
         } else {
-          console.log("новая");
           let pizza = cloneDeep(payload.pizza);
           pizza.count = 1;
           pizza.total = payload.total;
