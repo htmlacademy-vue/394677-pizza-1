@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import {
   SET_BUILDER,
+  RESET_BUILDER,
   COUNT_INGREDIENT,
   MOVE_INGREDIENT,
   CHANGE_OPTIONS,
@@ -54,6 +55,9 @@ export default {
         Vue.set(state.pizza.dough[0], "checked", true);
         Vue.set(state.pizza, "name", "");
       }
+    },
+    [RESET_BUILDER](state) {
+      Vue.set(state, "pizza", {});
     },
     [COUNT_INGREDIENT](state, payload) {
       let count = state.pizza.ingredients[payload.index].count;
