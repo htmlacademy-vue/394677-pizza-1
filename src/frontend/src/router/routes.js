@@ -1,3 +1,4 @@
+import { auth } from "@/middlewares";
 export default [
   {
     path: "/",
@@ -7,8 +8,11 @@ export default [
   {
     path: "/cart",
     name: "Cart",
-    meta: { layout: "CartLayout" },
     component: () => import("../views/Cart.vue"),
+    meta: {
+      layout: "CartLayout",
+      middlewares: [auth],
+    },
   },
   {
     path: "/orders",

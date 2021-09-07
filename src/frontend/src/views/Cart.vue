@@ -24,12 +24,12 @@
             <img
               src="../public/img/users/user5.jpg"
               srcset="../public/img/users/user5@2x.jpg"
-              alt="Василий Ложкин"
+              alt="username"
               width="32"
               height="32"
             />
           </picture>
-          <span>Василий Ложкин</span>
+          <span>{{ userName }}</span>
         </a>
         <a href="#" class="header__logout"><span>Выйти</span></a>
       </div>
@@ -265,7 +265,6 @@ import ItemCounter from "@/common/components/ItemCounter";
 import { mapState, mapMutations, mapGetters } from "vuex";
 import {
   SET_MISC,
-  SET_USER,
   SET_BUILDER,
   SET_PIZZA_COUNT,
   SET_ADDITIONAL_COUNT,
@@ -281,13 +280,11 @@ export default {
     this.setInitialData();
   },
   computed: {
-    ...mapState("Cart", [
-      "pizza",
-      "total",
-      "misc",
-      "user",
-      "shippingInformation",
-    ]),
+    ...mapState("Cart", ["pizza", "total", "misc", "shippingInformation"]),
+    ...mapState("Auth", ["user"]),
+    userName() {
+      return this.user?.name || "Нет имени";
+    },
     isEmptyCart() {
       return this.pizza.length === 0;
     },
@@ -317,16 +314,10 @@ export default {
     },
   },
   methods: {
-    ...mapMutations("Cart", [
-      SET_MISC,
-      SET_USER,
-      SET_PIZZA_COUNT,
-      SET_ADDITIONAL_COUNT,
-    ]),
+    ...mapMutations("Cart", [SET_MISC, SET_PIZZA_COUNT, SET_ADDITIONAL_COUNT]),
     ...mapMutations("Builder", [SET_BUILDER]),
     setInitialData() {
       this[SET_MISC]();
-      this[SET_USER]();
     },
     countPizza(index, add) {
       this[SET_PIZZA_COUNT]({ index, add });
