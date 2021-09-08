@@ -15,13 +15,9 @@ export default {
     AppLayout,
   },
   created() {
-    window.onerror = function (msg, url, line, col, error) {
-      console.error(error);
-    };
     if (getToken()) {
       setAuth(this.$store);
     }
-    this.$store.dispatch("init");
   },
   computed: {
     layout() {

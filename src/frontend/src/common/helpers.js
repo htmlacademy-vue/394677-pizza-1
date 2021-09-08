@@ -13,8 +13,6 @@ export const createResources = (notifier) => {
     [resources.ORDERS]: new CrudApiService(resources.ORDERS, notifier),
   };
 };
-export const capitalize = (string) =>
-  `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
 export const setAuth = (store) => {
   store.$api.auth.setAuthHeader();
   store.dispatch("Auth/getMe");

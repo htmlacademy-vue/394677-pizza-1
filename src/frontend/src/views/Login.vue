@@ -9,14 +9,24 @@
     <div class="sign-form__input">
       <label class="input">
         <span>E-mail</span>
-        <input type="email" name="email" placeholder="example@mail.ru" />
+        <input
+          v-model="email"
+          type="email"
+          name="email"
+          placeholder="example@mail.ru"
+        />
       </label>
     </div>
 
     <div class="sign-form__input">
       <label class="input">
         <span>Пароль</span>
-        <input type="password" name="pass" placeholder="***********" />
+        <input
+          v-model="password"
+          type="password"
+          name="pass"
+          placeholder="***********"
+        />
       </label>
     </div>
     <button @click="login" type="submit" class="button">Авторизоваться</button>
@@ -26,9 +36,18 @@
 <script>
 export default {
   name: "Login",
+  data: function () {
+    return {
+      email: "",
+      password: "",
+    };
+  },
   methods: {
     login() {
-      this.$store.dispatch("Auth/login");
+      this.$store.dispatch("Auth/login", {
+        email: this.email,
+        password: this.password,
+      });
     },
   },
 };

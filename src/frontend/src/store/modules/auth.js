@@ -13,7 +13,7 @@ export default {
   mutations: {},
   actions: {
     async login({ dispatch }, credentials) {
-      const data = await this.$api.setAuth.login(credentials);
+      const data = await this.$api.auth.login(credentials);
       this.$jwt.saveToken(data.token);
       this.$api.auth.setAuthHeader();
       dispatch("getMe");
