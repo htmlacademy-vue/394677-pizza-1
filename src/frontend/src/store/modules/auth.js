@@ -10,7 +10,12 @@ export default {
     isAuthenticated: false,
   },
   getters: {},
-  mutations: {},
+  mutations: {
+    [SET_USER](state, payload) {
+      Vue.set(state, "isAuthenticated", payload.isAuthenticated);
+      Vue.set(state, "user", payload.user);
+    },
+  },
   actions: {
     async login({ dispatch }, credentials) {
       const data = await this.$api.auth.login(credentials);
@@ -24,30 +29,12 @@ export default {
       }
       this.$jwt.destroyToken();
       this.$api.auth.setAuthHeader();
-      commit(
-        SET_USER,
-        { module: "Auth", entity: "isAuthenticated", value: false },
-        { root: true }
-      );
-      commit(
-        SET_USER,
-        { module: "Auth", entity: "user", value: null },
-        { root: true }
-      );
+      commit(SET_USER, { isAuthenticated: false, user: null });
     },
     async getMe({ commit, dispatch }) {
       try {
         const data = await this.$api.auth.getMe();
-        commit(
-          SET_USER,
-          { module: "Auth", entity: "isAuthenticated", value: true },
-          { root: true }
-        );
-        commit(
-          SET_USER,
-          { module: "Auth", entity: "user", value: data },
-          { root: true }
-        );
+        commit(SET_USER, { isAuthenticated: true, user: data });
       } catch {
         dispatch("logout", false);
       }

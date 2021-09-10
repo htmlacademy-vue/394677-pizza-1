@@ -14,7 +14,7 @@
       <div class="header__cart">
         <a href="cart.html">{{ finalOrderPrice }} ₽</a>
       </div>
-      <div class="header__user">
+      <div v-if="isAuthenticated" class="header__user">
         <a href="user-data.html">
           <picture>
             <source
@@ -29,7 +29,7 @@
               height="32"
             />
           </picture>
-          <span>{{ userName }}</span>
+          <span>{{ user.name }}</span>
         </a>
         <a href="#" class="header__logout"><span>Выйти</span></a>
       </div>
@@ -281,14 +281,11 @@ export default {
   },
   computed: {
     ...mapState("Cart", ["pizza", "total", "misc", "shippingInformation"]),
-    ...mapState("Auth", ["user"]),
-    userName() {
-      return this.user?.name || "Нет имени";
-    },
+    ...mapState("Auth", ["user", "isAuthenticated"]),
+    ...mapGetters("Cart", ["finalOrderPrice"]),
     isEmptyCart() {
       return this.pizza.length === 0;
     },
-    ...mapGetters("Cart", ["finalOrderPrice"]),
     shippingOption() {
       if (this.user) {
         return ["Получу сам", "Новый адрес", "Существующий адрес"];
