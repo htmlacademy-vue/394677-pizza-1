@@ -7,7 +7,13 @@ import {
 export const createResources = (notifier) => {
   return {
     [resources.USER]: new ReadOnlyApiService(resources.USER, notifier),
-    [resources.BUILDER]: new ReadOnlyApiService(resources.BUILDER, notifier),
+    [resources.INGREDIENTS]: new ReadOnlyApiService(
+      resources.INGREDIENTS,
+      notifier
+    ),
+    [resources.DOUGH]: new ReadOnlyApiService(resources.DOUGH, notifier),
+    [resources.SAUCES]: new ReadOnlyApiService(resources.SAUCES, notifier),
+    [resources.SIZES]: new ReadOnlyApiService(resources.SIZES, notifier),
     [resources.AUTH]: new AuthApiService(notifier),
     [resources.ORDERS]: new CrudApiService(resources.ORDERS, notifier),
   };

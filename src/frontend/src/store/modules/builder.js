@@ -2,19 +2,27 @@ import Vue from "vue";
 import Vuex from "vuex";
 import {
   SET_BUILDER,
-  RESET_BUILDER,
+  SET_INGREDIENTS,
+  SET_PIZZA_OPTIONS,
+  RESET_INGREDIENTS,
+  RESET_OPTIONS,
   COUNT_INGREDIENT,
   MOVE_INGREDIENT,
   CHANGE_OPTIONS,
   INPUT_SET_NAME,
 } from "./mutation-types";
-import pizza from "@/static/pizza";
 Vue.use(Vuex);
 
 export default {
   namespaced: true,
   state: {
-    pizza: {},
+    pizza: {
+      name: "",
+      ingredients: [],
+      dough: [],
+      sauces: [],
+      sizes: [],
+    },
   },
   getters: {
     total(state) {
@@ -40,24 +48,31 @@ export default {
     },
   },
   mutations: {
-    [SET_BUILDER](state, payload) {
-      if (payload) {
-        state.pizza = payload.pizza;
-        Vue.set(state.pizza, "id", payload.index);
-      }
-      if (Object.keys(state.pizza).length === 0) {
-        state.pizza = pizza;
-        state.pizza.ingredients.forEach((ingredient) => {
-          Vue.set(ingredient, "count", 0);
-        });
-        Vue.set(state.pizza.sauces[0], "checked", true);
-        Vue.set(state.pizza.sizes[0], "checked", true);
-        Vue.set(state.pizza.dough[0], "checked", true);
-        Vue.set(state.pizza, "name", "");
-      }
+    [SET_INGREDIENTS](state, payload) {
+      Vue.set(state.pizza, "ingredients", payload);
+      state.pizza.ingredients.forEach((ingredient) => {
+        Vue.set(ingredient, "count", 0);
+      });
     },
-    [RESET_BUILDER](state) {
-      Vue.set(state, "pizza", {});
+
+    [SET_PIZZA_OPTIONS](state, payload) {
+      Vue.set(state.pizza, payload.name, payload.options);
+      Vue.set(state.pizza[payload.name][0], "checked", true);
+    },
+
+    [SET_BUILDER](state, payload) {
+      state.pizza = payload.pizza;
+      Vue.set(state.pizza, "id", payload.index);
+    },
+    [RESET_INGREDIENTS](state) {
+      state.pizza.ingredients.forEach((ingredient) => {
+        Vue.set(ingredient, "count", 0);
+      });
+    },
+    [RESET_OPTIONS](state, payload) {
+      for (let i = 0; i < state.pizza[payload].length; i++) {
+        Vue.set(state.pizza[payload][i], "checked", i === 0);
+      }
     },
     [COUNT_INGREDIENT](state, payload) {
       let count = state.pizza.ingredients[payload.index].count;
@@ -85,5 +100,27 @@ export default {
       Vue.set(state.pizza, "name", payload);
     },
   },
-  actions: {},
+  actions: {
+    async getBuilder({ commit }) {
+      const ingredients = await this.$api.ingredients.query();
+      const dough = await this.$api.dough.query();
+      const sauces = await this.$api.sauces.query();
+      const sizes = await this.$api.sizes.query();
+      dough.splice(2);
+      sauces.splice(2);
+      sizes.splice(3);
+      ingredients.splice(15);
+      commit(SET_INGREDIENTS, ingredients);
+      commit(SET_PIZZA_OPTIONS, { name: "dough", options: dough });
+      commit(SET_PIZZA_OPTIONS, { name: "sauces", options: sauces });
+      commit(SET_PIZZA_OPTIONS, { name: "sizes", options: sizes });
+    },
+    resetBuilder({ commit, state }) {
+      Vue.set(state.pizza, "name", "");
+      commit(RESET_INGREDIENTS);
+      commit(RESET_OPTIONS, "dough");
+      commit(RESET_OPTIONS, "sauces");
+      commit(RESET_OPTIONS, "sizes");
+    },
+  },
 };

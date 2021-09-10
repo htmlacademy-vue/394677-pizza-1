@@ -17,7 +17,7 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
-import { SET_BUILDER, MOVE_INGREDIENT } from "@/store/modules/mutation-types";
+import { MOVE_INGREDIENT } from "@/store/modules/mutation-types";
 import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
@@ -40,9 +40,9 @@ export default {
     ...mapState("Builder", ["pizza"]),
   },
   methods: {
-    ...mapMutations("Builder", [SET_BUILDER, MOVE_INGREDIENT]),
+    ...mapMutations("Builder", [MOVE_INGREDIENT]),
     setInitialData() {
-      this[SET_BUILDER]();
+      this.$store.dispatch("Builder/getBuilder");
     },
     moveIngredient(transferData) {
       this[MOVE_INGREDIENT](transferData.name);
