@@ -35,13 +35,14 @@ export default {
     },
   },
   actions: {
-    async getAddresses({ commit }, payload) {
+    async getAddresses({ commit, dispatch }, payload) {
       try {
         const data = await this.$api.addresses.query(payload);
         commit(SET_ADDRESS, data);
       } catch {
         console.log("Ошибка получения адреса");
       }
+      dispatch("Orders/getOrders", payload, { root: true });
     },
     async saveAddresses({ commit }, payload) {
       const data = await this.$api.addresses.post(payload);

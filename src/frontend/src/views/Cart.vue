@@ -153,8 +153,7 @@
                     placeholder="+7 999-999-99-99"
                   />
                 </label>
-
-                <div v-if="isDelivery" class="cart-form__address">
+                <div class="cart-form__address">
                   <span v-if="newAddress" class="cart-form__label"
                     >Новый адрес:</span
                   >
@@ -165,7 +164,7 @@
                     <label class="input">
                       <span>Улица*</span>
                       <input
-                        :value="address.street"
+                        :value="address[0].street"
                         type="text"
                         name="street"
                       />
@@ -175,7 +174,11 @@
                   <div class="cart-form__input cart-form__input--small">
                     <label class="input">
                       <span>Дом*</span>
-                      <input :value="address.house" type="text" name="house" />
+                      <input
+                        :value="address[0].building"
+                        type="text"
+                        name="house"
+                      />
                     </label>
                   </div>
 
@@ -183,7 +186,7 @@
                     <label class="input">
                       <span>Квартира</span>
                       <input
-                        :value="address.apartment"
+                        :value="address[0].flat"
                         type="text"
                         name="apartment"
                       />
@@ -285,8 +288,45 @@ export default {
       this.$router.push("/");
     },
     showModal() {
+      this.$router.push("/");
       const element = this.$refs.modal.$el;
       element.classList.toggle("visually-hidden");
+      const data = {
+        userId: this.user.id,
+        pizzas: [
+          {
+            name: "Пицца хардкор",
+            sauceId: 1,
+            doughId: 1,
+            sizeId: 2,
+            quantity: 1,
+            ingredients: [
+              {
+                ingredientId: 1,
+                quantity: 3,
+              },
+            ],
+          },
+        ],
+        misc: [
+          {
+            miscId: 1,
+            quantity: 2,
+          },
+          {
+            miscId: 3,
+            quantity: 2,
+          },
+        ],
+        address: {
+          name: this.address[0].name,
+          street: this.address[0].street,
+          building: this.address[0].building,
+          flat: this.address[0].flat,
+          comment: this.address[0].comment,
+        },
+      };
+      this.$store.dispatch("Orders/setOrders", data);
     },
   },
 };
