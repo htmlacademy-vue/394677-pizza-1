@@ -6,7 +6,6 @@ import {
   SET_PIZZA_COUNT,
   SET_ADDITIONAL_COUNT,
 } from "./mutation-types";
-import misc from "@/static/misc";
 import { cloneDeep } from "lodash";
 Vue.use(Vuex);
 
@@ -18,12 +17,6 @@ export default {
     total: 0,
     shippingInformation: {
       receiveOrder: "",
-      phoneNumber: null,
-      address: {
-        street: "",
-        house: "",
-        apartment: "",
-      },
     },
   },
   getters: {
@@ -43,8 +36,8 @@ export default {
     },
   },
   mutations: {
-    [SET_MISC](state) {
-      state.misc = misc;
+    [SET_MISC](state, payload) {
+      Vue.set(state, "misc", payload);
       state.misc.forEach((misc) => {
         Vue.set(misc, "count", 0);
       });
@@ -86,5 +79,11 @@ export default {
       Vue.set(state.misc, payload.index, misc);
     },
   },
-  actions: {},
+  actions: {
+    async getMisc({ commit }) {
+      const data = await this.$api.misc.query();
+      data.splice(3);
+      commit(SET_MISC, data);
+    },
+  },
 };

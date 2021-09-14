@@ -1,40 +1,5 @@
 <template>
   <form>
-    <header class="header">
-      <div class="header__logo">
-        <a href="index.html" class="logo">
-          <img
-            src="../public/img/logo.svg"
-            alt="V!U!E! Pizza logo"
-            width="90"
-            height="40"
-          />
-        </a>
-      </div>
-      <div class="header__cart">
-        <a href="cart.html">{{ finalOrderPrice }} ₽</a>
-      </div>
-      <div v-if="isAuthenticated" class="header__user">
-        <a href="user-data.html">
-          <picture>
-            <source
-              type="image/webp"
-              srcset="../public/img/users/user5.webp 1../imgimg/users/user5@2x.webp 2x"
-            />
-            <img
-              src="../public/img/users/user5.jpg"
-              srcset="../public/img/users/user5@2x.jpg"
-              alt="username"
-              width="32"
-              height="32"
-            />
-          </picture>
-          <span>{{ user.name }}</span>
-        </a>
-        <a href="#" class="header__logout"><span>Выйти</span></a>
-      </div>
-    </header>
-
     <div action="test.html" method="post" class="layout-form">
       <main class="content cart">
         <div class="container">
@@ -168,13 +133,9 @@
               <div class="cart-form">
                 <label class="cart-form__select">
                   <span class="cart-form__label">Получение заказа:</span>
-                  <select
-                    v-model="shippingInformation.receiveOrder"
-                    name="test"
-                    class="select"
-                  >
+                  <select v-model="receiveOrder" name="test" class="select">
                     <option
-                      v-for="(item, index) in shippingOption"
+                      v-for="(item, index) in shippingOptions"
                       :key="index"
                       :value="item"
                     >
@@ -204,7 +165,7 @@
                     <label class="input">
                       <span>Улица*</span>
                       <input
-                        :value="shippingInformation.address.street"
+                        :value="address.street"
                         type="text"
                         name="street"
                       />
@@ -214,11 +175,7 @@
                   <div class="cart-form__input cart-form__input--small">
                     <label class="input">
                       <span>Дом*</span>
-                      <input
-                        :value="shippingInformation.address.house"
-                        type="text"
-                        name="house"
-                      />
+                      <input :value="address.house" type="text" name="house" />
                     </label>
                   </div>
 
@@ -226,7 +183,7 @@
                     <label class="input">
                       <span>Квартира</span>
                       <input
-                        :value="shippingInformation.address.apartment"
+                        :value="address.apartment"
                         type="text"
                         name="apartment"
                       />
@@ -270,6 +227,7 @@ import {
   SET_ADDITIONAL_COUNT,
 } from "@/store/modules/mutation-types";
 import Modal from "@/common/components/Modal";
+import Options from "@/common/options/shipping";
 export default {
   name: "Cart",
   components: {
@@ -281,17 +239,11 @@ export default {
   },
   computed: {
     ...mapState("Cart", ["pizza", "total", "misc", "shippingInformation"]),
+    ...mapState("Address", ["address"]),
     ...mapState("Auth", ["user", "isAuthenticated"]),
     ...mapGetters("Cart", ["finalOrderPrice"]),
     isEmptyCart() {
       return this.pizza.length === 0;
-    },
-    shippingOption() {
-      if (this.user) {
-        return ["Получу сам", "Новый адрес", "Существующий адрес"];
-      } else {
-        return ["Получу сам", "Новый адрес"];
-      }
     },
     phoneNumber() {
       if (this.user) {
@@ -300,21 +252,27 @@ export default {
         return "";
       }
     },
+    shippingOptions() {
+      return Options.shipping(this.isAuthenticated);
+    },
     newAddress() {
-      return this.shippingInformation.receiveOrder === "Новый адрес";
+      return this.receiveOrder === "Новый адрес";
     },
     existingAddress() {
-      return this.shippingInformation.receiveOrder === "Существующий адрес";
+      return this.receiveOrder === "Существующий адрес";
     },
     isDelivery() {
-      return this.shippingInformation.receiveOrder !== "Получу сам";
+      return this.receiveOrder !== "Получу сам";
+    },
+    userAddress() {
+      return this.user.addresses || "Нет сохраненного адреса";
     },
   },
   methods: {
     ...mapMutations("Cart", [SET_MISC, SET_PIZZA_COUNT, SET_ADDITIONAL_COUNT]),
     ...mapMutations("Builder", [SET_BUILDER]),
     setInitialData() {
-      this[SET_MISC]();
+      this.$store.dispatch("Cart/getMisc");
     },
     countPizza(index, add) {
       this[SET_PIZZA_COUNT]({ index, add });

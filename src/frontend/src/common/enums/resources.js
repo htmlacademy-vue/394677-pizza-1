@@ -5,5 +5,7 @@ export default {
   DOUGH: "dough",
   SAUCES: "sauces",
   SIZES: "sizes",
+  MISC: "misc",
+  ADDRESSES: "addresses",
   ORDERS: "orders",
 };

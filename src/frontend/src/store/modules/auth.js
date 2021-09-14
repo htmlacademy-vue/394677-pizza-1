@@ -31,13 +31,14 @@ export default {
       this.$api.auth.setAuthHeader();
       commit(SET_USER, { isAuthenticated: false, user: null });
     },
-    async getMe({ commit, dispatch }) {
+    async getMe({ state, commit, dispatch }) {
       try {
         const data = await this.$api.auth.getMe();
         commit(SET_USER, { isAuthenticated: true, user: data });
       } catch {
         dispatch("logout", false);
       }
+      dispatch("Address/getAddresses", state.user, { root: true });
     },
   },
 };

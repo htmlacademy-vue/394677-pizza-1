@@ -14,7 +14,9 @@ export const createResources = (notifier) => {
     [resources.DOUGH]: new ReadOnlyApiService(resources.DOUGH, notifier),
     [resources.SAUCES]: new ReadOnlyApiService(resources.SAUCES, notifier),
     [resources.SIZES]: new ReadOnlyApiService(resources.SIZES, notifier),
+    [resources.MISC]: new ReadOnlyApiService(resources.MISC, notifier),
     [resources.AUTH]: new AuthApiService(notifier),
+    [resources.ADDRESSES]: new CrudApiService(resources.ADDRESSES, notifier),
     [resources.ORDERS]: new CrudApiService(resources.ORDERS, notifier),
   };
 };
