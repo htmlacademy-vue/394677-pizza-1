@@ -241,7 +241,7 @@ export default {
     this.setInitialData();
   },
   computed: {
-    ...mapState("Cart", ["pizza", "total", "misc", "shippingInformation"]),
+    ...mapState("Cart", ["pizza", "total", "misc"]),
     ...mapState("Address", ["address"]),
     ...mapState("Auth", ["user", "isAuthenticated"]),
     ...mapGetters("Cart", ["finalOrderPrice"]),
@@ -258,6 +258,8 @@ export default {
     localAddress() {
       if (this.isAuthenticated && this.existingAddress) {
         return this.address[0];
+      } else if (!this.isDelivery) {
+        return null;
       } else {
         return { street: "", building: "", flat: "" };
       }

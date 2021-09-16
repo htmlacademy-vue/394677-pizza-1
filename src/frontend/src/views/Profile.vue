@@ -107,7 +107,7 @@
         <div class="address-form__buttons">
           <button
             v-show="isEdit"
-            @click="deleteAddress()"
+            @click="deleteAddress"
             type="button"
             class="button button--transparent"
           >

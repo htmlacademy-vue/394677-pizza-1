@@ -106,6 +106,7 @@ export default {
       const dough = await this.$api.dough.query();
       const sauces = await this.$api.sauces.query();
       const sizes = await this.$api.sizes.query();
+      // почему-то все списки приходят дублированными (один и тот же массив по несколько раз в однмо запросе)
       dough.splice(2);
       sauces.splice(2);
       sizes.splice(3);

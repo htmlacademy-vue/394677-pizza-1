@@ -22,15 +22,18 @@ export default {
       state.address.push(payload);
     },
     [DELETE_ADDRESS](state, payload) {
-      state.address.splice(payload, 1);
-      console.log(state.address);
+      for (let i = 0; i <= state.address.length; i++) {
+        if (state.address[i].id === payload) {
+          state.address.splice(i, 1);
+        }
+      }
     },
     [EDIT_ADDRESS](state, payload) {
-      Object.keys(state.address).forEach((item) => {
-        if (item.id === payload.id) {
-          Vue.set(state.address, item.id, payload);
+      for (let i = 0; i <= state.address.length; i++) {
+        if (state.address[i].id === payload.id) {
+          Vue.set(state.address, i, payload);
         }
-      });
+      }
     },
   },
   actions: {
