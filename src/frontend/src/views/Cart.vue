@@ -256,7 +256,7 @@ export default {
       }
     },
     localAddress() {
-      if (this.isAuthenticated) {
+      if (this.isAuthenticated && this.existingAddress) {
         return this.address[0];
       } else {
         return { street: "", building: "", flat: "" };
@@ -299,32 +299,39 @@ export default {
       element.classList.toggle("visually-hidden");
       const data = {
         userId: this.user.id,
+        addressId: 0,
         orderPizzas: [
           {
-            name: "Пицца хардкор",
+            name: "Pizza",
             sauceId: 1,
             doughId: 1,
-            sizeId: 2,
+            sizeId: 1,
             quantity: 1,
+            orderId: 0,
             ingredients: [
               {
+                pizzaId: 0,
                 ingredientId: 1,
-                quantity: 3,
+                quantity: 1,
               },
             ],
           },
         ],
         orderMisc: [
           {
+            orderId: 0,
             miscId: 1,
-            quantity: 2,
-          },
-          {
-            miscId: 3,
-            quantity: 2,
+            quantity: 1,
           },
         ],
-        address: this.localAddress,
+        orderAddress: {
+          name: "Адрес",
+          street: "Попова",
+          building: "1",
+          flat: "2",
+          comment: "comment",
+          userId: this.user.id,
+        },
       };
       this.$store.dispatch("Orders/setOrders", data);
     },
