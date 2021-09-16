@@ -15,9 +15,6 @@ export default {
     pizza: [],
     misc: [],
     total: 0,
-    shippingInformation: {
-      receiveOrder: "",
-    },
   },
   getters: {
     finalOrderPrice(state) {
@@ -43,21 +40,17 @@ export default {
       });
     },
     [SET_CART](state, payload) {
+      const pizza = cloneDeep(payload.pizza);
       let newPizza = true;
-      if (payload) {
-        Object.keys(payload.pizza).forEach((item) => {
-          if (item === "id") {
-            newPizza = false;
-          }
-        });
-        if (!newPizza) {
-          Vue.set(state.pizza[payload.pizza.id], "total", payload.total);
-        } else {
-          let pizza = cloneDeep(payload.pizza);
-          pizza.count = 1;
-          pizza.total = payload.total;
-          state.pizza.push(pizza);
-        }
+      if ("id" in pizza) {
+        newPizza = false;
+      }
+      if (!newPizza) {
+        state.pizza[pizza.id] = pizza;
+      } else {
+        pizza.count = 1;
+        pizza.total = payload.total;
+        state.pizza.push(pizza);
       }
     },
     [SET_PIZZA_COUNT](state, payload) {
@@ -84,6 +77,10 @@ export default {
       const data = await this.$api.misc.query();
       data.splice(3);
       commit(SET_MISC, data);
+    },
+    async addToCart({ commit, dispatch }, payload) {
+      commit(SET_CART, payload);
+      dispatch("Builder/resetBuilder", null, { root: true });
     },
   },
 };

@@ -22,7 +22,6 @@ export default {
       state.address.push(payload);
     },
     [DELETE_ADDRESS](state, payload) {
-      console.log(payload);
       state.address.splice(payload, 1);
       console.log(state.address);
     },

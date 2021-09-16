@@ -42,7 +42,9 @@ export default {
   methods: {
     ...mapMutations("Builder", [MOVE_INGREDIENT]),
     setInitialData() {
-      this.$store.dispatch("Builder/getBuilder");
+      if (!("id" in this.pizza)) {
+        this.$store.dispatch("Builder/getBuilder");
+      }
     },
     moveIngredient(transferData) {
       this[MOVE_INGREDIENT](transferData.name);
