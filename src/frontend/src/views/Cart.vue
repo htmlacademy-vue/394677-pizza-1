@@ -301,39 +301,32 @@ export default {
       element.classList.toggle("visually-hidden");
       const data = {
         userId: this.user.id,
-        addressId: 0,
-        orderPizzas: [
+        pizzas: [
           {
-            name: "Pizza",
+            name: "Пицца хардкор",
             sauceId: 1,
             doughId: 1,
-            sizeId: 1,
+            sizeId: 2,
             quantity: 1,
-            orderId: 0,
             ingredients: [
               {
-                pizzaId: 0,
                 ingredientId: 1,
-                quantity: 1,
+                quantity: 3,
               },
             ],
           },
         ],
-        orderMisc: [
+        misc: [
           {
-            orderId: 0,
             miscId: 1,
-            quantity: 1,
+            quantity: 2,
+          },
+          {
+            miscId: 3,
+            quantity: 2,
           },
         ],
-        orderAddress: {
-          name: "Адрес",
-          street: "Попова",
-          building: "1",
-          flat: "2",
-          comment: "comment",
-          userId: this.user.id,
-        },
+        address: this.localAddress,
       };
       this.$store.dispatch("Orders/setOrders", data);
     },

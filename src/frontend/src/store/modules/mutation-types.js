@@ -15,5 +15,6 @@ export const INPUT_SET_NAME = "INPUT_SET_NAME";
 export const SET_ADDRESS = "SET_ADDRESS";
 export const ADD_ADDRESS = "ADD_ADDRESS";
 export const DELETE_ADDRESS = "DELETE_ADDRESS";
+export const DELETE_ORDER = "DELETE_ORDER";
 export const EDIT_ADDRESS = "EDIT_ADDRESS";
 export const SET_ORDERS = "SET_ORDERS";

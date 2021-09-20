@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ orders }}
     <div class="layout__sidebar sidebar">
       <router-link to="/Profile" class="layout__link">Мои данные</router-link>
     </div>
@@ -16,7 +15,7 @@
       >
         <div class="order__wrapper">
           <div class="order__number">
-            <b>Заказ #{{ order.orderPizzas.orderId }}</b>
+            <b>Заказ # {{ order.id }}</b>
           </div>
 
           <div class="order__sum">
@@ -24,89 +23,79 @@
           </div>
 
           <div class="order__button">
-            <button type="button" class="button button--border">Удалить</button>
+            <button
+              @click="deleteOrder(order.id)"
+              type="button"
+              class="button button--border"
+            >
+              Удалить
+            </button>
           </div>
           <div class="order__button">
-            <button type="button" class="button">Повторить</button>
+            <button @click="repeatOrders(order)" type="button" class="button">
+              Повторить
+            </button>
           </div>
         </div>
-
-        <ul
-          v-for="(pizza, index) in order.orderPizzas"
-          :key="index"
-          class="order__list"
-        >
-          <li class="order__item">
-            <div class="product">
-              <img
-                src="img/product.svg"
-                class="product__img"
-                width="56"
-                height="56"
-                :alt="pizza.name"
-              />
-              <div class="product__text">
-                <h2>{{ pizza.name }}</h2>
-                <ul>
-                  <li>{{ pizza.sizeId }} см, {{ pizza.doughId }}</li>
-                  <li>Соус: {{ pizza.sauceId }}</li>
-                  <li>
-                    Начинка:
-                    <span
-                      v-for="(ingredient, index) in pizza.ingredients"
-                      :key="index"
-                      >{{ ingredient.ingredientId }}</span
-                    >
-                  </li>
-                </ul>
+        <template v-if="order.orderPizzas">
+          <ul
+            v-for="(pizza, index) in order.orderPizzas"
+            :key="index"
+            class="order__list"
+          >
+            <li class="order__item">
+              <div class="product">
+                <img
+                  src="../public/img/product.svg"
+                  class="product__img"
+                  width="56"
+                  height="56"
+                  :alt="pizza.name"
+                />
+                <div class="product__text">
+                  <h2>{{ pizza.name }}</h2>
+                  <ul>
+                    <li>{{ pizza.sizeId }} см, {{ pizza.doughId }}</li>
+                    <li>Соус: {{ pizza.sauceId }}</li>
+                    <li>
+                      Начинка:
+                      <span
+                        v-for="(ingredient, index) in pizza.ingredients"
+                        :key="index"
+                        >{{ ingredient.ingredientId }}</span
+                      >
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
 
-            <p class="order__price">782 ₽</p>
-          </li>
-          <li class="order__item">
-            <div class="product">
+              <p class="order__price">782 ₽</p>
+            </li>
+          </ul>
+        </template>
+        <template v-if="order.orderMisc">
+          <ul class="order__additional">
+            <li v-for="(misc, index) in order.orderMisc" :key="index">
               <img
-                src="img/product.svg"
-                class="product__img"
-                width="56"
-                height="56"
-                alt="Капричоза"
+                src="../public/img/cola.svg"
+                width="20"
+                height="30"
+                alt="Coca-Cola 0,5 литра"
               />
-              <div class="product__text">
-                <h2>Моя любимая</h2>
-                <ul>
-                  <li>30 см, на тонком тесте</li>
-                  <li>Соус: томатный</li>
-                  <li>Начинка: грибы, лук, ветчина, пармезан, ананас</li>
-                </ul>
-              </div>
-            </div>
-
-            <p class="order__price">2х782 ₽</p>
-          </li>
-        </ul>
-
-        <ul class="order__additional">
-          <li v-for="(misc, index) in order.orderMisc" :key="index">
-            <img
-              src="img/cola.svg"
-              width="20"
-              height="30"
-              alt="Coca-Cola 0,5 литра"
-            />
-            <p>
-              <span>{{ misc.miscId }}</span>
-              <b>56 ₽</b>
-            </p>
-          </li>
-        </ul>
-
-        <p class="order__address">
-          Адрес доставки:{{ order.orderAddress.name }},
-          {{ order.orderAddress.street }}, {{ order.orderAddress.building }},
-          {{ order.orderAddress.flat }}, {{ order.orderAddress.comment }},
-        </p>
+              <p>
+                <span>{{ misc.miscId }}</span>
+                <b>56 ₽</b>
+              </p>
+            </li>
+          </ul>
+        </template>
+        <template v-if="order.orderAddress">
+          <p class="order__address">
+            Адрес доставки:{{ order.orderAddress.name }},
+            {{ order.orderAddress.street }}, {{ order.orderAddress.building }},
+            {{ order.orderAddress.flat }}, {{ order.orderAddress.comment }},
+          </p>
+        </template>
       </section>
     </div>
   </div>
@@ -119,6 +108,36 @@ export default {
   name: "Orders",
   computed: {
     ...mapState("Orders", ["orders"]),
+  },
+  mounted() {
+    this.setInitialData();
+  },
+  methods: {
+    setInitialData() {
+      this.$store.dispatch("Orders/getOrders");
+    },
+    deleteOrder(id) {
+      this.$store.dispatch("Orders/deleteOrders", id);
+    },
+    repeatOrders(order) {
+      let data = {
+        userId: order.userId,
+        pizzas: order.orderPizzas,
+        misc: order.orderMisc,
+        address: order.orderAddress,
+      };
+      data.pizzas.forEach((pizza) => {
+        delete pizza.id;
+        pizza.ingredients.forEach((ingredient) => {
+          delete ingredient.id;
+        });
+      });
+      data.misc.forEach((misc) => {
+        delete misc.id;
+      });
+      delete data.address.id;
+      this.$store.dispatch("Orders/setOrders", data);
+    },
   },
 };
 </script>

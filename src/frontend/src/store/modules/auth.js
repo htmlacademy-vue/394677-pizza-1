@@ -12,8 +12,8 @@ export default {
   getters: {},
   mutations: {
     [SET_USER](state, payload) {
-      Vue.set(state, "isAuthenticated", payload.isAuthenticated);
-      Vue.set(state, "user", payload.user);
+      state.isAuthenticated = payload.isAuthenticated;
+      state.user = payload.user;
     },
   },
   actions: {

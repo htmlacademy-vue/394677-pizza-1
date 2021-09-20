@@ -16,7 +16,7 @@ export default {
   getters: {},
   mutations: {
     [SET_ADDRESS](state, payload) {
-      Vue.set(state, "address", payload);
+      state.address = payload;
     },
     [ADD_ADDRESS](state, payload) {
       state.address.push(payload);
