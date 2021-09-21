@@ -3,13 +3,12 @@
     <div class="layout__sidebar sidebar">
       <router-link to="/Profile" class="layout__link">Мои данные</router-link>
     </div>
-
     <div class="layout__content">
       <div class="layout__title">
         <h1 class="title title--big">История заказов</h1>
       </div>
       <section
-        v-for="(order, index) in orders"
+        v-for="(order, index) in formatOrders"
         :key="index"
         class="sheet order"
       >
@@ -55,15 +54,15 @@
                 <div class="product__text">
                   <h2>{{ pizza.name }}</h2>
                   <ul>
-                    <li>{{ pizza.sizeId }} см, {{ pizza.doughId }}</li>
-                    <li>Соус: {{ pizza.sauceId }}</li>
+                    <li>{{ pizza.size.name }}, {{ pizza.dough.name }}</li>
+                    <li>Соус: {{ pizza.sauce.name }}</li>
                     <li>
                       Начинка:
                       <span
-                        v-for="(ingredient, index) in pizza.ingredients"
+                        v-for="(ingredient, index) in pizza.ingredientsData"
                         :key="index"
-                        >{{ ingredient.ingredientId }}</span
-                      >
+                        >{{ ingredient.name }},
+                      </span>
                     </li>
                   </ul>
                 </div>
@@ -73,17 +72,17 @@
             </li>
           </ul>
         </template>
-        <template v-if="order.orderMisc">
+        <template v-if="order.misc">
           <ul class="order__additional">
-            <li v-for="(misc, index) in order.orderMisc" :key="index">
+            <li v-for="(misc, index) in order.misc" :key="index">
               <img
-                src="../public/img/cola.svg"
+                :src="misc.image"
                 width="20"
                 height="30"
                 alt="Coca-Cola 0,5 литра"
               />
               <p>
-                <span>{{ misc.miscId }}</span>
+                <span>{{ misc.name }}</span>
                 <b>56 ₽</b>
               </p>
             </li>
@@ -102,18 +101,21 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
+import { mapGetters } from "vuex";
+import pizzaHistoryOptions from "@/common/mixins/formatOrderOptions";
 export default {
   name: "Orders",
+  mixins: [pizzaHistoryOptions],
   computed: {
-    ...mapState("Orders", ["orders"]),
+    ...mapGetters("Orders", ["formatOrders"]),
   },
   mounted() {
     this.setInitialData();
   },
   methods: {
     setInitialData() {
+      this.$store.dispatch("Builder/getBuilder");
+      this.$store.dispatch("Cart/getMisc");
       this.$store.dispatch("Orders/getOrders");
     },
     deleteOrder(id) {

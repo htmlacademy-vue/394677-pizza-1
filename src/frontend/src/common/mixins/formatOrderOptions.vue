@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "getOrderOptions",
+  name: "formatOrderOptions",
   methods: {
     pizzasOrderOptions(data) {
       const pizzas = [];

@@ -226,8 +226,8 @@ import {
 } from "@/store/modules/mutation-types";
 import Modal from "@/common/components/Modal";
 import Options from "@/common/options/shipping";
-import pizzasOrderOptions from "@/common/mixins/getOrderOptions";
-import miscOrderOptions from "@/common/mixins/getOrderOptions";
+import pizzasOrderOptions from "@/common/mixins/formatOrderOptions";
+import miscOrderOptions from "@/common/mixins/formatOrderOptions";
 export default {
   name: "Cart",
   components: {
