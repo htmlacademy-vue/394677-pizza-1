@@ -226,12 +226,15 @@ import {
 } from "@/store/modules/mutation-types";
 import Modal from "@/common/components/Modal";
 import Options from "@/common/options/shipping";
+import pizzasOrderOptions from "@/common/mixins/getOrderOptions";
+import miscOrderOptions from "@/common/mixins/getOrderOptions";
 export default {
   name: "Cart",
   components: {
     ItemCounter,
     Modal,
   },
+  mixins: [pizzasOrderOptions, miscOrderOptions],
   data: function () {
     return {
       receiveOrder: {},
@@ -301,31 +304,8 @@ export default {
       element.classList.toggle("visually-hidden");
       const data = {
         userId: this.user.id,
-        pizzas: [
-          {
-            name: "Пицца хардкор",
-            sauceId: 1,
-            doughId: 1,
-            sizeId: 2,
-            quantity: 1,
-            ingredients: [
-              {
-                ingredientId: 1,
-                quantity: 3,
-              },
-            ],
-          },
-        ],
-        misc: [
-          {
-            miscId: 1,
-            quantity: 2,
-          },
-          {
-            miscId: 3,
-            quantity: 2,
-          },
-        ],
+        pizzas: this.pizzasOrderOptions(this.pizza),
+        misc: this.miscOrderOptions(this.misc),
         address: this.localAddress,
       };
       this.$store.dispatch("Orders/setOrders", data);
