@@ -18,7 +18,7 @@
           </div>
 
           <div class="order__sum">
-            <span>Сумма заказа: 564 ₽</span>
+            <span>Сумма заказа: {{ order.total }} ₽</span>
           </div>
 
           <div class="order__button">
@@ -59,7 +59,7 @@
                     <li>
                       Начинка:
                       <span
-                        v-for="(ingredient, index) in pizza.ingredientsData"
+                        v-for="(ingredient, index) in pizza.ingredientsOrder"
                         :key="index"
                         >{{ ingredient.name }},
                       </span>
@@ -67,23 +67,17 @@
                   </ul>
                 </div>
               </div>
-
-              <p class="order__price">782 ₽</p>
+              <p class="order__price">{{ pizza.total }} ₽</p>
             </li>
           </ul>
         </template>
         <template v-if="order.misc">
           <ul class="order__additional">
             <li v-for="(misc, index) in order.misc" :key="index">
-              <img
-                :src="misc.image"
-                width="20"
-                height="30"
-                alt="Coca-Cola 0,5 литра"
-              />
+              <img :src="misc.image" width="20" height="30" :alt="misc.name" />
               <p>
                 <span>{{ misc.name }}</span>
-                <b>56 ₽</b>
+                <b>{{ misc.count * misc.price }}₽</b>
               </p>
             </li>
           </ul>

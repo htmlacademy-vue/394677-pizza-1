@@ -11,12 +11,14 @@ export default {
   },
   getters: {
     formatOrders: (state, getters, rootState) => {
-      console.log("getters", getters);
-      console.log("rootState", rootState.Builder.pizza);
       const orders = [];
       state.orders.forEach((item) => {
         const order = cloneDeep(item);
+        order.total = 0;
+        order.misc = [];
         order.orderPizzas.forEach((pizza) => {
+          pizza.ingredientsTotal = 0;
+          pizza.ingredientsOrder = [];
           rootState.Builder.pizza.dough.forEach((dough) => {
             if (pizza.doughId === dough.id) {
               pizza.dough = cloneDeep(dough);
@@ -32,23 +34,33 @@ export default {
               pizza.sauce = cloneDeep(sauce);
             }
           });
-          pizza.ingredientsData = [];
-          pizza.ingredients.forEach((ingredient) => {
-            rootState.Builder.pizza.ingredients.forEach((item) => {
-              if (ingredient.ingredientId === item.id) {
-                pizza.ingredientsData.push(item);
+          pizza.ingredients.forEach((ingredientOrder) => {
+            const ingredients = cloneDeep(rootState.Builder.pizza.ingredients);
+            ingredients.forEach((ingredient) => {
+              if (ingredientOrder.ingredientId === ingredient.id) {
+                ingredient.count = ingredientOrder.quantity;
+                pizza.ingredientsTotal += ingredient.price * ingredient.count;
+                pizza.ingredientsOrder.push(ingredient);
               }
             });
           });
+          pizza.total =
+            (pizza.sauce.price + pizza.dough.price + pizza.ingredientsTotal) *
+            pizza.size.multiplier;
+          order.total += pizza.total;
         });
-        order.misc = [];
-        order.orderMisc.forEach((item) => {
-          rootState.Cart.misc.forEach((misc) => {
-            if (item.miscId === misc?.id) {
-              order.misc.push(misc);
-            }
+        if (order.orderMisc) {
+          order.orderMisc.forEach((item) => {
+            const miscLIst = cloneDeep(rootState.Cart.misc);
+            miscLIst.forEach((misc) => {
+              if (item.miscId === misc?.id) {
+                misc.count = item.quantity;
+                order.total += misc.count * misc.price;
+                order.misc.push(misc);
+              }
+            });
           });
-        });
+        }
         orders.push(order);
       });
       return orders;
