@@ -14,7 +14,7 @@
       <router-link to="/cart">{{ finalOrderPrice }} ₽</router-link>
     </div>
     <div v-if="isAuthenticated" class="header__user">
-      <router-link to="/Profile">
+      <router-link to="/profile">
         <picture>
           <source type="image/webp" />
           <img :src="user.avatar" :alt="user.name" width="32" height="32" />
@@ -44,6 +44,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("Auth/logout");
+      this.$router.push("/");
     },
   },
 };

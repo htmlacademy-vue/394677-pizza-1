@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="layout__sidebar sidebar">
-      <router-link to="/Profile" class="layout__link">Мои данные</router-link>
+      <router-link to="/profile" class="layout__link">Мои данные</router-link>
     </div>
     <div class="layout__content">
       <div class="layout__title">

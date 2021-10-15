@@ -303,7 +303,7 @@ export default {
     setOrder() {
       this.showModal = true;
       const data = {
-        userId: this.user.id,
+        userId: this.user?.id || null,
         pizzas: this.pizzasOrderOptions(this.pizza),
         misc: this.miscOrderOptions(this.misc),
         address: this.localAddress,
