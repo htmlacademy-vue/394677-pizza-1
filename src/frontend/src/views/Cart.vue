@@ -210,7 +210,7 @@
       <div class="footer__submit">
         <button @click="setOrder" class="button">Оформить заказ</button>
       </div>
-      <Modal v-if="showModal" class="visually-hidden"></Modal>
+      <Modal v-if="showModal"></Modal>
     </section>
   </div>
 </template>

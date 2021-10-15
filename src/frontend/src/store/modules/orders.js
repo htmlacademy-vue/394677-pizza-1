@@ -85,7 +85,9 @@ export default {
       } catch {
         console.log("Ошибка оформления заказов");
       }
-      dispatch("getOrders");
+      if (payload.userId) {
+        dispatch("getOrders");
+      }
     },
     async getOrders({ commit }, payload) {
       try {
