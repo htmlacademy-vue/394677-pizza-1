@@ -39,8 +39,8 @@
         </div>
       </div>
 
-      <div v-show="isAddition || isEdit" class="layout__address">
-        <div v-show="isEdit" class="address-form__header">
+      <div v-if="isAddition || isEdit" class="layout__address">
+        <div v-if="isEdit" class="address-form__header">
           <b>{{ localAddress.name }}</b>
         </div>
         <div class="address-form__wrapper">
@@ -106,7 +106,7 @@
 
         <div class="address-form__buttons">
           <button
-            v-show="isEdit"
+            v-if="isEdit"
             @click="deleteAddress"
             type="button"
             class="button button--transparent"

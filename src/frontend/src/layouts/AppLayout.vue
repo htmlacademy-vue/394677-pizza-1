@@ -1,10 +1,17 @@
 <template>
-  <router-view></router-view>
+  <div>
+    <appHeader></appHeader>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
+import appHeader from "@/views/Header";
 export default {
   name: "AppLayout",
+  components: {
+    appHeader,
+  },
 };
 </script>
 

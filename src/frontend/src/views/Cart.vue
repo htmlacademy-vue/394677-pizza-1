@@ -208,9 +208,9 @@
       </div>
 
       <div class="footer__submit">
-        <button @click="showModal" class="button">Оформить заказ</button>
+        <button @click="setOrder" class="button">Оформить заказ</button>
       </div>
-      <Modal ref="modal" class="visually-hidden"></Modal>
+      <Modal v-if="showModal" class="visually-hidden"></Modal>
     </section>
   </div>
 </template>
@@ -238,6 +238,7 @@ export default {
   data: function () {
     return {
       receiveOrder: {},
+      showModal: false,
     };
   },
   mounted() {
@@ -299,9 +300,8 @@ export default {
       this[SET_BUILDER]({ pizza, index });
       this.$router.push("/");
     },
-    showModal() {
-      const element = this.$refs.modal.$el;
-      element.classList.toggle("visually-hidden");
+    setOrder() {
+      this.showModal = true;
       const data = {
         userId: this.user.id,
         pizzas: this.pizzasOrderOptions(this.pizza),

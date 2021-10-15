@@ -38,8 +38,8 @@
         </div>
         <template v-if="order.orderPizzas">
           <ul
-            v-for="(pizza, index) in order.orderPizzas"
-            :key="index"
+            v-for="pizza in order.orderPizzas"
+            :key="pizza.id"
             class="order__list"
           >
             <li class="order__item">
