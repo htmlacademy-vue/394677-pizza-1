@@ -16,7 +16,7 @@ export default {
         const order = cloneDeep(item);
         order.total = 0;
         order.misc = [];
-        order.orderPizzas.forEach((pizza) => {
+        order.orderPizzas?.forEach((pizza) => {
           pizza.ingredientsTotal = 0;
           pizza.ingredientsOrder = [];
           rootState.Builder.pizza.dough.forEach((dough) => {
@@ -45,8 +45,8 @@ export default {
             });
           });
           pizza.total =
-            (pizza.sauce.price + pizza.dough.price + pizza.ingredientsTotal) *
-            pizza.size.multiplier;
+            (pizza.sauce?.price + pizza.dough?.price + pizza.ingredientsTotal) *
+            pizza.size?.multiplier;
           order.total += pizza.total;
         });
         if (order.orderMisc) {

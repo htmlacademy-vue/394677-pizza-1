@@ -54,8 +54,10 @@
                 <div class="product__text">
                   <h2>{{ pizza.name }}</h2>
                   <ul>
-                    <li>{{ pizza.size.name }}, {{ pizza.dough.name }}</li>
-                    <li>Соус: {{ pizza.sauce.name }}</li>
+                    <li v-if="pizza.size && pizza.dough">
+                      {{ pizza.size.name }}, {{ pizza.dough.name }}
+                    </li>
+                    <li v-if="pizza.sauce">Соус: {{ pizza.sauce.name }}</li>
                     <li>
                       Начинка:
                       <span
