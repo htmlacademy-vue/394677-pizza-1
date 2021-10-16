@@ -129,11 +129,16 @@
             <div class="cart-form">
               <label class="cart-form__select">
                 <span class="cart-form__label">Получение заказа:</span>
-                <select v-model="receiveOrder" name="test" class="select">
+                <select
+                  v-model="receiveOrder"
+                  @change="changeAddress"
+                  name="test"
+                  class="select"
+                >
                   <option
-                    v-for="(item, index) in shippingOptions"
-                    :key="index"
-                    :value="item.id"
+                    v-for="item in shippingOptions"
+                    :key="item.id"
+                    :value="item"
                   >
                     {{ item.name }}
                   </option>
@@ -149,7 +154,7 @@
                   placeholder="+7 999-999-99-99"
                 />
               </label>
-              <div v-if="isDelivery" class="cart-form__address">
+              <div v-if="!noDelivery" class="cart-form__address">
                 <span v-if="newAddress" class="cart-form__label"
                   >Новый адрес:</span
                 >
@@ -239,6 +244,7 @@ export default {
     return {
       receiveOrder: {},
       showModal: false,
+      localAddress: {},
     };
   },
   mounted() {
@@ -259,29 +265,26 @@ export default {
         return "";
       }
     },
-    localAddress() {
-      if (this.isAuthenticated && this.existingAddress) {
-        return this.address[0];
-      } else if (!this.isDelivery) {
-        return null;
-      } else {
-        return { street: "", building: "", flat: "" };
-      }
-    },
     shippingOptions() {
-      return Options.shipping(this.isAuthenticated);
+      let options = [];
+      if (this.address) {
+        this.address.forEach((address) => {
+          options.push({
+            id: address.id,
+            name: address.street + address.building + address.flat,
+          });
+        });
+      }
+      return Options.shipping().concat(options);
     },
     newAddress() {
-      return this.receiveOrder === 2;
+      return this.receiveOrder.id === "new";
+    },
+    noDelivery() {
+      return this.receiveOrder.id === "self";
     },
     existingAddress() {
-      return this.receiveOrder === 3;
-    },
-    isDelivery() {
-      return this.receiveOrder === 2 || this.receiveOrder === 3;
-    },
-    userAddress() {
-      return this.user.addresses || "Нет сохраненного адреса";
+      return this.receiveOrder.id !== "self" && this.receiveOrder.id !== "new";
     },
   },
   methods: {
@@ -299,6 +302,21 @@ export default {
     changePizza(pizza, index) {
       this[SET_BUILDER]({ pizza, index });
       this.$router.push("/");
+    },
+    changeAddress() {
+      if (this.newAddress) {
+        this.localAddress = { street: "", building: "", flat: "" };
+      } else if (this.isAuthenticated) {
+        if (this.receiveOrder) {
+          this.address.forEach((address) => {
+            if (address.id === this.receiveOrder.id) {
+              this.localAddress = address;
+            }
+          });
+        }
+      } else if (this.noDelivery) {
+        this.localAddress = null;
+      }
     },
     setOrder() {
       this.showModal = true;
