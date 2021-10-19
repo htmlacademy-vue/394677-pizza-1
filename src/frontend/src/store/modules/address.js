@@ -51,7 +51,7 @@ export default {
     },
     async deleteAddresses({ commit }, payload) {
       try {
-        this.$api.addresses.delete(payload);
+        await this.$api.addresses.delete(payload);
         commit(DELETE_ADDRESS, payload);
       } catch {
         console.log("Ошибка удаления адреса");

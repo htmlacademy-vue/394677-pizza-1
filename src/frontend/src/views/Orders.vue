@@ -126,6 +126,12 @@ export default {
       };
       data.pizzas.forEach((pizza) => {
         delete pizza.id;
+        delete pizza.dough;
+        delete pizza.ingredientsOrder;
+        delete pizza.ingredientsTotal;
+        delete pizza.sauce;
+        delete pizza.size;
+        delete pizza.total;
         pizza.ingredients.forEach((ingredient) => {
           delete ingredient.id;
         });
