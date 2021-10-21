@@ -102,19 +102,21 @@ export default {
   },
   actions: {
     async getBuilder({ commit }) {
-      const ingredients = await this.$api.ingredients.query();
-      const dough = await this.$api.dough.query();
-      const sauces = await this.$api.sauces.query();
-      const sizes = await this.$api.sizes.query();
-      // почему-то все списки приходят дублированными (один и тот же массив по несколько раз в однмо запросе)
-      dough.splice(2);
-      sauces.splice(2);
-      sizes.splice(3);
-      ingredients.splice(15);
-      commit(SET_INGREDIENTS, ingredients);
-      commit(SET_PIZZA_OPTIONS, { name: "dough", options: dough });
-      commit(SET_PIZZA_OPTIONS, { name: "sauces", options: sauces });
-      commit(SET_PIZZA_OPTIONS, { name: "sizes", options: sizes });
+      const ingredients = this.$api.ingredients.query();
+      const dough = this.$api.dough.query();
+      const sauces = this.$api.sauces.query();
+      const sizes = this.$api.sizes.query();
+      Promise.all([ingredients, dough, sauces, sizes]).then((values) => {
+        // почему-то все списки приходят дублированными (один и тот же массив по несколько раз в однмо запросе)
+        values[2].splice(2);
+        values[1].splice(2);
+        values[3].splice(3);
+        values[0].splice(15);
+        commit(SET_INGREDIENTS, values[0]);
+        commit(SET_PIZZA_OPTIONS, { name: "dough", options: values[1] });
+        commit(SET_PIZZA_OPTIONS, { name: "sauces", options: values[2] });
+        commit(SET_PIZZA_OPTIONS, { name: "sizes", options: values[3] });
+      });
     },
     resetBuilder({ commit, state }) {
       Vue.set(state.pizza, "name", "");

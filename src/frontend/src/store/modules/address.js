@@ -59,7 +59,7 @@ export default {
     },
     async editAddresses({ commit }, payload) {
       try {
-        this.$api.addresses.put(payload);
+        await this.$api.addresses.put(payload);
         commit(EDIT_ADDRESS, payload);
       } catch {
         console.log("Ошибка редактирования адреса");
