@@ -91,7 +91,6 @@
               </div>
             </li>
           </ul>
-
           <div class="cart__additional">
             <ul class="additional-list">
               <li
@@ -148,7 +147,7 @@
               <label class="input input--big-label">
                 <span>Контактный телефон:</span>
                 <input
-                  :value="phoneNumber"
+                  v-model="phoneNumber"
                   type="text"
                   name="tel"
                   placeholder="+7 999-999-99-99"
@@ -165,7 +164,8 @@
                   <label class="input">
                     <span>Улица*</span>
                     <input
-                      :value="localAddress.street"
+                      v-model="localAddress.street"
+                      :disabled="existingAddress"
                       type="text"
                       name="street"
                     />
@@ -176,7 +176,8 @@
                   <label class="input">
                     <span>Дом*</span>
                     <input
-                      :value="localAddress.building"
+                      v-model="localAddress.building"
+                      :disabled="existingAddress"
                       type="text"
                       name="house"
                     />
@@ -187,7 +188,8 @@
                   <label class="input">
                     <span>Квартира</span>
                     <input
-                      :value="localAddress.flat"
+                      v-model="localAddress.flat"
+                      :disabled="existingAddress"
                       type="text"
                       name="apartment"
                     />
@@ -222,17 +224,18 @@
 
 <script>
 import ItemCounter from "@/common/components/ItemCounter";
-import { mapState, mapMutations, mapGetters } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 import {
-  SET_MISC,
   SET_BUILDER,
   SET_PIZZA_COUNT,
   SET_ADDITIONAL_COUNT,
+  CLEAN_CART,
 } from "@/store/modules/mutation-types";
 import Modal from "@/common/components/Modal";
 import Options from "@/common/options/shipping";
 import pizzasOrderOptions from "@/common/mixins/formatOrderOptions";
 import miscOrderOptions from "@/common/mixins/formatOrderOptions";
+
 export default {
   name: "Cart",
   components: {
@@ -242,13 +245,10 @@ export default {
   mixins: [pizzasOrderOptions, miscOrderOptions],
   data: function () {
     return {
-      receiveOrder: {},
+      receiveOrder: { id: "self", name: "Получу сам" },
+      localAddress: null,
       showModal: false,
-      localAddress: {},
     };
-  },
-  mounted() {
-    this.setInitialData();
   },
   computed: {
     ...mapState("Cart", ["pizza", "total", "misc"]),
@@ -258,12 +258,17 @@ export default {
     isEmptyCart() {
       return this.pizza.length === 0;
     },
-    phoneNumber() {
-      if (this.user) {
-        return this.user.phone;
-      } else {
-        return "";
-      }
+    phoneNumber: {
+      get: function () {
+        if (this.user) {
+          return this.user.phone;
+        } else {
+          return "";
+        }
+      },
+      set: function (newValue) {
+        return newValue;
+      },
     },
     shippingOptions() {
       let options = [];
@@ -288,11 +293,13 @@ export default {
     },
   },
   methods: {
-    ...mapMutations("Cart", [SET_MISC, SET_PIZZA_COUNT, SET_ADDITIONAL_COUNT]),
+    ...mapMutations("Cart", [
+      SET_PIZZA_COUNT,
+      SET_ADDITIONAL_COUNT,
+      CLEAN_CART,
+    ]),
     ...mapMutations("Builder", [SET_BUILDER]),
-    setInitialData() {
-      this.$store.dispatch("Cart/getMisc");
-    },
+    ...mapActions({ setOrders: "Orders/setOrders" }),
     countPizza(index, add) {
       this[SET_PIZZA_COUNT]({ index, add });
     },
@@ -306,27 +313,29 @@ export default {
     changeAddress() {
       if (this.newAddress) {
         this.localAddress = { street: "", building: "", flat: "" };
-      } else if (this.isAuthenticated) {
-        if (this.receiveOrder) {
-          this.address.forEach((address) => {
-            if (address.id === this.receiveOrder.id) {
-              this.localAddress = address;
-            }
-          });
-        }
-      } else if (this.noDelivery) {
+      }
+      if (this.noDelivery) {
         this.localAddress = null;
+      }
+      if (this.receiveOrder && this.isAuthenticated) {
+        this.address.forEach((address) => {
+          if (address.id === this.receiveOrder.id) {
+            this.localAddress = address;
+          }
+        });
       }
     },
     setOrder() {
-      this.showModal = true;
       const data = {
         userId: this.user?.id || null,
         pizzas: this.pizzasOrderOptions(this.pizza),
         misc: this.miscOrderOptions(this.misc),
         address: this.localAddress,
       };
-      this.$store.dispatch("Orders/setOrders", data);
+      this.setOrders(data).then(() => {
+        this[CLEAN_CART]();
+      });
+      this.showModal = true;
     },
   },
 };

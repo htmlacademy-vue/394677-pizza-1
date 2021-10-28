@@ -2,7 +2,9 @@ import Vue from "vue";
 import Vuex from "vuex";
 import {
   SET_CART,
+  SET_CART_REPEAT_ORDER,
   SET_MISC,
+  CLEAN_CART,
   SET_PIZZA_COUNT,
   SET_ADDITIONAL_COUNT,
 } from "./mutation-types";
@@ -34,9 +36,9 @@ export default {
   },
   mutations: {
     [SET_MISC](state, payload) {
-      Vue.set(state, "misc", payload);
+      state.misc = payload;
       state.misc.forEach((misc) => {
-        Vue.set(misc, "count", 0);
+        misc.count = 0;
       });
     },
     [SET_CART](state, payload) {
@@ -52,6 +54,35 @@ export default {
         pizza.total = payload.total;
         state.pizza.push(pizza);
       }
+    },
+    [SET_CART_REPEAT_ORDER](state, payload) {
+      const order = cloneDeep(payload);
+      order.orderPizzas.forEach((item) => {
+        let pizza = {};
+        pizza.dough = [];
+        pizza.sauces = [];
+        pizza.sizes = [];
+        pizza.dough.push(item.dough);
+        pizza.sauces.push(item.sauce);
+        pizza.sizes.push(item.size);
+        pizza.ingredients = item.ingredientsOrder;
+        pizza.total = item.total;
+        pizza.name = item.name;
+        pizza.count = 1;
+        state.pizza.push(pizza);
+      });
+      order.misc.forEach((orderMisc) => {
+        state.misc.forEach((misc) => {
+          if (misc.id === orderMisc.id) {
+            misc.count += orderMisc.count;
+          }
+        });
+      });
+    },
+    [CLEAN_CART](state) {
+      state.pizza = [];
+      state.misc = [];
+      state.total = [];
     },
     [SET_PIZZA_COUNT](state, payload) {
       let pizza = cloneDeep(state.pizza[payload.index]);

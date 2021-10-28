@@ -97,8 +97,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
+import { SET_CART_REPEAT_ORDER } from "@/store/modules/mutation-types";
 import pizzaHistoryOptions from "@/common/mixins/formatOrderOptions";
+// import { cloneDeep } from "lodash";
 export default {
   name: "Orders",
   mixins: [pizzaHistoryOptions],
@@ -109,6 +111,7 @@ export default {
     this.setInitialData();
   },
   methods: {
+    ...mapMutations("Cart", [SET_CART_REPEAT_ORDER]),
     setInitialData() {
       this.$store.dispatch("Builder/getBuilder");
       this.$store.dispatch("Cart/getMisc");
@@ -118,29 +121,8 @@ export default {
       this.$store.dispatch("Orders/deleteOrders", id);
     },
     repeatOrders(order) {
-      let data = {
-        userId: order.userId,
-        pizzas: order.orderPizzas,
-        misc: order.orderMisc,
-        address: order.orderAddress,
-      };
-      data.pizzas.forEach((pizza) => {
-        delete pizza.id;
-        delete pizza.dough;
-        delete pizza.ingredientsOrder;
-        delete pizza.ingredientsTotal;
-        delete pizza.sauce;
-        delete pizza.size;
-        delete pizza.total;
-        pizza.ingredients.forEach((ingredient) => {
-          delete ingredient.id;
-        });
-      });
-      data.misc.forEach((misc) => {
-        delete misc.id;
-      });
-      delete data.address.id;
-      this.$store.dispatch("Orders/setOrders", data);
+      this.$router.push("/cart");
+      this[SET_CART_REPEAT_ORDER](order);
     },
   },
 };

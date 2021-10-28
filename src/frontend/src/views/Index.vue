@@ -45,6 +45,7 @@ export default {
       if (!("id" in this.pizza)) {
         this.$store.dispatch("Builder/getBuilder");
       }
+      this.$store.dispatch("Cart/getMisc");
     },
     moveIngredient(transferData) {
       this[MOVE_INGREDIENT](transferData.name);

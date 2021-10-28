@@ -4,13 +4,11 @@
       <span class="visually-hidden">Закрыть попап</span>
     </router-link>
     <div class="popup__title">
-      <h2 class="title">{{ title }}Спасибо за заказ</h2>
+      <h2 class="title">Спасибо за заказ</h2>
     </div>
-    <p>{{ textInfo }}Мы начали готовить Ваш заказ, скоро привезём его вам ;)</p>
+    <p>Мы начали готовить Ваш заказ, скоро привезём его вам ;)</p>
     <div class="popup__button">
-      <router-link :to="link" class="button"
-        >{{ buttonLabel }}Отлично, я жду!</router-link
-      >
+      <router-link :to="link" class="button">Отлично, я жду!</router-link>
     </div>
   </div>
 </template>
@@ -20,20 +18,6 @@ import { mapState } from "vuex";
 
 export default {
   name: "Modal",
-  props: {
-    title: {
-      type: String,
-      default: "",
-    },
-    textInfo: {
-      type: String,
-      default: "",
-    },
-    buttonLabel: {
-      type: String,
-      default: "",
-    },
-  },
   computed: {
     ...mapState("Auth", ["user", "isAuthenticated"]),
     link() {

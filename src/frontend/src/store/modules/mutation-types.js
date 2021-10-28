@@ -1,5 +1,7 @@
 export const SET_USER = "SET_USER";
 export const SET_CART = "SET_CART";
+export const CLEAN_CART = "CLEAN_CART";
+export const SET_CART_REPEAT_ORDER = "SET_CART_REPEAT_ORDER";
 export const SET_MISC = "SET_MISC";
 export const SET_BUILDER = "SET_BUILDER";
 export const SET_INGREDIENTS = "SET_INGREDIENTS";
