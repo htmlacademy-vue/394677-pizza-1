@@ -217,8 +217,8 @@
       <div class="footer__submit">
         <button @click="setOrder" class="button">Оформить заказ</button>
       </div>
-      <Modal v-if="showModal"></Modal>
     </section>
+    <Modal v-if="showModal"></Modal>
   </div>
 </template>
 
@@ -247,9 +247,11 @@ export default {
     return {
       receiveOrder: { id: "self", name: "Получу сам" },
       localAddress: null,
+      phoneNumber: this.user?.phone || "",
       showModal: false,
     };
   },
+
   computed: {
     ...mapState("Cart", ["pizza", "total", "misc"]),
     ...mapState("Address", ["address"]),
@@ -257,18 +259,6 @@ export default {
     ...mapGetters("Cart", ["finalOrderPrice"]),
     isEmptyCart() {
       return this.pizza.length === 0;
-    },
-    phoneNumber: {
-      get: function () {
-        if (this.user) {
-          return this.user.phone;
-        } else {
-          return "";
-        }
-      },
-      set: function (newValue) {
-        return newValue;
-      },
     },
     shippingOptions() {
       let options = [];

@@ -107,11 +107,6 @@ export default {
       const sauces = this.$api.sauces.query();
       const sizes = this.$api.sizes.query();
       let values = await Promise.all([ingredients, dough, sauces, sizes]);
-      // почему-то все списки приходят дублированными (один и тот же массив по несколько раз в одном запросе)
-      values[2].splice(2);
-      values[1].splice(2);
-      values[3].splice(3);
-      values[0].splice(15);
       commit(SET_INGREDIENTS, values[0]);
       commit(SET_PIZZA_OPTIONS, { name: "dough", options: values[1] });
       commit(SET_PIZZA_OPTIONS, { name: "sauces", options: values[2] });
