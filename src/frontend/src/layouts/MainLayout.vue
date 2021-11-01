@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import appHeader from "@/views/Header";
+import appHeader from "@/common/components/Header";
 export default {
   name: "AppLayout",
   components: {

@@ -65,7 +65,10 @@
                 </ul>
               </div>
             </div>
-            <p class="order__price">{{ pizza.total }} ₽</p>
+            <p class="order__price">
+              {{ pizza.total / pizza.quantity }} ₽
+              <span v-if="pizza.quantity > 1">x {{ pizza.quantity }}</span>
+            </p>
           </li>
         </ul>
       </template>
@@ -93,7 +96,10 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import { SET_CART_REPEAT_ORDER } from "@/store/modules/mutation-types";
+import {
+  SET_CART_REPEAT_ORDER,
+  CLEAN_CART,
+} from "@/store/modules/mutation-types";
 import pizzaHistoryOptions from "@/common/mixins/formatOrderOptions";
 export default {
   name: "Orders",
@@ -105,7 +111,7 @@ export default {
     this.setInitialData();
   },
   methods: {
-    ...mapMutations("Cart", [SET_CART_REPEAT_ORDER]),
+    ...mapMutations("Cart", [SET_CART_REPEAT_ORDER, CLEAN_CART]),
     setInitialData() {
       this.$store.dispatch("Builder/getBuilder");
       this.$store.dispatch("Cart/getMisc");
@@ -116,6 +122,7 @@ export default {
     },
     repeatOrders(order) {
       this.$router.push("/cart");
+      this[CLEAN_CART]();
       this[SET_CART_REPEAT_ORDER](order);
     },
   },

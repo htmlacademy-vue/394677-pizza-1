@@ -66,9 +66,9 @@ export default {
         pizza.sauces.push(item.sauce);
         pizza.sizes.push(item.size);
         pizza.ingredients = item.ingredientsOrder;
-        pizza.total = item.total;
+        pizza.total = item.total / item.quantity;
         pizza.name = item.name;
-        pizza.count = 1;
+        pizza.count = item.quantity;
         state.pizza.push(pizza);
       });
       order.misc.forEach((orderMisc) => {
@@ -81,8 +81,10 @@ export default {
     },
     [CLEAN_CART](state) {
       state.pizza = [];
-      state.misc = [];
       state.total = [];
+      state.misc.forEach((misc) => {
+        misc.count = 0;
+      });
     },
     [SET_PIZZA_COUNT](state, payload) {
       let pizza = cloneDeep(state.pizza[payload.index]);
@@ -91,7 +93,16 @@ export default {
       } else {
         pizza.count -= 1;
       }
-      Vue.set(state.pizza, payload.index, pizza);
+      if (pizza.count > 0) {
+        Vue.set(state.pizza, payload.index, pizza);
+      } else {
+        state.pizza.splice(payload.index, 1);
+        if (state.pizza.length === 0) {
+          state.misc.forEach((misc) => {
+            misc.count = 0;
+          });
+        }
+      }
     },
     [SET_ADDITIONAL_COUNT](state, payload) {
       let misc = cloneDeep(state.misc[payload.index]);
@@ -106,7 +117,6 @@ export default {
   actions: {
     async getMisc({ commit }) {
       const data = await this.$api.misc.query();
-      data.splice(3);
       commit(SET_MISC, data);
     },
     async addToCart({ commit, dispatch }, payload) {

@@ -46,7 +46,8 @@ export default {
           });
           pizza.total =
             (pizza.sauce?.price + pizza.dough?.price + pizza.ingredientsTotal) *
-            pizza.size?.multiplier;
+            pizza.size?.multiplier *
+            pizza.quantity;
           order.total += pizza.total;
         });
         if (order.orderMisc) {
