@@ -13,12 +13,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
-import {
-  SET_CART,
-  SET_BUILDER,
-  RESET_BUILDER,
-} from "@/store/modules/mutation-types";
+import { mapGetters } from "vuex";
 export default {
   name: "BuilderPriceCounter",
   props: {
@@ -44,12 +39,11 @@ export default {
     },
   },
   methods: {
-    ...mapMutations("Cart", [SET_CART]),
-    ...mapMutations("Builder", [SET_BUILDER, RESET_BUILDER]),
     addToCart() {
-      this[SET_CART]({ pizza: this.pizza, total: this.total });
-      this[RESET_BUILDER]();
-      this[SET_BUILDER]();
+      this.$store.dispatch("Cart/addToCart", {
+        pizza: this.pizza,
+        total: this.total,
+      });
     },
   },
 };

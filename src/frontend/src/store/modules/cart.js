@@ -2,13 +2,12 @@ import Vue from "vue";
 import Vuex from "vuex";
 import {
   SET_CART,
+  SET_CART_REPEAT_ORDER,
   SET_MISC,
-  SET_USER,
+  CLEAN_CART,
   SET_PIZZA_COUNT,
   SET_ADDITIONAL_COUNT,
 } from "./mutation-types";
-import misc from "@/static/misc";
-import user from "@/static/user";
 import { cloneDeep } from "lodash";
 Vue.use(Vuex);
 
@@ -18,16 +17,6 @@ export default {
     pizza: [],
     misc: [],
     total: 0,
-    shippingInformation: {
-      receiveOrder: "",
-      phoneNumber: null,
-      address: {
-        street: "",
-        house: "",
-        apartment: "",
-      },
-    },
-    user: {},
   },
   getters: {
     finalOrderPrice(state) {
@@ -46,32 +35,56 @@ export default {
     },
   },
   mutations: {
-    [SET_MISC](state) {
-      state.misc = misc;
+    [SET_MISC](state, payload) {
+      state.misc = payload;
       state.misc.forEach((misc) => {
-        Vue.set(misc, "count", 0);
+        misc.count = 0;
       });
     },
-    [SET_USER](state) {
-      state.user = user;
-    },
     [SET_CART](state, payload) {
+      const pizza = cloneDeep(payload.pizza);
       let newPizza = true;
-      if (payload) {
-        Object.keys(payload.pizza).forEach((item) => {
-          if (item === "id") {
-            newPizza = false;
+      if ("id" in pizza) {
+        newPizza = false;
+      }
+      if (!newPizza) {
+        state.pizza[pizza.id] = pizza;
+      } else {
+        pizza.count = 1;
+        pizza.total = payload.total;
+        state.pizza.push(pizza);
+      }
+    },
+    [SET_CART_REPEAT_ORDER](state, payload) {
+      const order = cloneDeep(payload);
+      order.orderPizzas.forEach((item) => {
+        let pizza = {};
+        pizza.dough = [];
+        pizza.sauces = [];
+        pizza.sizes = [];
+        pizza.dough.push(item.dough);
+        pizza.sauces.push(item.sauce);
+        pizza.sizes.push(item.size);
+        pizza.ingredients = item.ingredientsOrder;
+        pizza.total = item.total / item.quantity;
+        pizza.name = item.name;
+        pizza.count = item.quantity;
+        state.pizza.push(pizza);
+      });
+      order.misc.forEach((orderMisc) => {
+        state.misc.forEach((misc) => {
+          if (misc.id === orderMisc.id) {
+            misc.count += orderMisc.count;
           }
         });
-        if (!newPizza) {
-          Vue.set(state.pizza[payload.pizza.id], "total", payload.total);
-        } else {
-          let pizza = cloneDeep(payload.pizza);
-          pizza.count = 1;
-          pizza.total = payload.total;
-          state.pizza.push(pizza);
-        }
-      }
+      });
+    },
+    [CLEAN_CART](state) {
+      state.pizza = [];
+      state.total = [];
+      state.misc.forEach((misc) => {
+        misc.count = 0;
+      });
     },
     [SET_PIZZA_COUNT](state, payload) {
       let pizza = cloneDeep(state.pizza[payload.index]);
@@ -80,7 +93,16 @@ export default {
       } else {
         pizza.count -= 1;
       }
-      Vue.set(state.pizza, payload.index, pizza);
+      if (pizza.count > 0) {
+        Vue.set(state.pizza, payload.index, pizza);
+      } else {
+        state.pizza.splice(payload.index, 1);
+        if (state.pizza.length === 0) {
+          state.misc.forEach((misc) => {
+            misc.count = 0;
+          });
+        }
+      }
     },
     [SET_ADDITIONAL_COUNT](state, payload) {
       let misc = cloneDeep(state.misc[payload.index]);
@@ -92,5 +114,14 @@ export default {
       Vue.set(state.misc, payload.index, misc);
     },
   },
-  actions: {},
+  actions: {
+    async getMisc({ commit }) {
+      const data = await this.$api.misc.query();
+      commit(SET_MISC, data);
+    },
+    async addToCart({ commit, dispatch }, payload) {
+      commit(SET_CART, payload);
+      dispatch("Builder/resetBuilder", null, { root: true });
+    },
+  },
 };

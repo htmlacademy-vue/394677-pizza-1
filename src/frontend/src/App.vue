@@ -1,16 +1,21 @@
 <template>
   <div id="app">
-    <component :is="layout"> </component>
+    <component :is="layout">
+      <router-view></router-view>
+    </component>
   </div>
 </template>
 
 <script>
-import AppLayout from "@/layouts/AppLayout";
-const defaultLayout = "AppLayout";
+import { setAuth } from "@/common/helpers";
+import { getToken } from "@/services/jwt.service";
+const defaultLayout = "MainLayout";
 export default {
   name: "App",
-  components: {
-    AppLayout,
+  created() {
+    if (getToken()) {
+      setAuth(this.$store);
+    }
   },
   computed: {
     layout() {
