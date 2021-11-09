@@ -1,7 +1,13 @@
 <template>
   <div>
     <appHeader></appHeader>
-    <slot />
+    <transition
+      name="view"
+      appear
+      enter-active-class="animate__animated animate__slideInRight"
+    >
+      <slot />
+    </transition>
   </div>
 </template>
 

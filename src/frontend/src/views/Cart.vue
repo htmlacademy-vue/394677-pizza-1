@@ -218,7 +218,13 @@
         <button @click="setOrder" class="button">Оформить заказ</button>
       </div>
     </section>
-    <Modal v-if="showModal"></Modal>
+    <transition
+      name="view"
+      appear
+      enter-active-class="animate__animated animate__bounceIn"
+    >
+      <Modal v-if="showModal"></Modal>
+    </transition>
   </div>
 </template>
 
