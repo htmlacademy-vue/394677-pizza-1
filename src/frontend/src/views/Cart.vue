@@ -218,13 +218,15 @@
         <button @click="setOrder" class="button">Оформить заказ</button>
       </div>
     </section>
-    <transition
-      name="view"
-      appear
-      enter-active-class="animate__animated animate__bounceIn"
-    >
-      <Modal v-if="showModal" @closeModal="closeModal"></Modal>
-    </transition>
+    <div class="central-form">
+      <transition
+        name="view"
+        appear
+        enter-active-class="animate__animated animate__bounceIn"
+      >
+        <Modal v-if="showModal" @closeModal="closeModal"></Modal>
+      </transition>
+    </div>
   </div>
 </template>
 

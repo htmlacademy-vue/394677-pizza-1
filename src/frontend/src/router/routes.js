@@ -29,6 +29,7 @@ export default [
     name: "Login",
     component: () => import("../views/Login.vue"),
     meta: {
+      layout: "LoginLayout",
       middlewares: [isLoggedIn],
     },
   },
