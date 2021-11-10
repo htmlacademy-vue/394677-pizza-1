@@ -5,7 +5,7 @@ export default [
   {
     path: "/",
     name: "Index",
-    component: () => import("../views/Index.vue"),
+    component: () => import("../views/Builder.vue"),
   },
   {
     path: "/cart",

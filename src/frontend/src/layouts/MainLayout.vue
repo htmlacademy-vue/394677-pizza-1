@@ -4,7 +4,7 @@
     <transition
       name="view"
       appear
-      enter-active-class="animate__animated animate__slideInRight"
+      enter-active-class="animate__animated animate__slideInRight animate__faster"
     >
       <slot />
     </transition>

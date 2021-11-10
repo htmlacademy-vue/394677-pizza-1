@@ -223,7 +223,7 @@
       appear
       enter-active-class="animate__animated animate__bounceIn"
     >
-      <Modal v-if="showModal"></Modal>
+      <Modal v-if="showModal" @closeModal="closeModal"></Modal>
     </transition>
   </div>
 </template>
@@ -332,6 +332,17 @@ export default {
         this[CLEAN_CART]();
       });
       this.showModal = true;
+    },
+    closeModal() {
+      const element = document.querySelector(".popup");
+      element.classList.add("animate__animated", "animate__bounceOutLeft");
+      element.addEventListener("animationend", () => {
+        if (this.isAuthenticated) {
+          this.$router.push("orders");
+        } else {
+          this.$router.push("/");
+        }
+      });
     },
   },
 };
