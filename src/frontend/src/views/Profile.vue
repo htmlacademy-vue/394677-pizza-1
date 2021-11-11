@@ -18,18 +18,20 @@
       <div v-for="(item, key) in address" class="sheet address-form" :key="key">
         <div class="address-form__header">
           <b>{{ item.name }}</b>
-          <div class="address-form__edit">
-            <button @click="editAddress(item)" type="button" class="icon">
-              <span class="visually-hidden">Изменить адрес</span>
-            </button>
-          </div>
+          <a href="#edit">
+            <div class="address-form__edit">
+              <button @click="editAddress(item)" type="button" class="icon">
+                <span class="visually-hidden">Изменить адрес</span>
+              </button>
+            </div>
+          </a>
         </div>
         <p>{{ item.street }}{{ item.building }}{{ item.flat }}</p>
         <small>{{ item.comment }}</small>
       </div>
     </div>
 
-    <div v-if="isAddition || isEdit" class="layout__address">
+    <article id="edit" v-if="isAddition || isEdit" class="layout__address">
       <div v-if="isEdit" class="address-form__header">
         <b>{{ localAddress.name }}</b>
       </div>
@@ -114,8 +116,7 @@
           Сохранить
         </button>
       </div>
-    </div>
-
+    </article>
     <div class="layout__button">
       <button @click="addAddress" type="button" class="button button--border">
         Добавить новый адрес

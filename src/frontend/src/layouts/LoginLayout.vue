@@ -1,13 +1,15 @@
 <template>
   <div>
     <appHeader></appHeader>
-    <transition
-      name="view"
-      appear
-      enter-active-class="animate__animated animate__slideInRight animate__faster"
-    >
-      <slot />
-    </transition>
+    <div class="central-form">
+      <transition
+        name="view"
+        appear
+        enter-active-class="animate__animated animate__bounceIn"
+      >
+        <slot />
+      </transition>
+    </div>
   </div>
 </template>
 

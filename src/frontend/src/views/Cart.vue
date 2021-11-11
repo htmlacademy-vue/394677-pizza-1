@@ -218,7 +218,15 @@
         <button @click="setOrder" class="button">Оформить заказ</button>
       </div>
     </section>
-    <Modal v-if="showModal"></Modal>
+    <div class="central-form">
+      <transition
+        name="view"
+        appear
+        enter-active-class="animate__animated animate__bounceIn"
+      >
+        <Modal v-if="showModal" @closeModal="closeModal"></Modal>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -326,6 +334,17 @@ export default {
         this[CLEAN_CART]();
       });
       this.showModal = true;
+    },
+    closeModal() {
+      const element = document.querySelector(".popup");
+      element.classList.add("animate__animated", "animate__bounceOutLeft");
+      element.addEventListener("animationend", () => {
+        if (this.isAuthenticated) {
+          this.$router.push("orders");
+        } else {
+          this.$router.push("/");
+        }
+      });
     },
   },
 };

@@ -5,7 +5,7 @@ export default [
   {
     path: "/",
     name: "Index",
-    component: () => import("../views/Index.vue"),
+    component: () => import("../views/Builder.vue"),
   },
   {
     path: "/cart",
@@ -29,6 +29,7 @@ export default [
     name: "Login",
     component: () => import("../views/Login.vue"),
     meta: {
+      layout: "LoginLayout",
       middlewares: [isLoggedIn],
     },
   },

@@ -2,7 +2,13 @@
   <div>
     <appHeader></appHeader>
     <sidebar></sidebar>
-    <slot />
+    <transition
+      name="view"
+      appear
+      enter-active-class="animate__animated animate__slideInRight animate__faster"
+    >
+      <slot />
+    </transition>
   </div>
 </template>
 

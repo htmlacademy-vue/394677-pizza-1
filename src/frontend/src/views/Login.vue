@@ -1,8 +1,8 @@
 <template>
   <div class="sign-form">
-    <a href="#" class="close close--white">
-      <span class="visually-hidden">Закрыть форму авторизации</span>
-    </a>
+    <a @click="closeModal" class="close close--white"
+      ><span class="visually-hidden">Закрыть форму авторизации</span></a
+    >
     <div class="sign-form__title">
       <h1 class="title title--small">Авторизуйтесь на сайте</h1>
     </div>
@@ -43,12 +43,19 @@ export default {
     };
   },
   methods: {
+    closeModal() {
+      const element = document.querySelector(".sign-form");
+      element.classList.add("animate__animated", "animate__bounceOutLeft");
+      element.addEventListener("animationend", () => {
+        this.$router.push("/");
+      });
+    },
     login() {
       this.$store.dispatch("Auth/login", {
         email: this.email,
         password: this.password,
       });
-      this.$router.push("/");
+      this.closeModal();
     },
   },
 };
