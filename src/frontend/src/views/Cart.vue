@@ -215,7 +215,9 @@
       </div>
 
       <div class="footer__submit">
-        <button @click="setOrder" class="button">Оформить заказ</button>
+        <Button @click="setOrder" :disabled="disabledSubmitOrder"
+          >Оформить заказ</Button
+        >
       </div>
     </section>
     <div class="central-form">
@@ -232,6 +234,7 @@
 
 <script>
 import ItemCounter from "@/common/components/ItemCounter";
+import Button from "@/common/components/Button";
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 import {
   SET_BUILDER,
@@ -243,10 +246,11 @@ import Modal from "@/common/components/Modal";
 import Options from "@/common/options/shipping";
 import pizzasOrderOptions from "@/common/mixins/formatOrderOptions";
 import miscOrderOptions from "@/common/mixins/formatOrderOptions";
-
+import { cloneDeep } from "lodash";
 export default {
   name: "Cart",
   components: {
+    Button,
     ItemCounter,
     Modal,
   },
@@ -255,11 +259,18 @@ export default {
     return {
       receiveOrder: { id: "self", name: "Получу сам" },
       localAddress: null,
-      phoneNumber: this.user?.phone || "",
+      phoneNumber: "",
       showModal: false,
     };
   },
-
+  watch: {
+    userPhone: {
+      handler() {
+        this.phoneNumber = cloneDeep(this.user.phone);
+      },
+      immediate: true,
+    },
+  },
   computed: {
     ...mapState("Cart", ["pizza", "total", "misc"]),
     ...mapState("Address", ["address"]),
@@ -268,13 +279,24 @@ export default {
     isEmptyCart() {
       return this.pizza.length === 0;
     },
+    disabledSubmitOrder() {
+      let disabled = false;
+      if (this.newAddress) {
+        Object.keys(this.localAddress).forEach((item) => {
+          if (this.localAddress[item] === "") {
+            disabled = true;
+          }
+        });
+      }
+      return this.phoneNumber === "" || disabled;
+    },
     shippingOptions() {
       let options = [];
       if (this.address) {
         this.address.forEach((address) => {
           options.push({
             id: address.id,
-            name: address.street + address.building + address.flat,
+            name: address.name,
           });
         });
       }

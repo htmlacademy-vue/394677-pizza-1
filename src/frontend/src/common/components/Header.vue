@@ -43,8 +43,9 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch("Auth/logout");
-      this.$router.push("/");
+      this.$store.dispatch("Auth/logout").then(() => {
+        if (this.$route.path !== "/") this.$router.push("/");
+      });
     },
   },
 };

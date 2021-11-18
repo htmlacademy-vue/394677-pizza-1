@@ -29,13 +29,15 @@
         />
       </label>
     </div>
-    <button @click="login" type="submit" class="button">Авторизоваться</button>
+    <Button @click="login" label="Авторизоваться"></Button>
   </div>
 </template>
 
 <script>
+import Button from "@/common/components/Button";
 export default {
   name: "Login",
+  components: { Button },
   data: function () {
     return {
       email: "",

@@ -1,9 +1,13 @@
 <template>
-  <div>
-    <button type="button" :class="className" :disabled="disabled">
-      <span class="visually-hidden">{{ label }}</span>
-    </button>
-  </div>
+  <button
+    type="button"
+    :class="[disabled ? 'button--disabled' : '', className]"
+    :disabled="disabled"
+    v-on="$listeners"
+  >
+    <span>{{ label }}</span>
+    <slot></slot>
+  </button>
 </template>
 
 <script>
@@ -12,7 +16,7 @@ export default {
   props: {
     className: {
       type: String,
-      default: "",
+      default: "button",
     },
     disabled: {
       type: Boolean,
