@@ -97,39 +97,40 @@
       </div>
 
       <div class="address-form__buttons">
-        <button
+        <Button
           v-if="isEdit"
           @click="deleteAddress"
-          type="button"
-          class="button button--transparent"
-        >
-          Удалить
-        </button>
-        <button
+          label="Удалить"
+          class="button--transparent"
+        ></Button>
+        <Button
           @click="cancel"
-          type="button"
-          class="button button--transparent"
-        >
-          Отмена
-        </button>
-        <button @click="saveAddress" type="submit" class="button">
-          Сохранить
-        </button>
+          label="Отмена"
+          class="button--transparent"
+        ></Button>
+        <Button @click="saveAddress" label="Сохранить"></Button>
       </div>
     </article>
     <div class="layout__button">
-      <button @click="addAddress" type="button" class="button button--border">
-        Добавить новый адрес
-      </button>
+      <Button
+        v-if="!isAddition && !isEdit"
+        @click="addAddress"
+        label="Добавить новый адрес"
+        class="button--border"
+      ></Button>
     </div>
   </div>
 </template>
 
 <script>
+import Button from "@/common/components/Button";
 import { mapState } from "vuex";
 import { cloneDeep } from "lodash";
 export default {
   name: "Profile",
+  components: {
+    Button,
+  },
   data: function () {
     return {
       isEdit: false,

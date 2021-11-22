@@ -8,14 +8,18 @@
     </div>
     <p>Мы начали готовить Ваш заказ, скоро привезём его вам ;)</p>
     <div class="popup__button">
-      <a @click="closeModal" class="button">Отлично, я жду!</a>
+      <Button @click="closeModal" label="Отлично, я жду!"></Button>
     </div>
   </div>
 </template>
 
 <script>
+import Button from "@/common/components/Button";
 export default {
   name: "Modal",
+  components: {
+    Button,
+  },
   methods: {
     closeModal() {
       this.$emit("closeModal");

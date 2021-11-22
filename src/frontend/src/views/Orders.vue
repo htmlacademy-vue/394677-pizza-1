@@ -18,18 +18,12 @@
         </div>
 
         <div class="order__button">
-          <button
-            @click="deleteOrder(order.id)"
-            type="button"
-            class="button button--border"
+          <Button @click="deleteOrder(order.id)" class="button--border"
+            >Удалить</Button
           >
-            Удалить
-          </button>
         </div>
         <div class="order__button">
-          <button @click="repeatOrders(order)" type="button" class="button">
-            Повторить
-          </button>
+          <Button @click="repeatOrders(order)">Повторить</Button>
         </div>
       </div>
       <template v-if="order.orderPizzas">
@@ -95,6 +89,7 @@
 </template>
 
 <script>
+import Button from "@/common/components/Button";
 import { mapGetters, mapMutations } from "vuex";
 import {
   SET_CART_REPEAT_ORDER,
@@ -103,6 +98,9 @@ import {
 import pizzaHistoryOptions from "@/common/mixins/formatOrderOptions";
 export default {
   name: "Orders",
+  components: {
+    Button,
+  },
   mixins: [pizzaHistoryOptions],
   computed: {
     ...mapGetters("Orders", ["formatOrders"]),
