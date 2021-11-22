@@ -46,7 +46,7 @@ export default {
     },
     classNameButton: {
       type: String,
-      required: false,
+      default: "",
     },
     restrictions: {
       type: Number,

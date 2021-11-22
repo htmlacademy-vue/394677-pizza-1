@@ -1,16 +1,14 @@
 <template>
   <main class="content">
-    <form action="#" method="post">
-      <div class="content__wrapper">
-        <h1 class="title title--big">Конструктор пиццы</h1>
-        <BuilderDoughSelector :doughList="pizza.dough"></BuilderDoughSelector>
-        <BuilderSizeSelector :sizes="pizza.sizes"></BuilderSizeSelector>
-        <BuilderIngredientsSelector :pizza="pizza"></BuilderIngredientsSelector>
-        <AppDrop @drop="moveIngredient($event)">
-          <BuilderPizzaView :pizza="pizza"></BuilderPizzaView>
-        </AppDrop>
-      </div>
-    </form>
+    <div class="content__wrapper">
+      <h1 class="title title--big">Конструктор пиццы</h1>
+      <BuilderDoughSelector :doughList="pizza.dough"></BuilderDoughSelector>
+      <BuilderSizeSelector :sizes="pizza.sizes"></BuilderSizeSelector>
+      <BuilderIngredientsSelector :pizza="pizza"></BuilderIngredientsSelector>
+      <AppDrop @drop="moveIngredient($event)">
+        <BuilderPizzaView :pizza="pizza"></BuilderPizzaView>
+      </AppDrop>
+    </div>
     <router-view></router-view>
   </main>
 </template>
