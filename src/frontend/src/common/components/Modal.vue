@@ -8,7 +8,7 @@
     </div>
     <p>Мы начали готовить Ваш заказ, скоро привезём его вам ;)</p>
     <div class="popup__button">
-      <Button @click="closeModal" label="Отлично, я жду!"></Button>
+      <Button @click="closeModal">Отлично, я жду!</Button>
     </div>
   </div>
 </template>

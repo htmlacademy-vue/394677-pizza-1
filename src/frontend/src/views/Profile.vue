@@ -115,9 +115,10 @@
       <Button
         v-if="!isAddition && !isEdit"
         @click="addAddress"
-        label="Добавить новый адрес"
         class="button--border"
-      ></Button>
+      >
+        Добавить новый адрес
+      </Button>
     </div>
   </div>
 </template>

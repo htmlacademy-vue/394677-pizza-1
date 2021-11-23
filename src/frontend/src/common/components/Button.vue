@@ -5,7 +5,6 @@
     :disabled="disabled"
     v-on="$listeners"
   >
-    <span>{{ label }}</span>
     <slot></slot>
   </button>
 </template>
@@ -21,10 +20,6 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
-    },
-    label: {
-      type: String,
-      default: "",
     },
   },
 };

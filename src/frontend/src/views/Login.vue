@@ -29,7 +29,7 @@
         />
       </label>
     </div>
-    <Button @click="login" label="Авторизоваться"></Button>
+    <Button @click="login">Авторизоваться</Button>
   </div>
 </template>
 
