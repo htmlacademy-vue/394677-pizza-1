@@ -3,9 +3,6 @@ import Button from "@/common/components/Button";
 describe("Button", () => {
   // Определяем входные параметры по умолчанию и заглушки.
   const slots = { default: "content" };
-  const defaultBtnClass = "button";
-  const propsClassName = { className: "button" };
-  const propsDisabledValue = { disabled: "disabled" };
   const listeners = { click: null };
 
   // wrapper — тест-обёртка над компонентом.
@@ -27,6 +24,43 @@ describe("Button", () => {
     wrapper.destroy();
   });
 
+  // Проверяем, что при получение пропса disabled true устанавливается атрибут disabled и соответствующий класс.
+  describe("when disabled true", () => {
+    beforeEach(() => {
+      createComponent({
+        propsData: {
+          disabled: true,
+        },
+      });
+    });
+
+    it("should set disabled on button", () => {
+      let button = wrapper.find("button");
+      expect(button.attributes("disabled")).toBe("disabled");
+    });
+
+    it("should set disabled class on button", () => {
+      let button = wrapper.find("button");
+      expect(button.classes()).toContain("button--disabled");
+    });
+  });
+
+  describe("when disabled not set", () => {
+    beforeEach(() => {
+      createComponent();
+    });
+
+    it("should not set disabled on button", () => {
+      let button = wrapper.find("button");
+      expect(button.attributes("disabled")).toBe(undefined);
+    });
+
+    it("should not set disabled class on button", () => {
+      let button = wrapper.find("button");
+      expect(button.classes()).not.toContain("button--disabled");
+    });
+  });
+
   // Проверяем, что кнопка отображает контент дефолтного слота.
   it("renders out the slot content", () => {
     createComponent({ slots });
@@ -38,30 +72,5 @@ describe("Button", () => {
     createComponent({ listeners });
     await wrapper.find("button").trigger("click");
     expect(listeners.click).toHaveBeenCalled();
-  });
-
-  // Если входные параметры не переданы, класс кнопки задан по умолчанию.
-  it("button class is button", () => {
-    createComponent();
-    expect(wrapper.attributes("class")).toBe(defaultBtnClass);
-  });
-
-  // Если class для кнопки задан входными параметрами.
-  it("button class is submit", () => {
-    createComponent({ propsClassName });
-    expect(wrapper.attributes("class")).toBe(propsClassName.className);
-  });
-
-  // Если входные параметры не переданы, но значение disabled задано по умолчанию.
-  it("disabled for button", () => {
-    createComponent();
-    expect(wrapper.attributes().disabled).toBeUndefined();
-  });
-
-  // Если disabled задан входными параметрами.
-  it("disabled for button is submit", () => {
-    createComponent({ propsDisabledValue });
-    console.log(wrapper.attributes());
-    expect(wrapper.attributes("class")).toBe(propsDisabledValue.disabled);
   });
 });

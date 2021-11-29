@@ -1,6 +1,3 @@
-// module.exports = {
-//   preset: "@vue/cli-plugin-unit-jest",
-// };
 module.exports = {
   moduleFileExtensions: ["js", "jsx", "json", "vue"],
   transform: {
