@@ -36,7 +36,7 @@ export default {
   },
   mutations: {
     [SET_MISC](state, payload) {
-      state.misc = payload;
+      state.misc = payload.misc;
       state.misc.forEach((misc) => {
         misc.count = 0;
       });
@@ -117,7 +117,7 @@ export default {
   actions: {
     async getMisc({ commit }) {
       const data = await this.$api.misc.query();
-      commit(SET_MISC, data);
+      commit(SET_MISC, { misc: data });
     },
     async addToCart({ commit, dispatch }, payload) {
       commit(SET_CART, payload);

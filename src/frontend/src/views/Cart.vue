@@ -266,7 +266,7 @@ export default {
   watch: {
     userPhone: {
       handler() {
-        this.phoneNumber = cloneDeep(this.user.phone);
+        this.phoneNumber = cloneDeep(this.user?.phone);
       },
       immediate: true,
     },
