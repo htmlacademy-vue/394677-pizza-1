@@ -120,20 +120,18 @@ describe("Builder", () => {
     });
   });
 
-  //Проверяем, что при монтировании компонента, если в pizza нет id, мы вызываем и getMisc и getBuilder
+  //Проверяем, что при монтировании компонента, если в pizza есть id, мы не вызываем getBuilder, но вызываем getMisc
   describe("should be called methods when pizza has not an index", () => {
     beforeEach(() => {
-      setBuilder(store);
+      store.commit("Builder/" + SET_BUILDER, { pizza, index: 0 });
       createComponent({ localVue, store, stubs });
     });
     it("when pizza has an index dont call getBuilder", () => {
-      store.commit("Builder/" + SET_BUILDER, { pizza, index: 0 });
       expect(actions.Builder.getBuilder).toHaveBeenCalledTimes(0);
     });
 
     //Проверяем, что при монтировании компонента, если в pizza есть id, мы вызываем getMisc
     it("when pizza has an index call getMisc", () => {
-      store.commit("Builder/" + SET_BUILDER, { pizza, index: 0 });
       expect(actions.Cart.getMisc).toHaveBeenCalled();
     });
   });
