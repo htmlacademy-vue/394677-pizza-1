@@ -149,7 +149,7 @@
                 <input
                   v-model="phoneNumber"
                   type="text"
-                  name="tel"
+                  name="phone"
                   placeholder="+7 999-999-99-99"
                 />
               </label>

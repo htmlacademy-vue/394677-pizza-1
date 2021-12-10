@@ -111,11 +111,9 @@ describe("Builder", () => {
     });
     //Проверяем, что при монтировании компонента, если в pizza нет id, мы вызываем getBuilder
     it("when pizza has not an index call getBuilder", () => {
-      createComponent({ localVue, store, stubs });
       expect(actions.Builder.getBuilder).toHaveBeenCalled();
     });
     it("when pizza has not an index call getMisc", () => {
-      createComponent({ localVue, store, stubs });
       expect(actions.Cart.getMisc).toHaveBeenCalled();
     });
   });

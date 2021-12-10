@@ -102,7 +102,6 @@ export default {
   },
   actions: {
     async getBuilder({ commit }) {
-      console.log("я печенька");
       const ingredients = this.$api.ingredients.query();
       const dough = this.$api.dough.query();
       const sauces = this.$api.sauces.query();
