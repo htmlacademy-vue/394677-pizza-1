@@ -24,12 +24,12 @@
         <input
           v-model="password"
           type="password"
-          name="pass"
+          name="password"
           placeholder="***********"
         />
       </label>
     </div>
-    <Button @click="login">Авторизоваться</Button>
+    <Button @click="login" :disabled="disabledButton">Авторизоваться</Button>
   </div>
 </template>
 
@@ -44,20 +44,25 @@ export default {
       password: "",
     };
   },
-  methods: {
-    closeModal() {
-      const element = document.querySelector(".sign-form");
-      element.classList.add("animate__animated", "animate__bounceOutLeft");
-      element.addEventListener("animationend", () => {
-        this.$router.push("/");
-      });
+  computed: {
+    disabledButton() {
+      return !(this.password && this.email);
     },
+  },
+  methods: {
     login() {
       this.$store.dispatch("Auth/login", {
         email: this.email,
         password: this.password,
       });
       this.closeModal();
+    },
+    closeModal() {
+      const element = document.querySelector(".sign-form");
+      element?.classList.add("animate__animated", "animate__bounceOutLeft");
+      element?.addEventListener("animationend", () => {
+        this.$router.push("/");
+      });
     },
   },
 };

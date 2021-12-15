@@ -15,7 +15,6 @@ import AppDrop from "@/common/components/AppDrop";
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-// Создаём вспомогательный метод для аутентификации пользователя
 const setBuilder = (store) => {
   store.commit("Builder/" + SET_BUILDER, { pizza: pizza });
 };

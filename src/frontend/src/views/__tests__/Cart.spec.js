@@ -3,17 +3,13 @@ import Vuex from "vuex";
 import Cart from "@/views/Cart";
 import { generateMockStore } from "@/store/mock";
 import Button from "@/common/components/Button";
-import {
-  SET_BUILDER,
-  SET_CART,
-  SET_MISC,
-  SET_USER,
-} from "@/store/modules/mutation-types";
+import { SET_CART, SET_MISC, SET_USER } from "@/store/modules/mutation-types";
 import pizza from "@/static/pizza.json";
 import misc from "@/static/misc.json";
 import ItemCounter from "@/common/components/ItemCounter";
 import user from "@/static/user.json";
 import VueRouter from "vue-router";
+
 const localVue = createLocalVue();
 localVue.use(VueRouter, Vuex);
 
@@ -140,9 +136,8 @@ describe("Cart", () => {
   it("changePizza button is calls changePizza mutation", () => {
     setCart(store);
     setMisc(store);
-    createComponent({ localVue, store, stubs });
+    createComponent({ localVue, store, stubs, router });
     const button = wrapper.find(".cart-list__edit");
-    //ошибка push при переходе на главную страницу
     button.trigger("click");
     expect(store.state.Builder.pizza.id).toBe(0);
   });

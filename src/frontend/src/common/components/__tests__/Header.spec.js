@@ -4,10 +4,10 @@ import Header from "@/common/components/Header";
 import { generateMockStore } from "@/store/mock";
 import { SET_USER } from "@/store/modules/mutation-types";
 import user from "@/static/user.json";
+import VueRouter from "vue-router";
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-// Создаём вспомогательный метод для аутентификации пользователя
 const authenticateUser = (store) => {
   store.commit("Auth/" + SET_USER, { isAuthenticated: true, user: user });
 };
