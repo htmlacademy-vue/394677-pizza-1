@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    :class="[disabled ? 'button--disabled' : '', className, 'button']"
+    :class="[disabled ? 'button--disabled' : '', 'button']"
     :disabled="disabled"
     v-on="$listeners"
   >
@@ -13,13 +13,13 @@
 export default {
   name: "Button",
   props: {
-    className: {
-      type: String,
-      default: "",
-    },
     disabled: {
       type: Boolean,
       default: false,
+    },
+    button: {
+      type: Boolean,
+      default: true,
     },
   },
 };

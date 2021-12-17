@@ -121,7 +121,6 @@ describe("Orders", () => {
       },
       Orders: {
         getOrders: jest.fn(),
-        SET_CART_REPEAT_ORDER: jest.fn(),
         deleteOrders: jest.fn(),
       },
       Auth: {
@@ -141,6 +140,13 @@ describe("Orders", () => {
   it("is rendered", () => {
     createComponent({ localVue, store, stubs });
     expect(wrapper.exists()).toBeTruthy();
+  });
+  it("when user has an orders, all orders must be displayed", () => {
+    authenticateUser(store);
+    setOrders(store);
+    createComponent({ localVue, store, stubs, router });
+    let ordersContainer = wrapper.findAll(".order");
+    expect(ordersContainer.length).toBe(2);
   });
   describe("when user has an order in history should display order data", () => {
     beforeEach(() => {

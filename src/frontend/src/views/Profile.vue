@@ -26,7 +26,7 @@
             </div>
           </a>
         </div>
-        <p>{{ item.street }}{{ item.building }}{{ item.flat }}</p>
+        <p>{{ item.street }} д.{{ item.building }} кв.{{ item.flat }}</p>
         <small>{{ item.comment }}</small>
       </div>
     </div>
@@ -97,18 +97,11 @@
       </div>
 
       <div class="address-form__buttons">
-        <Button
-          v-if="isEdit"
-          @click="deleteAddress"
-          label="Удалить"
-          class="button--transparent"
-        ></Button>
-        <Button
-          @click="cancel"
-          label="Отмена"
-          class="button--transparent"
-        ></Button>
-        <Button @click="saveAddress" label="Сохранить"></Button>
+        <Button v-if="isEdit" @click="deleteAddress" class="button--transparent"
+          >Удалить</Button
+        >
+        <Button @click="cancel" class="button--transparent">Отмена</Button>
+        <Button @click="saveAddress" name="save-button">Сохранить</Button>
       </div>
     </article>
     <div class="layout__button">
@@ -116,6 +109,7 @@
         v-if="!isAddition && !isEdit"
         @click="addAddress"
         class="button--border"
+        name="add-button"
       >
         Добавить новый адрес
       </Button>
