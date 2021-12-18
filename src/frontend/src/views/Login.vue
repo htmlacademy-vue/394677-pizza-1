@@ -24,38 +24,45 @@
         <input
           v-model="password"
           type="password"
-          name="pass"
+          name="password"
           placeholder="***********"
         />
       </label>
     </div>
-    <button @click="login" type="submit" class="button">Авторизоваться</button>
+    <Button @click="login" :disabled="disabledButton">Авторизоваться</Button>
   </div>
 </template>
 
 <script>
+import Button from "@/common/components/Button";
 export default {
   name: "Login",
+  components: { Button },
   data: function () {
     return {
       email: "",
       password: "",
     };
   },
-  methods: {
-    closeModal() {
-      const element = document.querySelector(".sign-form");
-      element.classList.add("animate__animated", "animate__bounceOutLeft");
-      element.addEventListener("animationend", () => {
-        this.$router.push("/");
-      });
+  computed: {
+    disabledButton() {
+      return !(this.password && this.email);
     },
+  },
+  methods: {
     login() {
       this.$store.dispatch("Auth/login", {
         email: this.email,
         password: this.password,
       });
       this.closeModal();
+    },
+    closeModal() {
+      const element = document.querySelector(".sign-form");
+      element?.classList.add("animate__animated", "animate__bounceOutLeft");
+      element?.addEventListener("animationend", () => {
+        this.$router.push("/");
+      });
     },
   },
 };

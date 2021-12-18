@@ -49,7 +49,7 @@ export default {
   },
   mutations: {
     [SET_INGREDIENTS](state, payload) {
-      Vue.set(state.pizza, "ingredients", payload);
+      Vue.set(state.pizza, "ingredients", payload.ingredients);
       state.pizza.ingredients.forEach((ingredient) => {
         Vue.set(ingredient, "count", 0);
       });
@@ -107,7 +107,7 @@ export default {
       const sauces = this.$api.sauces.query();
       const sizes = this.$api.sizes.query();
       let values = await Promise.all([ingredients, dough, sauces, sizes]);
-      commit(SET_INGREDIENTS, values[0]);
+      commit(SET_INGREDIENTS, { ingredients: values[0] });
       commit(SET_PIZZA_OPTIONS, { name: "dough", options: values[1] });
       commit(SET_PIZZA_OPTIONS, { name: "sauces", options: values[2] });
       commit(SET_PIZZA_OPTIONS, { name: "sizes", options: values[3] });

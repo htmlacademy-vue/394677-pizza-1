@@ -26,7 +26,7 @@
             </div>
           </a>
         </div>
-        <p>{{ item.street }}{{ item.building }}{{ item.flat }}</p>
+        <p>{{ item.street }} д.{{ item.building }} кв.{{ item.flat }}</p>
         <small>{{ item.comment }}</small>
       </div>
     </div>
@@ -97,39 +97,35 @@
       </div>
 
       <div class="address-form__buttons">
-        <button
-          v-if="isEdit"
-          @click="deleteAddress"
-          type="button"
-          class="button button--transparent"
+        <Button v-if="isEdit" @click="deleteAddress" class="button--transparent"
+          >Удалить</Button
         >
-          Удалить
-        </button>
-        <button
-          @click="cancel"
-          type="button"
-          class="button button--transparent"
-        >
-          Отмена
-        </button>
-        <button @click="saveAddress" type="submit" class="button">
-          Сохранить
-        </button>
+        <Button @click="cancel" class="button--transparent">Отмена</Button>
+        <Button @click="saveAddress" name="save-button">Сохранить</Button>
       </div>
     </article>
     <div class="layout__button">
-      <button @click="addAddress" type="button" class="button button--border">
+      <Button
+        v-if="!isAddition && !isEdit"
+        @click="addAddress"
+        class="button--border"
+        name="add-button"
+      >
         Добавить новый адрес
-      </button>
+      </Button>
     </div>
   </div>
 </template>
 
 <script>
+import Button from "@/common/components/Button";
 import { mapState } from "vuex";
 import { cloneDeep } from "lodash";
 export default {
   name: "Profile",
+  components: {
+    Button,
+  },
   data: function () {
     return {
       isEdit: false,
