@@ -1,8 +1,8 @@
 <template>
   <div class="popup">
-    <a @click="closeModal" class="close">
+    <Button @click="closeModal" class="close">
       <span class="visually-hidden">Закрыть попап</span>
-    </a>
+    </Button>
     <div class="popup__title">
       <h2 class="title">Спасибо за заказ</h2>
     </div>

@@ -144,7 +144,7 @@ describe("Orders", () => {
   it("when user has an orders, all orders must be displayed", () => {
     authenticateUser(store);
     setOrders(store);
-    createComponent({ localVue, store, stubs, router });
+    createComponent({ localVue, store, stubs });
     let ordersContainer = wrapper.findAll(".order");
     expect(ordersContainer.length).toBe(2);
   });
