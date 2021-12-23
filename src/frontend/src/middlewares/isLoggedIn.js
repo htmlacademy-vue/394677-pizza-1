@@ -1,6 +1,6 @@
-export default function isLoggedIn({ next, store, nextMiddleware }) {
+export default function isLoggedIn({ next, store }) {
   if (store.$jwt.getToken()) {
     next("/");
   }
-  return nextMiddleware();
+  return isLoggedIn;
 }

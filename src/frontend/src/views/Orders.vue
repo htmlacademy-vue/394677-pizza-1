@@ -90,6 +90,7 @@
 
 <script>
 import Button from "@/common/components/Button";
+import auth from "@/middlewares/auth";
 import { mapGetters, mapMutations } from "vuex";
 import {
   SET_CART_REPEAT_ORDER,
@@ -98,6 +99,8 @@ import {
 import pizzaHistoryOptions from "@/common/mixins/formatOrderOptions";
 export default {
   name: "Orders",
+  middlewares: { middlewares: auth },
+  layout: "ProfileLayout",
   components: {
     Button,
   },

@@ -35,8 +35,11 @@
 
 <script>
 import Button from "@/common/components/Button";
+import isLoggedIn from "@/middlewares/isLoggedIn";
 export default {
   name: "Login",
+  layout: "LoginLayout",
+  middlewares: { middlewares: isLoggedIn },
   components: { Button },
   data: function () {
     return {

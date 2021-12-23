@@ -1,6 +1,6 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
-import Builder from "@/views/Builder";
+import Index from "@/views/Index";
 import { generateMockStore } from "@/store/mock";
 import {
   SET_INGREDIENTS,
@@ -18,7 +18,7 @@ localVue.use(Vuex);
 const setBuilder = (store) => {
   store.commit("Builder/" + SET_BUILDER, { pizza: pizza });
 };
-describe("Builder", () => {
+describe("Index", () => {
   // Заглушка вместо реального router-view
   const stubs = ["router-link", "router-view"];
 
@@ -27,7 +27,7 @@ describe("Builder", () => {
   let store;
   let wrapper;
   const createComponent = (options) => {
-    wrapper = mount(Builder, options);
+    wrapper = mount(Index, options);
   };
 
   beforeEach(() => {

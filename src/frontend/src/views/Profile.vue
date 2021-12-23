@@ -121,8 +121,11 @@
 import Button from "@/common/components/Button";
 import { mapState } from "vuex";
 import { cloneDeep } from "lodash";
+import auth from "@/middlewares/auth";
 export default {
   name: "Profile",
+  middlewares: { middlewares: auth },
+  layout: "ProfileLayout",
   components: {
     Button,
   },
