@@ -16,7 +16,7 @@
 import appHeader from "@/common/components/Header";
 import sidebar from "@/common/components/Sidebar";
 export default {
-  name: "AppLayout",
+  name: "ProfileLayout",
   components: {
     appHeader,
     sidebar,

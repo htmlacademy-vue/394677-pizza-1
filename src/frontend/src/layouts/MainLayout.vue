@@ -14,7 +14,7 @@
 <script>
 import appHeader from "@/common/components/Header";
 export default {
-  name: "AppLayout",
+  name: "MainLayout",
   components: {
     appHeader,
   },

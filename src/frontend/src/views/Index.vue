@@ -23,7 +23,8 @@ import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
 import AppDrop from "@/common/components/AppDrop";
 
 export default {
-  name: "Builder",
+  name: "Index",
+  layout: "MainLayout",
   components: {
     BuilderDoughSelector,
     BuilderIngredientsSelector,
