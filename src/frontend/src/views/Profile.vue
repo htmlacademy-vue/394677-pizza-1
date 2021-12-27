@@ -3,7 +3,7 @@
     <div class="layout__title">
       <h1 class="title title--big">Мои данные</h1>
     </div>
-    <div class="user">
+    <div v-if="user" class="user">
       <picture>
         <img :src="user.avatar" :alt="user.name" width="72" height="72" />
       </picture>
@@ -15,7 +15,11 @@
       </p>
     </div>
     <div class="layout__address">
-      <div v-for="(item, key) in address" class="sheet address-form" :key="key">
+      <div
+        v-for="(item, key) in addresses"
+        class="sheet address-form"
+        :key="key"
+      >
         <div class="address-form__header">
           <b>{{ item.name }}</b>
           <a href="#edit">
@@ -144,7 +148,7 @@ export default {
   },
   computed: {
     ...mapState("Auth", ["user"]),
-    ...mapState("Address", ["address"]),
+    ...mapState("Address", ["addresses"]),
   },
   methods: {
     addAddress() {

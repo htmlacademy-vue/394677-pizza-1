@@ -18,22 +18,6 @@ export default {
     misc: [],
     total: 0,
   },
-  getters: {
-    finalOrderPrice(state) {
-      let orderPrice = 0;
-      if (state.pizza) {
-        state.pizza.forEach((pizza) => {
-          orderPrice += pizza.total * pizza.count;
-        });
-      }
-      if (state.misc) {
-        state.misc.forEach((misc) => {
-          orderPrice += misc.price * misc.count;
-        });
-      }
-      return orderPrice;
-    },
-  },
   mutations: {
     [SET_MISC](state, payload) {
       state.misc = payload.misc;

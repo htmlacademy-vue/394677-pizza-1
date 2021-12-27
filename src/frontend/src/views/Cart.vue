@@ -33,12 +33,12 @@
                           {{ size.name }}
                         </span> </template
                       >,
-                      <template v-for="(doughitem, doughIndex) in item.dough"
+                      <template v-for="(doughItem, doughIndex) in item.dough"
                         ><span
-                          :key="doughIndex + doughitem.name"
-                          v-if="doughitem.checked"
+                          :key="doughIndex + doughItem.name"
+                          v-if="doughItem.checked"
                         >
-                          {{ doughitem.description }}
+                          {{ doughItem.description }}
                         </span>
                       </template>
                     </li>
@@ -211,7 +211,7 @@
         Перейти к конструктору<br />чтоб собрать ещё одну пиццу
       </p>
       <div class="footer__price">
-        <b>Итого: {{ finalOrderPrice }} ₽</b>
+        <b>Итого: {{ total }} ₽</b>
       </div>
 
       <div class="footer__submit">
@@ -235,7 +235,7 @@
 <script>
 import ItemCounter from "@/common/components/ItemCounter";
 import Button from "@/common/components/Button";
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import {
   SET_BUILDER,
   SET_PIZZA_COUNT,
@@ -273,9 +273,8 @@ export default {
   },
   computed: {
     ...mapState("Cart", ["pizza", "total", "misc"]),
-    ...mapState("Address", ["address"]),
+    ...mapState("Address", ["addresses"]),
     ...mapState("Auth", ["user", "isAuthenticated"]),
-    ...mapGetters("Cart", ["finalOrderPrice"]),
     isEmptyCart() {
       return this.pizza.length === 0;
     },
@@ -292,8 +291,8 @@ export default {
     },
     shippingOptions() {
       let options = [];
-      if (this.address) {
-        this.address.forEach((address) => {
+      if (this.addresses) {
+        this.addresses.forEach((address) => {
           options.push({
             id: address.id,
             name: address.name,
@@ -338,7 +337,7 @@ export default {
         this.localAddress = null;
       }
       if (this.receiveOrder && this.isAuthenticated) {
-        this.address.forEach((address) => {
+        this.addresses.forEach((address) => {
           if (address.id === this.receiveOrder.id) {
             this.localAddress = address;
           }
@@ -346,6 +345,7 @@ export default {
       }
     },
     setOrder() {
+      this.localAddress.name = this.localAddress.street;
       const data = {
         userId: this.user?.id || null,
         pizzas: this.pizzasOrderOptions(this.pizza),
