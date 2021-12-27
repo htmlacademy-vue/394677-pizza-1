@@ -70,7 +70,7 @@ export default {
     },
     [CLEAN_CART](state) {
       state.pizza = [];
-      state.total = [];
+      state.total = 0;
       state.misc.forEach((misc) => {
         misc.count = 0;
       });

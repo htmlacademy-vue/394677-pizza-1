@@ -348,7 +348,13 @@ export default {
       }
     },
     setOrder() {
-      this.localAddress.name = this.localAddress.street;
+      if (this.localAddress) {
+        this.localAddress.name =
+          this.localAddress.street + " д." + this.localAddress.building;
+        if (this.localAddress.flat) {
+          this.localAddress.name += " кв." + this.localAddress.flat;
+        }
+      }
       const data = {
         userId: this.user?.id || null,
         pizzas: this.pizzasOrderOptions(this.pizza),

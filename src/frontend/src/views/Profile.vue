@@ -173,6 +173,9 @@ export default {
     },
     createAddress() {
       const data = cloneDeep(this.localAddress);
+      if (data.flat === "") {
+        delete data.flat;
+      }
       this.$store.dispatch("Address/saveAddresses", data);
       this.isAddition = false;
     },
