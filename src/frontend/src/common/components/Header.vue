@@ -11,7 +11,7 @@
       </router-link>
     </div>
     <div class="header__cart">
-      <router-link to="/cart">{{ finalOrderPrice }} ₽</router-link>
+      <router-link to="/cart">{{ total }} ₽</router-link>
     </div>
     <div v-if="isAuthenticated" class="header__user">
       <router-link to="/profile">
@@ -34,11 +34,11 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "Header",
   computed: {
-    ...mapGetters("Cart", ["finalOrderPrice"]),
+    ...mapState("Cart", ["total"]),
     ...mapState("Auth", ["user", "isAuthenticated"]),
   },
   methods: {

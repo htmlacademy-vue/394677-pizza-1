@@ -53,7 +53,10 @@
                     <span
                       v-for="(ingredient, index) in pizza.ingredientsOrder"
                       :key="index"
-                      >{{ ingredient.name }},
+                      >{{ ingredient.name }}
+                      <span v-if="ingredient.count && ingredient.count > 1"
+                        >X {{ ingredient.count }}</span
+                      >,
                     </span>
                   </li>
                 </ul>

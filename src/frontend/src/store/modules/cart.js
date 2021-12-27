@@ -43,16 +43,21 @@ export default {
     },
     [SET_CART](state, payload) {
       const pizza = cloneDeep(payload.pizza);
-      let newPizza = true;
+      pizza.total = payload.total;
       if ("id" in pizza) {
-        newPizza = false;
-      }
-      if (!newPizza) {
         state.pizza[pizza.id] = pizza;
       } else {
         pizza.count = 1;
-        pizza.total = payload.total;
         state.pizza.push(pizza);
+      }
+      state.total = 0;
+      state.pizza.forEach((pizza) => {
+        state.total += pizza.total * pizza.count;
+      });
+      if (state.misc) {
+        state.misc.forEach((misc) => {
+          state.total += misc.price * misc.count;
+        });
       }
     },
     [SET_CART_REPEAT_ORDER](state, payload) {
