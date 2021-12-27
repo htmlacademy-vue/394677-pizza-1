@@ -62,7 +62,10 @@
                           :key="ingredientIndex + ingredient.name"
                           v-if="ingredient.count"
                         >
-                          {{ ingredient.name }},
+                          {{ ingredient.name }}
+                          <span v-if="ingredient.count > 1"
+                            >X {{ ingredient.count }}</span
+                          >,
                         </span>
                       </template>
                     </li>
