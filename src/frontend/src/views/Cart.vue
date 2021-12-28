@@ -216,7 +216,6 @@
       <div class="footer__price">
         <b>Итого: {{ total }} ₽</b>
       </div>
-
       <div class="footer__submit">
         <Button @click="setOrder" :disabled="disabledSubmitOrder"
           >Оформить заказ</Button
@@ -269,7 +268,11 @@ export default {
   watch: {
     userPhone: {
       handler() {
-        this.phoneNumber = cloneDeep(this.user?.phone);
+        if (this.user?.phone) {
+          this.phoneNumber = cloneDeep(this.user?.phone);
+        } else {
+          this.phoneNumber = "";
+        }
       },
       immediate: true,
     },

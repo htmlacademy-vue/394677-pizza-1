@@ -16,13 +16,13 @@ describe("Modal", () => {
     beforeEach(() => {
       createComponent();
     });
-    it("close modal click first button", async () => {
-      const button = wrapper.findAllComponents(Button).at(0);
-      await button.trigger("click");
+    it("close modal click link", async () => {
+      const link = wrapper.find("a");
+      await link.trigger("click");
       expect(wrapper.emitted()).toBeTruthy();
     });
-    it("close modal click second button", async () => {
-      const button = wrapper.findAllComponents(Button).at(1);
+    it("close modal click button", async () => {
+      const button = wrapper.findComponent(Button);
       await button.trigger("click");
       expect(wrapper.emitted()).toBeTruthy();
     });
