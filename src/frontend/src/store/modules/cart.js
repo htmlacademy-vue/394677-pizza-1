@@ -78,11 +78,14 @@ export default {
       });
     },
     [SET_PIZZA_COUNT](state, payload) {
+      console.log(payload);
       let pizza = cloneDeep(state.pizza[payload.index]);
       if (payload.add) {
         pizza.count += 1;
+        state.total += pizza.total;
       } else {
         pizza.count -= 1;
+        state.total -= pizza.total;
       }
       if (pizza.count > 0) {
         Vue.set(state.pizza, payload.index, pizza);
@@ -99,8 +102,10 @@ export default {
       let misc = cloneDeep(state.misc[payload.index]);
       if (payload.add) {
         misc.count += 1;
+        state.total += misc.price;
       } else {
         misc.count -= 1;
+        state.total -= misc.price;
       }
       Vue.set(state.misc, payload.index, misc);
     },

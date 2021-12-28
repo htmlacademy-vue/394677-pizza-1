@@ -174,7 +174,13 @@ export default {
     createAddress() {
       const data = cloneDeep(this.localAddress);
       if (data.flat === "") {
-        delete data.flat;
+        data.flat = null;
+      }
+      if (!data.name) {
+        data.name = data.street + " д." + data.building;
+        if (data.flat) {
+          data.name += " кв." + data.flat;
+        }
       }
       this.$store.dispatch("Address/saveAddresses", data);
       this.isAddition = false;
