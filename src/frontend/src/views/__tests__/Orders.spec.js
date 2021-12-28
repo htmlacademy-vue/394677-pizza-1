@@ -209,11 +209,6 @@ describe("Orders", () => {
       setOrders(store);
       createComponent({ localVue, store, stubs, router });
     });
-    it("should display order address name", () => {
-      expect(wrapper.find(".order__address").text()).toContain(
-        "Адрес доставки:Название адреса"
-      );
-    });
     it("should display order address street", () => {
       expect(wrapper.find(".order__address").text()).toContain("Улица");
     });
@@ -222,9 +217,6 @@ describe("Orders", () => {
     });
     it("should display order address flat", () => {
       expect(wrapper.find(".order__address").text()).toContain("44");
-    });
-    it("should display order address comment", () => {
-      expect(wrapper.find(".order__address").text()).toContain("comment");
     });
   });
   it("delete order button is should delete action", async () => {

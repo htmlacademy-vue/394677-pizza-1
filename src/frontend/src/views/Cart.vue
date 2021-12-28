@@ -33,12 +33,12 @@
                           {{ size.name }}
                         </span> </template
                       >,
-                      <template v-for="(doughitem, doughIndex) in item.dough"
+                      <template v-for="(doughItem, doughIndex) in item.dough"
                         ><span
-                          :key="doughIndex + doughitem.name"
-                          v-if="doughitem.checked"
+                          :key="doughIndex + doughItem.name"
+                          v-if="doughItem.checked"
                         >
-                          {{ doughitem.description }}
+                          {{ doughItem.description }}
                         </span>
                       </template>
                     </li>
@@ -62,7 +62,10 @@
                           :key="ingredientIndex + ingredient.name"
                           v-if="ingredient.count"
                         >
-                          {{ ingredient.name }},
+                          {{ ingredient.name }}
+                          <span v-if="ingredient.count > 1"
+                            >X {{ ingredient.count }}</span
+                          >,
                         </span>
                       </template>
                     </li>
@@ -77,7 +80,7 @@
                 @countItem="countPizza"
               ></ItemCounter>
               <div class="cart-list__price">
-                <b>{{ item.total * item.count }}</b>
+                <b>{{ item.total * item.count }} ₽</b>
               </div>
 
               <div class="cart-list__button">
@@ -117,7 +120,7 @@
                     @countItem="countAdditional"
                   ></ItemCounter>
                   <div class="additional-list__price">
-                    <b>{{ item.price * item.count }}</b>
+                    <b>{{ item.price * item.count }} ₽</b>
                   </div>
                 </div>
               </li>
@@ -211,9 +214,8 @@
         Перейти к конструктору<br />чтоб собрать ещё одну пиццу
       </p>
       <div class="footer__price">
-        <b>Итого: {{ finalOrderPrice }} ₽</b>
+        <b>Итого: {{ total }} ₽</b>
       </div>
-
       <div class="footer__submit">
         <Button @click="setOrder" :disabled="disabledSubmitOrder"
           >Оформить заказ</Button
@@ -235,7 +237,7 @@
 <script>
 import ItemCounter from "@/common/components/ItemCounter";
 import Button from "@/common/components/Button";
-import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import {
   SET_BUILDER,
   SET_PIZZA_COUNT,
@@ -266,16 +268,19 @@ export default {
   watch: {
     userPhone: {
       handler() {
-        this.phoneNumber = cloneDeep(this.user?.phone);
+        if (this.user?.phone) {
+          this.phoneNumber = cloneDeep(this.user?.phone);
+        } else {
+          this.phoneNumber = "";
+        }
       },
       immediate: true,
     },
   },
   computed: {
     ...mapState("Cart", ["pizza", "total", "misc"]),
-    ...mapState("Address", ["address"]),
+    ...mapState("Address", ["addresses"]),
     ...mapState("Auth", ["user", "isAuthenticated"]),
-    ...mapGetters("Cart", ["finalOrderPrice"]),
     isEmptyCart() {
       return this.pizza.length === 0;
     },
@@ -292,8 +297,8 @@ export default {
     },
     shippingOptions() {
       let options = [];
-      if (this.address) {
-        this.address.forEach((address) => {
+      if (this.addresses) {
+        this.addresses.forEach((address) => {
           options.push({
             id: address.id,
             name: address.name,
@@ -338,7 +343,7 @@ export default {
         this.localAddress = null;
       }
       if (this.receiveOrder && this.isAuthenticated) {
-        this.address.forEach((address) => {
+        this.addresses.forEach((address) => {
           if (address.id === this.receiveOrder.id) {
             this.localAddress = address;
           }
@@ -346,6 +351,13 @@ export default {
       }
     },
     setOrder() {
+      if (this.localAddress) {
+        this.localAddress.name =
+          this.localAddress.street + " д." + this.localAddress.building;
+        if (this.localAddress.flat) {
+          this.localAddress.name += " кв." + this.localAddress.flat;
+        }
+      }
       const data = {
         userId: this.user?.id || null,
         pizzas: this.pizzasOrderOptions(this.pizza),
@@ -372,4 +384,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/cart-list.scss";
+@import "~@/assets/scss/blocks/cart.scss";
+@import "~@/assets/scss/blocks/cart-form.scss";
+@import "~@/assets/scss/blocks/additional-list.scss";
+@import "~@/assets/scss/blocks/footer.scss";
+@import "~@/assets/scss/blocks/product.scss";
+@import "~@/assets/scss/blocks/title.scss";
+@import "~@/assets/scss/blocks/select.scss";
+@import "~@/assets/scss/blocks/input.scss";
+</style>

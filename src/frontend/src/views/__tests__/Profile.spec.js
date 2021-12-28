@@ -5,7 +5,7 @@ import Button from "@/common/components/Button";
 import { generateMockStore } from "@/store/mock";
 import VueRouter from "vue-router";
 import user from "@/static/user.json";
-import { SET_USER, SET_ADDRESS } from "@/store/modules/mutation-types";
+import { SET_USER, SET_ADDRESSES } from "@/store/modules/mutation-types";
 const localVue = createLocalVue();
 localVue.use(VueRouter, Vuex);
 
@@ -13,7 +13,7 @@ const authenticateUser = (store) => {
   store.commit("Auth/" + SET_USER, { isAuthenticated: true, user: user });
 };
 const setAddresses = (store) => {
-  store.commit("Address/" + SET_ADDRESS, [
+  store.commit("Address/" + SET_ADDRESSES, [
     {
       building: "111",
       comment: "comment",

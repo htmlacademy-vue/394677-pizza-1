@@ -1,6 +1,9 @@
+@import "../ds-system/ds.scss";
+@import "../mixins/mixins.scss";
+@import "../libs/normalize.scss";
+
 .button {
   $bl: &;
-
   @include b-s18-h21;
   font-family: inherit;
   display: block;
@@ -102,4 +105,22 @@
     background-color: $white;
     color: $green-500;
   }
+}
+
+.content__result button {
+  margin-left: 12px;
+  padding: 16px 45px;
+}
+
+.layout__button button {
+  padding: 12px 23px;
+}
+
+.sign-form button {
+  margin: 0 auto;
+  padding: 16px 14px;
+}
+
+.popup__button button {
+  padding: 16px 32px;
 }

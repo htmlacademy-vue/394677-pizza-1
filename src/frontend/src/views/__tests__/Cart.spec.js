@@ -144,10 +144,11 @@ describe("Cart", () => {
 
   //Проверяем что при оформлении заказа срабатывает нужный метод
   it("setOrder button is calls setOrders action", async () => {
+    authenticateUser(store);
     setCart(store);
     setMisc(store);
     createComponent({ localVue, store, stubs });
-    const button = wrapper.findComponent(Button);
+    const button = wrapper.findAllComponents(Button).at(-1);
     await button.trigger("click");
     expect(actions.Orders.setOrders).toHaveBeenCalled();
   });
