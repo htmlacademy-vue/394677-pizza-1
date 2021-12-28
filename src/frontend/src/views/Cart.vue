@@ -80,7 +80,7 @@
                 @countItem="countPizza"
               ></ItemCounter>
               <div class="cart-list__price">
-                <b>{{ item.total * item.count }}</b>
+                <b>{{ item.total * item.count }} ₽</b>
               </div>
 
               <div class="cart-list__button">
@@ -120,7 +120,7 @@
                     @countItem="countAdditional"
                   ></ItemCounter>
                   <div class="additional-list__price">
-                    <b>{{ item.price * item.count }}</b>
+                    <b>{{ item.price * item.count }} ₽</b>
                   </div>
                 </div>
               </li>
@@ -384,4 +384,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/cart-list.scss";
+@import "~@/assets/scss/blocks/cart.scss";
+@import "~@/assets/scss/blocks/cart-form.scss";
+@import "~@/assets/scss/blocks/additional-list.scss";
+@import "~@/assets/scss/blocks/footer.scss";
+@import "~@/assets/scss/blocks/product.scss";
+@import "~@/assets/scss/blocks/title.scss";
+@import "~@/assets/scss/blocks/select.scss";
+@import "~@/assets/scss/blocks/input.scss";
+</style>

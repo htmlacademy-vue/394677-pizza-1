@@ -199,4 +199,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/user.scss";
+@import "~@/assets/scss/blocks/icon.scss";
+@import "~@/assets/scss/blocks/address-form.scss";
+@import "~@/assets/scss/blocks/title.scss";
+@import "~@/assets/scss/blocks/input.scss";
+</style>

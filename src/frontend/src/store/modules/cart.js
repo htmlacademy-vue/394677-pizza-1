@@ -59,12 +59,14 @@ export default {
         pizza.name = item.name;
         pizza.count = item.quantity;
         state.pizza.push(pizza);
+        state.total += pizza.total * pizza.count;
       });
       order.misc.forEach((orderMisc) => {
         state.misc.forEach((misc) => {
           if (misc.id === orderMisc.id) {
             misc.count += orderMisc.count;
           }
+          state.total += misc.price * misc.count;
         });
       });
     },

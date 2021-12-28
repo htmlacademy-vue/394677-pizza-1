@@ -125,4 +125,7 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/pizza.scss";
+@import "~@/assets/scss/blocks/input.scss";
+</style>

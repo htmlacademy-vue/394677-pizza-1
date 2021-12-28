@@ -132,4 +132,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/order.scss";
+@import "~@/assets/scss/blocks/product.scss";
+@import "~@/assets/scss/blocks/title.scss";
+</style>
