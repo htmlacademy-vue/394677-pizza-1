@@ -65,16 +65,19 @@ export default {
           let className = ingredient.image.split("filling/")[1];
           className = className.split(".svg")[0];
           if (count) {
+            classList.push("pizza__filling--" + className);
             if (count === 2) {
               classList.push(
                 "pizza__filling--" + className + " " + "pizza__filling--second"
               );
-            } else if (count === 3) {
+            }
+            if (count === 3) {
+              classList.push(
+                "pizza__filling--" + className + " " + "pizza__filling--second"
+              );
               classList.push(
                 "pizza__filling--" + className + " " + "pizza__filling--third"
               );
-            } else {
-              classList.push("pizza__filling--" + className);
             }
           }
         });
@@ -122,4 +125,7 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/pizza.scss";
+@import "~@/assets/scss/blocks/input.scss";
+</style>

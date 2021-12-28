@@ -88,6 +88,7 @@ export default {
       }
       if (payload.userId) {
         dispatch("getOrders");
+        dispatch("Address/getAddresses", null, { root: true });
       }
     },
     async getOrders({ commit }, payload) {

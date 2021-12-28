@@ -18,22 +18,6 @@ export default {
     misc: [],
     total: 0,
   },
-  getters: {
-    finalOrderPrice(state) {
-      let orderPrice = 0;
-      if (state.pizza) {
-        state.pizza.forEach((pizza) => {
-          orderPrice += pizza.total * pizza.count;
-        });
-      }
-      if (state.misc) {
-        state.misc.forEach((misc) => {
-          orderPrice += misc.price * misc.count;
-        });
-      }
-      return orderPrice;
-    },
-  },
   mutations: {
     [SET_MISC](state, payload) {
       state.misc = payload.misc;
@@ -43,16 +27,21 @@ export default {
     },
     [SET_CART](state, payload) {
       const pizza = cloneDeep(payload.pizza);
-      let newPizza = true;
+      pizza.total = payload.total;
       if ("id" in pizza) {
-        newPizza = false;
-      }
-      if (!newPizza) {
         state.pizza[pizza.id] = pizza;
       } else {
         pizza.count = 1;
-        pizza.total = payload.total;
         state.pizza.push(pizza);
+      }
+      state.total = 0;
+      state.pizza.forEach((pizza) => {
+        state.total += pizza.total * pizza.count;
+      });
+      if (state.misc) {
+        state.misc.forEach((misc) => {
+          state.total += misc.price * misc.count;
+        });
       }
     },
     [SET_CART_REPEAT_ORDER](state, payload) {
@@ -70,18 +59,20 @@ export default {
         pizza.name = item.name;
         pizza.count = item.quantity;
         state.pizza.push(pizza);
+        state.total += pizza.total * pizza.count;
       });
       order.misc.forEach((orderMisc) => {
         state.misc.forEach((misc) => {
           if (misc.id === orderMisc.id) {
             misc.count += orderMisc.count;
           }
+          state.total += misc.price * misc.count;
         });
       });
     },
     [CLEAN_CART](state) {
       state.pizza = [];
-      state.total = [];
+      state.total = 0;
       state.misc.forEach((misc) => {
         misc.count = 0;
       });
@@ -90,8 +81,10 @@ export default {
       let pizza = cloneDeep(state.pizza[payload.index]);
       if (payload.add) {
         pizza.count += 1;
+        state.total += pizza.total;
       } else {
         pizza.count -= 1;
+        state.total -= pizza.total;
       }
       if (pizza.count > 0) {
         Vue.set(state.pizza, payload.index, pizza);
@@ -108,8 +101,10 @@ export default {
       let misc = cloneDeep(state.misc[payload.index]);
       if (payload.add) {
         misc.count += 1;
+        state.total += misc.price;
       } else {
         misc.count -= 1;
+        state.total -= misc.price;
       }
       Vue.set(state.misc, payload.index, misc);
     },

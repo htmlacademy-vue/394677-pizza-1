@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import {
-  SET_ADDRESS,
+  SET_ADDRESSES,
   ADD_ADDRESS,
   DELETE_ADDRESS,
   EDIT_ADDRESS,
@@ -11,27 +11,27 @@ Vue.use(Vuex);
 export default {
   namespaced: true,
   state: {
-    address: [],
+    addresses: [],
   },
   getters: {},
   mutations: {
-    [SET_ADDRESS](state, payload) {
-      state.address = payload;
+    [SET_ADDRESSES](state, payload) {
+      state.addresses = payload;
     },
     [ADD_ADDRESS](state, payload) {
-      state.address.push(payload);
+      state.addresses.push(payload);
     },
     [DELETE_ADDRESS](state, payload) {
-      for (let i = 0; i <= state.address.length; i++) {
-        if (state.address[i].id === payload) {
-          state.address.splice(i, 1);
+      for (let i = 0; i <= state.addresses.length; i++) {
+        if (state.addresses[i].id === payload) {
+          state.addresses.splice(i, 1);
         }
       }
     },
     [EDIT_ADDRESS](state, payload) {
-      for (let i = 0; i <= state.address.length; i++) {
-        if (state.address[i].id === payload.id) {
-          Vue.set(state.address, i, payload);
+      for (let i = 0; i <= state.addresses.length; i++) {
+        if (state.addresses[i].id === payload.id) {
+          Vue.set(state.addresses, i, payload);
         }
       }
     },
@@ -40,7 +40,7 @@ export default {
     async getAddresses({ commit }, payload) {
       try {
         const data = await this.$api.addresses.query(payload);
-        commit(SET_ADDRESS, data);
+        commit(SET_ADDRESSES, data);
       } catch {
         console.log("Ошибка получения адреса");
       }

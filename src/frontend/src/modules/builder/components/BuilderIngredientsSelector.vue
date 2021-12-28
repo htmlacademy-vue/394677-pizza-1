@@ -95,4 +95,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/ingridients.scss";
+@import "~@/assets/scss/blocks/filling.scss";
+@import "~@/assets/scss/blocks/radio.scss";
+</style>

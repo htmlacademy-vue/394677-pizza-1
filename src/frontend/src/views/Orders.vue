@@ -53,7 +53,10 @@
                     <span
                       v-for="(ingredient, index) in pizza.ingredientsOrder"
                       :key="index"
-                      >{{ ingredient.name }},
+                      >{{ ingredient.name }}
+                      <span v-if="ingredient.count && ingredient.count > 1"
+                        >X {{ ingredient.count }}</span
+                      >,
                     </span>
                   </li>
                 </ul>
@@ -66,24 +69,23 @@
           </li>
         </ul>
       </template>
-      <template v-if="order.misc">
-        <ul class="order__additional">
-          <li v-for="(misc, index) in order.misc" :key="index">
-            <img :src="misc.image" width="20" height="30" :alt="misc.name" />
-            <p>
-              <span>{{ misc.name }}</span>
-              <b>{{ misc.count * misc.price }}₽</b>
-            </p>
-          </li>
-        </ul>
-      </template>
-      <template v-if="order.orderAddress">
-        <p class="order__address">
-          Адрес доставки:{{ order.orderAddress.name }},
-          {{ order.orderAddress.street }}, {{ order.orderAddress.building }},
-          {{ order.orderAddress.flat }}, {{ order.orderAddress.comment }},
-        </p>
-      </template>
+      <ul v-if="order.misc" class="order__additional">
+        <li v-for="(misc, index) in order.misc" :key="index">
+          <img :src="misc.image" width="20" height="30" :alt="misc.name" />
+          <p>
+            <span>{{ misc.name }}</span>
+            <b>{{ misc.count * misc.price }}₽</b>
+          </p>
+        </li>
+      </ul>
+      <p v-if="order.orderAddress" class="order__address">
+        Адрес доставки: ул.{{ order.orderAddress.street }}, д.{{
+          order.orderAddress.building
+        }},
+        <span v-if="order.orderAddress.flat"
+          >кв.{{ order.orderAddress.flat }}</span
+        >
+      </p>
     </section>
   </div>
 </template>
@@ -130,4 +132,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/order.scss";
+@import "~@/assets/scss/blocks/product.scss";
+@import "~@/assets/scss/blocks/title.scss";
+</style>
