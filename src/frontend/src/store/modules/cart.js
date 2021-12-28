@@ -78,7 +78,6 @@ export default {
       });
     },
     [SET_PIZZA_COUNT](state, payload) {
-      console.log(payload);
       let pizza = cloneDeep(state.pizza[payload.index]);
       if (payload.add) {
         pizza.count += 1;
