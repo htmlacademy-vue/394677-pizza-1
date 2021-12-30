@@ -76,9 +76,9 @@
                 class="cart-list__counter"
                 :item="item"
                 :index="index"
-                classNameButton="counter__button--orange"
+                class-name-button="counter__button--orange"
                 @countItem="countPizza"
-              ></ItemCounter>
+              />
               <div class="cart-list__price">
                 <b>{{ item.total * item.count }} ₽</b>
               </div>
@@ -116,9 +116,9 @@
                     class="additional-list__counter"
                     :item="item"
                     :index="index"
-                    classNameButton="counter__button--orange"
+                    class-name-button="counter__button--orange"
                     @countItem="countAdditional"
-                  ></ItemCounter>
+                  />
                   <div class="additional-list__price">
                     <b>{{ item.price * item.count }} ₽</b>
                   </div>
@@ -217,8 +217,8 @@
         <b>Итого: {{ total }} ₽</b>
       </div>
       <div class="footer__submit">
-        <Button @click="setOrder" :disabled="disabledSubmitOrder"
-          >Оформить заказ</Button
+        <AppButton @click="setOrder" :disabled="disabledSubmitOrder"
+          >Оформить заказ</AppButton
         >
       </div>
     </section>
@@ -228,15 +228,15 @@
         appear
         enter-active-class="animate__animated animate__bounceIn"
       >
-        <Modal v-if="showModal" @closeModal="closeModal"></Modal>
+        <Modal v-if="showModal" @closeModal="closeModal" />
       </transition>
     </div>
   </div>
 </template>
 
 <script>
-import ItemCounter from "@/common/components/ItemCounter";
-import Button from "@/common/components/Button";
+import ItemCounter from "@/common/components/AppItemCounter";
+import AppButton from "@/common/components/AppButton";
 import { mapState, mapMutations, mapActions } from "vuex";
 import {
   SET_BUILDER,
@@ -244,7 +244,7 @@ import {
   SET_ADDITIONAL_COUNT,
   CLEAN_CART,
 } from "@/store/modules/mutation-types";
-import Modal from "@/common/components/Modal";
+import Modal from "@/common/components/AppModal";
 import Options from "@/common/options/shipping";
 import pizzasOrderOptions from "@/common/mixins/formatOrderOptions";
 import miscOrderOptions from "@/common/mixins/formatOrderOptions";
@@ -252,7 +252,7 @@ import { cloneDeep } from "lodash";
 export default {
   name: "Cart",
   components: {
-    Button,
+    AppButton,
     ItemCounter,
     Modal,
   },

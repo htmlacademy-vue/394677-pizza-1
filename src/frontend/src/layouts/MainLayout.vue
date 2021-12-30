@@ -1,6 +1,6 @@
 <template>
   <div>
-    <appHeader></appHeader>
+    <appHeader />
     <transition
       name="view"
       appear
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import appHeader from "@/common/components/Header";
+import appHeader from "@/common/components/AppHeader";
 export default {
   name: "MainLayout",
   components: {

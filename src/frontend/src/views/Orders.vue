@@ -18,12 +18,12 @@
         </div>
 
         <div class="order__button">
-          <Button @click="deleteOrder(order.id)" class="button--border"
-            >Удалить</Button
+          <AppButton @click="deleteOrder(order.id)" class="button--border"
+            >Удалить</AppButton
           >
         </div>
         <div class="order__button">
-          <Button @click="repeatOrders(order)">Повторить</Button>
+          <AppButton @click="repeatOrders(order)">Повторить</AppButton>
         </div>
       </div>
       <template v-if="order.orderPizzas">
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import Button from "@/common/components/Button";
+import AppButton from "@/common/components/AppButton";
 import auth from "@/middlewares/auth";
 import { mapGetters, mapMutations } from "vuex";
 import {
@@ -104,7 +104,7 @@ export default {
   middlewares: { middlewares: auth },
   layout: "ProfileLayout",
   components: {
-    Button,
+    AppButton,
   },
   mixins: [pizzaHistoryOptions],
   computed: {

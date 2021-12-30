@@ -29,18 +29,20 @@
         />
       </label>
     </div>
-    <Button @click="login" :disabled="disabledButton">Авторизоваться</Button>
+    <AppButton @click="login" :disabled="disabledButton"
+      >Авторизоваться</AppButton
+    >
   </div>
 </template>
 
 <script>
-import Button from "@/common/components/Button";
+import AppButton from "@/common/components/AppButton";
 import isLoggedIn from "@/middlewares/isLoggedIn";
 export default {
   name: "Login",
   layout: "LoginLayout",
   middlewares: { middlewares: isLoggedIn },
-  components: { Button },
+  components: { AppButton },
   data: function () {
     return {
       email: "",

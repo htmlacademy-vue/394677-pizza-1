@@ -2,11 +2,11 @@ import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import Cart from "@/views/Cart";
 import { generateMockStore } from "@/store/mock";
-import Button from "@/common/components/Button";
+import Button from "@/common/components/AppButton";
 import { SET_CART, SET_MISC, SET_USER } from "@/store/modules/mutation-types";
 import pizza from "@/static/pizza.json";
 import misc from "@/static/misc.json";
-import ItemCounter from "@/common/components/ItemCounter";
+import ItemCounter from "@/common/components/AppItemCounter";
 import user from "@/static/user.json";
 import VueRouter from "vue-router";
 
