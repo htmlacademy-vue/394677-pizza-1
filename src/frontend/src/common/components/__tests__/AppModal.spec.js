@@ -16,11 +16,13 @@ describe("AppModal", () => {
     beforeEach(() => {
       createComponent();
     });
+
     it("close modal click link", async () => {
       const link = wrapper.find("a");
       await link.trigger("click");
       expect(wrapper.emitted()).toBeTruthy();
     });
+
     it("close modal click button", async () => {
       const button = wrapper.findComponent(AppButton);
       await button.trigger("click");

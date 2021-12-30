@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import ItemCounter from "@/common/components/AppItemCounter";
+import ItemCounter from "@/common/components/ItemCounter";
 import AppDrag from "@/common/components/AppDrag";
 import {
   COUNT_INGREDIENT,

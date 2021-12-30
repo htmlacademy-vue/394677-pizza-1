@@ -10,17 +10,22 @@ Vue.use(Vuex);
 
 export default {
   namespaced: true,
+
   state: {
     addresses: [],
   },
+
   getters: {},
+
   mutations: {
     [SET_ADDRESSES](state, payload) {
       state.addresses = payload;
     },
+
     [ADD_ADDRESS](state, payload) {
       state.addresses.push(payload);
     },
+
     [DELETE_ADDRESS](state, payload) {
       for (let i = 0; i <= state.addresses.length; i++) {
         if (state.addresses[i].id === payload) {
@@ -28,6 +33,7 @@ export default {
         }
       }
     },
+
     [EDIT_ADDRESS](state, payload) {
       for (let i = 0; i <= state.addresses.length; i++) {
         if (state.addresses[i].id === payload.id) {
@@ -36,6 +42,7 @@ export default {
       }
     },
   },
+
   actions: {
     async getAddresses({ commit }, payload) {
       try {
@@ -45,10 +52,12 @@ export default {
         console.log("Ошибка получения адреса");
       }
     },
+
     async saveAddresses({ commit }, payload) {
       const data = await this.$api.addresses.post(payload);
       commit(ADD_ADDRESS, data);
     },
+
     async deleteAddresses({ commit }, payload) {
       try {
         await this.$api.addresses.delete(payload);
@@ -57,6 +66,7 @@ export default {
         console.log("Ошибка удаления адреса");
       }
     },
+
     async editAddresses({ commit }, payload) {
       try {
         await this.$api.addresses.put(payload);
