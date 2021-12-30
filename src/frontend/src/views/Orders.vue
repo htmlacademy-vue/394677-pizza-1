@@ -18,9 +18,12 @@
         </div>
 
         <div class="order__button">
-          <AppButton @click="deleteOrder(order.id)" class="button--border"
-            >Удалить</AppButton
-          >
+          <AppButton
+            class="button--border"
+            @click="deleteOrder(order.id)"
+            >
+            Удалить
+          </AppButton>
         </div>
         <div class="order__button">
           <AppButton @click="repeatOrders(order)">Повторить</AppButton>
@@ -54,9 +57,11 @@
                       v-for="(ingredient, index) in pizza.ingredientsOrder"
                       :key="index"
                       >{{ ingredient.name }}
-                      <span v-if="ingredient.count && ingredient.count > 1"
-                        >X {{ ingredient.count }}</span
-                      >,
+                      <span
+                        v-if="ingredient.count && ingredient.count > 1"
+                        >
+                        X {{ ingredient.count }}
+                      </span>,
                     </span>
                   </li>
                 </ul>
@@ -69,22 +74,38 @@
           </li>
         </ul>
       </template>
-      <ul v-if="order.misc" class="order__additional">
-        <li v-for="(misc, index) in order.misc" :key="index">
-          <img :src="misc.image" width="20" height="30" :alt="misc.name" />
+      <ul
+        v-if="order.misc"
+        class="order__additional"
+      >
+        <li
+          v-for="(misc, index) in order.misc"
+          :key="index"
+        >
+          <img
+            :src="misc.image"
+            width="20"
+            height="30"
+            :alt="misc.name"
+          />
           <p>
             <span>{{ misc.name }}</span>
             <b>{{ misc.count * misc.price }}₽</b>
           </p>
         </li>
       </ul>
-      <p v-if="order.orderAddress" class="order__address">
+      <p
+        v-if="order.orderAddress"
+        class="order__address"
+      >
         Адрес доставки: ул.{{ order.orderAddress.street }}, д.{{
           order.orderAddress.building
         }},
-        <span v-if="order.orderAddress.flat"
-          >кв.{{ order.orderAddress.flat }}</span
+        <span
+          v-if="order.orderAddress.flat"
         >
+          кв.{{ order.orderAddress.flat }}
+        </span>
       </p>
     </section>
   </div>
@@ -99,30 +120,41 @@ import {
   CLEAN_CART,
 } from "@/store/modules/mutation-types";
 import pizzaHistoryOptions from "@/common/mixins/formatOrderOptions";
+
 export default {
   name: "Orders",
+
   middlewares: { middlewares: auth },
+
   layout: "ProfileLayout",
+
   components: {
     AppButton,
   },
+
   mixins: [pizzaHistoryOptions],
+
   computed: {
     ...mapGetters("Orders", ["formatOrders"]),
   },
+
   mounted() {
     this.setInitialData();
   },
+
   methods: {
     ...mapMutations("Cart", [SET_CART_REPEAT_ORDER, CLEAN_CART]),
+
     setInitialData() {
       this.$store.dispatch("Builder/getBuilder");
       this.$store.dispatch("Cart/getMisc");
       this.$store.dispatch("Orders/getOrders");
     },
+
     deleteOrder(id) {
       this.$store.dispatch("Orders/deleteOrders", id);
     },
+
     repeatOrders(order) {
       this.$router.push("/cart");
       this[CLEAN_CART]();

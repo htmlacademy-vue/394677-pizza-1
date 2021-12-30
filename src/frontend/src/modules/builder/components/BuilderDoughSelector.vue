@@ -6,13 +6,13 @@
       <div class="sheet__content dough">
         <label
           v-for="(dough, index) in doughList"
-          class="dough__input"
           :key="index"
+          class="dough__input"
           :class="'dough__input--' + className(dough)"
         >
           <input
             type="radio"
-            name="dought"
+            name="dough"
             class="visually-hidden"
             :value="dough.class"
             :checked="dough.checked"
@@ -29,7 +29,10 @@
 <script>
 import { CHANGE_OPTIONS } from "@/store/modules/mutation-types";
 import { mapMutations } from "vuex";
+
 export default {
+  name: "BuilderDoughSelector",
+
   props: {
     doughList: {
       type: Array,
@@ -38,12 +41,13 @@ export default {
       },
     },
   },
-  name: "BuilderDoughSelector",
   methods: {
     ...mapMutations("Builder", [CHANGE_OPTIONS]),
+
     changeDough(index) {
       this[CHANGE_OPTIONS]({ index: index, name: "dough" });
     },
+
     className(dough) {
       let name = "";
       if (dough.name === "Тонкое") {

@@ -1,15 +1,15 @@
 <template>
-  <div class="content__ingridients">
+  <div class="content__ingredients">
     <div class="sheet">
       <h2 class="title title--small sheet__title">Выберите ингредиенты</h2>
 
-      <div class="sheet__content ingridients">
-        <div class="ingridients__sauce">
+      <div class="sheet__content ingredients">
+        <div class="ingredients__sauce">
           <p>Основной соус:</p>
           <label
             v-for="(sauce, index) in pizza.sauces"
             :key="index"
-            class="radio ingridients__input"
+            class="radio ingredients__input"
           >
             <input
               type="radio"
@@ -22,13 +22,13 @@
           </label>
         </div>
 
-        <div class="ingridients__filling">
+        <div class="ingredients__filling">
           <p>Начинка:</p>
-          <ul class="ingridients__list">
+          <ul class="ingredients__list">
             <li
               v-for="(ingredient, index) in pizza.ingredients"
               :key="index"
-              class="ingridients__item"
+              class="ingredients__item"
             >
               <AppDrag :transfer-data="ingredient">
                 <span
@@ -38,7 +38,7 @@
                   {{ ingredient.name }}
                 </span>
                 <ItemCounter
-                  class="counter--orange ingridients__counter"
+                  class="counter--orange ingredients__counter"
                   :item="ingredient"
                   :index="index"
                   :restrictions="3"
@@ -61,33 +61,41 @@ import {
   CHANGE_OPTIONS,
 } from "@/store/modules/mutation-types";
 import { mapMutations } from "vuex";
+
 export default {
+  name: "BuilderIngredientsSelector",
+
   components: {
     ItemCounter,
     AppDrag,
   },
+
   props: {
     pizza: {
       type: Object,
       default: () => {},
     },
   },
-  name: "BuilderIngredientsSelector",
+
   data() {
     return {
       ingredientClassList: [],
     };
   },
+
   methods: {
     ...mapMutations("Builder", [COUNT_INGREDIENT, CHANGE_OPTIONS]),
+
     changeSauce(index) {
       this[CHANGE_OPTIONS]({ index: index, name: "sauces" });
     },
+
     ingredientClassName(ingredient) {
       let className = ingredient.image.split("filling/")[1];
       className = className.split(".svg")[0];
       return className;
     },
+
     countIngredient(index, add) {
       this[COUNT_INGREDIENT]({ index: index, add: add });
     },
@@ -96,7 +104,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/assets/scss/blocks/ingridients.scss";
+@import "~@/assets/scss/blocks/ingredients.scss";
 @import "~@/assets/scss/blocks/filling.scss";
 @import "~@/assets/scss/blocks/radio.scss";
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div
-    :draggable="isDraggable"
+    v-bind="{ draggable }"
     @dragstart.self="onDrag"
     @dragover.prevent
     @dragenter.prevent
@@ -20,11 +20,13 @@ export default {
       required: true,
     },
   },
+
   computed: {
-    isDraggable() {
+    draggable() {
       return this.transferData.count < 3;
     },
   },
+
   methods: {
     onDrag({ dataTransfer }) {
       dataTransfer.effectAllowed = MOVE;
