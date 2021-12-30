@@ -273,7 +273,7 @@
 </template>
 
 <script>
-import ItemCounter from "@/common/components/AppItemCounter";
+import ItemCounter from "@/common/components/ItemCounter";
 import AppButton from "@/common/components/AppButton";
 import { mapState, mapMutations, mapActions } from "vuex";
 import {

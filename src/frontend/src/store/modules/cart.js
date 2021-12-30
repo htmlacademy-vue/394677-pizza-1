@@ -13,11 +13,13 @@ Vue.use(Vuex);
 
 export default {
   namespaced: true,
+
   state: {
     pizza: [],
     misc: [],
     total: 0,
   },
+
   mutations: {
     [SET_MISC](state, payload) {
       state.misc = payload.misc;
@@ -25,6 +27,7 @@ export default {
         misc.count = 0;
       });
     },
+
     [SET_CART](state, payload) {
       const pizza = cloneDeep(payload.pizza);
       pizza.total = payload.total;
@@ -44,6 +47,7 @@ export default {
         });
       }
     },
+
     [SET_CART_REPEAT_ORDER](state, payload) {
       const order = cloneDeep(payload);
       order.orderPizzas.forEach((item) => {
@@ -70,6 +74,7 @@ export default {
         });
       });
     },
+
     [CLEAN_CART](state) {
       state.pizza = [];
       state.total = 0;
@@ -77,6 +82,7 @@ export default {
         misc.count = 0;
       });
     },
+
     [SET_PIZZA_COUNT](state, payload) {
       let pizza = cloneDeep(state.pizza[payload.index]);
       if (payload.add) {
@@ -97,6 +103,7 @@ export default {
         }
       }
     },
+
     [SET_ADDITIONAL_COUNT](state, payload) {
       let misc = cloneDeep(state.misc[payload.index]);
       if (payload.add) {
@@ -109,11 +116,13 @@ export default {
       Vue.set(state.misc, payload.index, misc);
     },
   },
+
   actions: {
     async getMisc({ commit }) {
       const data = await this.$api.misc.query();
       commit(SET_MISC, { misc: data });
     },
+
     async addToCart({ commit, dispatch }, payload) {
       commit(SET_CART, payload);
       dispatch("Builder/resetBuilder", null, { root: true });

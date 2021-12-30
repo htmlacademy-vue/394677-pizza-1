@@ -14,6 +14,7 @@ import { DATA_TRANSFER_PAYLOAD, MOVE } from "@/common/constants.json";
 
 export default {
   name: "AppDrag",
+
   props: {
     transferData: {
       type: Object,

@@ -4,7 +4,9 @@ import AppHeader from "@/common/components/AppHeader";
 import { generateMockStore } from "@/store/mock";
 import { SET_USER } from "@/store/modules/mutation-types";
 import user from "@/static/user.json";
+
 const localVue = createLocalVue();
+
 localVue.use(Vuex);
 
 const authenticateUser = (store) => {
@@ -12,6 +14,7 @@ const authenticateUser = (store) => {
 };
 
 describe("AppHeader", () => {
+
   // Заглушка вместо реального router-view
   const stubs = ["router-link", "router-view"];
 
@@ -46,6 +49,7 @@ describe("AppHeader", () => {
 
   // Проверяем, что при получение из store isAuthenticated true генерирует нужные ссылки.
   describe("when isAuthenticated is true", () => {
+
     beforeEach(() => {
       authenticateUser(store);
       createComponent({ localVue, store, stubs });
@@ -72,6 +76,7 @@ describe("AppHeader", () => {
 
   // Проверяем, что при получение из store isAuthenticated false генерируются нужные ссылки.
   describe("when isAuthenticated is false", () => {
+
     beforeEach(() => {
       createComponent({ localVue, store, stubs });
     });
