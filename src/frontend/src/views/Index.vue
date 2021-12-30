@@ -2,14 +2,14 @@
   <main class="content">
     <div class="content__wrapper">
       <h1 class="title title--big">Конструктор пиццы</h1>
-      <BuilderDoughSelector :doughList="pizza.dough"></BuilderDoughSelector>
-      <BuilderSizeSelector :sizes="pizza.sizes"></BuilderSizeSelector>
-      <BuilderIngredientsSelector :pizza="pizza"></BuilderIngredientsSelector>
+      <BuilderDoughSelector :dough-list="pizza.dough" />
+      <BuilderSizeSelector :sizes="pizza.sizes" />
+      <BuilderIngredientsSelector :pizza="pizza" />
       <AppDrop @drop="moveIngredient($event)">
-        <BuilderPizzaView :pizza="pizza"></BuilderPizzaView>
+        <BuilderPizzaView :pizza="pizza" />
       </AppDrop>
     </div>
-    <router-view></router-view>
+    <router-view />
   </main>
 </template>
 

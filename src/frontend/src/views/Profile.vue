@@ -101,28 +101,33 @@
       </div>
 
       <div class="address-form__buttons">
-        <Button v-if="isEdit" @click="deleteAddress" class="button--transparent"
-          >Удалить</Button
+        <AppButton
+          v-if="isEdit"
+          @click="deleteAddress"
+          class="button--transparent"
+          >Удалить</AppButton
         >
-        <Button @click="cancel" class="button--transparent">Отмена</Button>
-        <Button @click="saveAddress" name="save-button">Сохранить</Button>
+        <AppButton @click="cancel" class="button--transparent"
+          >Отмена</AppButton
+        >
+        <AppButton @click="saveAddress" name="save-button">Сохранить</AppButton>
       </div>
     </article>
     <div class="layout__button">
-      <Button
+      <AppButton
         v-if="!isAddition && !isEdit"
         @click="addAddress"
         class="button--border"
         name="add-button"
       >
         Добавить новый адрес
-      </Button>
+      </AppButton>
     </div>
   </div>
 </template>
 
 <script>
-import Button from "@/common/components/Button";
+import AppButton from "@/common/components/AppButton";
 import { mapState } from "vuex";
 import { cloneDeep } from "lodash";
 import auth from "@/middlewares/auth";
@@ -131,7 +136,7 @@ export default {
   middlewares: { middlewares: auth },
   layout: "ProfileLayout",
   components: {
-    Button,
+    AppButton,
   },
   data: function () {
     return {

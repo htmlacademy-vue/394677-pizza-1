@@ -1,17 +1,17 @@
 <template>
   <div class="content__result">
     <p>Итого: {{ total }} ₽</p>
-    <Button :disabled="disabled" @click="addToCart">Готовьте!</Button>
+    <AppButton :disabled="disabled" @click="addToCart">Готовьте!</AppButton>
   </div>
 </template>
 
 <script>
-import Button from "@/common/components/Button";
+import AppButton from "@/common/components/AppButton";
 import { mapGetters } from "vuex";
 export default {
   name: "BuilderPriceCounter",
   components: {
-    Button,
+    AppButton,
   },
   props: {
     pizza: {

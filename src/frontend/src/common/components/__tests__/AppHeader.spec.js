@@ -1,10 +1,9 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
-import Header from "@/common/components/Header";
+import AppHeader from "@/common/components/AppHeader";
 import { generateMockStore } from "@/store/mock";
 import { SET_USER } from "@/store/modules/mutation-types";
 import user from "@/static/user.json";
-import VueRouter from "vue-router";
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
@@ -12,7 +11,7 @@ const authenticateUser = (store) => {
   store.commit("Auth/" + SET_USER, { isAuthenticated: true, user: user });
 };
 
-describe("Header", () => {
+describe("AppHeader", () => {
   // Заглушка вместо реального router-view
   const stubs = ["router-link", "router-view"];
 
@@ -21,7 +20,7 @@ describe("Header", () => {
   let store;
   let wrapper;
   const createComponent = (options) => {
-    wrapper = mount(Header, options);
+    wrapper = mount(AppHeader, options);
   };
 
   beforeEach(() => {

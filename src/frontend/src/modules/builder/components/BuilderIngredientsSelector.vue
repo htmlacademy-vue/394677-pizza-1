@@ -30,7 +30,7 @@
               :key="index"
               class="ingridients__item"
             >
-              <AppDrag :transferData="ingredient">
+              <AppDrag :transfer-data="ingredient">
                 <span
                   class="filling"
                   :class="'filling--' + ingredientClassName(ingredient)"
@@ -43,7 +43,7 @@
                   :index="index"
                   :restrictions="3"
                   @countItem="countIngredient"
-                ></ItemCounter>
+                />
               </AppDrag>
             </li>
           </ul>
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import ItemCounter from "@/common/components/ItemCounter";
+import ItemCounter from "@/common/components/AppItemCounter";
 import AppDrag from "@/common/components/AppDrag";
 import {
   COUNT_INGREDIENT,

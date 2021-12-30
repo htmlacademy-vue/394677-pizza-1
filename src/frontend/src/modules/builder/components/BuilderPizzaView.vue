@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    <BuilderPriceCounter :pizza="pizza"></BuilderPriceCounter>
+    <BuilderPriceCounter :pizza="pizza" />
   </div>
 </template>
 
