@@ -1,7 +1,12 @@
 <template>
   <div class="content__result">
     <p>Итого: {{ total }} ₽</p>
-    <AppButton :disabled="disabled" @click="addToCart">Готовьте!</AppButton>
+    <AppButton
+      :disabled="disabled"
+      @click="addToCart"
+    >
+      Готовьте!
+    </AppButton>
   </div>
 </template>
 

@@ -19,8 +19,8 @@
           <div class="pizza__filling"></div>
           <template v-for="(ingredientClass, index) in pizzaClassList">
             <div
-              class="pizza__filling"
               :key="index"
+              class="pizza__filling"
               :class="ingredientClass"
             ></div>
           </template>

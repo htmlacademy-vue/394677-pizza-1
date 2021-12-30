@@ -3,9 +3,17 @@
     <div class="layout__title">
       <h1 class="title title--big">Мои данные</h1>
     </div>
-    <div v-if="user" class="user">
+    <div
+      v-if="user"
+      class="user"
+    >
       <picture>
-        <img :src="user.avatar" :alt="user.name" width="72" height="72" />
+        <img
+          :src="user.avatar"
+          :alt="user.name"
+          width="72"
+          height="72"
+        />
       </picture>
       <div class="user__name">
         <span>{{ user.name }}</span>
@@ -17,14 +25,18 @@
     <div class="layout__address">
       <div
         v-for="(item, key) in addresses"
-        class="sheet address-form"
         :key="key"
+        class="sheet address-form"
       >
         <div class="address-form__header">
           <b>{{ item.name }}</b>
           <a href="#edit">
             <div class="address-form__edit">
-              <button @click="editAddress(item)" type="button" class="icon">
+              <button
+                type="button"
+                class="icon"
+                @click="editAddress(item)"
+              >
                 <span class="visually-hidden">Изменить адрес</span>
               </button>
             </div>
@@ -35,8 +47,13 @@
       </div>
     </div>
 
-    <article id="edit" v-if="isAddition || isEdit" class="layout__address">
-      <div v-if="isEdit" class="address-form__header">
+    <article
+v-if="isAddition || isEdit"
+id="edit"
+class="layout__address">
+      <div
+v-if="isEdit"
+class="address-form__header">
         <b>{{ localAddress.name }}</b>
       </div>
       <div class="address-form__wrapper">
@@ -103,22 +120,26 @@
       <div class="address-form__buttons">
         <AppButton
           v-if="isEdit"
-          @click="deleteAddress"
           class="button--transparent"
+          @click="deleteAddress"
           >Удалить</AppButton
         >
-        <AppButton @click="cancel" class="button--transparent"
+        <AppButton
+class="button--transparent"
+@click="cancel"
           >Отмена</AppButton
         >
-        <AppButton @click="saveAddress" name="save-button">Сохранить</AppButton>
+        <AppButton
+name="save-button"
+@click="saveAddress">Сохранить</AppButton>
       </div>
     </article>
     <div class="layout__button">
       <AppButton
         v-if="!isAddition && !isEdit"
-        @click="addAddress"
         class="button--border"
         name="add-button"
+        @click="addAddress"
       >
         Добавить новый адрес
       </AppButton>

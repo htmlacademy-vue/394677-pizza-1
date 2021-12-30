@@ -14,8 +14,8 @@
             type="radio"
             name="diameter"
             :value="size.class"
-            class="visually-hidden"
             :checked="size.checked"
+            class="visually-hidden"
             @change="changeSize(index)"
           />
           <span>{{ size.name }}</span>

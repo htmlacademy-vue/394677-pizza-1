@@ -1,8 +1,11 @@
 <template>
   <div class="sign-form">
-    <a @click="closeModal" class="close close--white"
-      ><span class="visually-hidden">Закрыть форму авторизации</span></a
-    >
+    <a
+      class="close close--white"
+      @click="closeModal"
+      >
+      <span class="visually-hidden">Закрыть форму авторизации</span>
+    </a>
     <div class="sign-form__title">
       <h1 class="title title--small">Авторизуйтесь на сайте</h1>
     </div>
@@ -29,9 +32,12 @@
         />
       </label>
     </div>
-    <AppButton @click="login" :disabled="disabledButton"
-      >Авторизоваться</AppButton
-    >
+    <AppButton
+      :disabled="disabledButton"
+      @click="login"
+      >
+      Авторизоваться
+    </AppButton>
   </div>
 </template>
 
