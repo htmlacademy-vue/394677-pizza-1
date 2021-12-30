@@ -1,6 +1,6 @@
 import { shallowMount } from "@vue/test-utils";
-import Button from "@/common/components/Button";
-describe("Button", () => {
+import AppButton from "@/common/components/AppButton";
+describe("AppButton", () => {
   // Определяем входные параметры по умолчанию и заглушки.
   const slots = { default: "content" };
   const listeners = { click: null };
@@ -10,7 +10,7 @@ describe("Button", () => {
 
   // Для каждого теста мы будем создавать новую обёртку.
   const createComponent = (options) => {
-    wrapper = shallowMount(Button, options);
+    wrapper = shallowMount(AppButton, options);
   };
 
   // Перед каждым тестом мы будем заменять click-событие свежей jest-функцией.

@@ -1,11 +1,11 @@
 import { shallowMount } from "@vue/test-utils";
-import Modal from "@/common/components/Modal";
-import Button from "@/common/components/Button";
+import AppModal from "@/common/components/AppModal";
+import AppButton from "@/common/components/AppButton";
 
-describe("Modal", () => {
+describe("AppModal", () => {
   let wrapper;
   const createComponent = (options) => {
-    wrapper = shallowMount(Modal, options);
+    wrapper = shallowMount(AppModal, options);
   };
 
   afterEach(() => {
@@ -22,7 +22,7 @@ describe("Modal", () => {
       expect(wrapper.emitted()).toBeTruthy();
     });
     it("close modal click button", async () => {
-      const button = wrapper.findComponent(Button);
+      const button = wrapper.findComponent(AppButton);
       await button.trigger("click");
       expect(wrapper.emitted()).toBeTruthy();
     });

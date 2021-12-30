@@ -1,8 +1,11 @@
 <template>
   <div class="sign-form">
-    <a @click="closeModal" class="close close--white"
-      ><span class="visually-hidden">Закрыть форму авторизации</span></a
-    >
+    <a
+      class="close close--white"
+      @click="closeModal"
+      >
+      <span class="visually-hidden">Закрыть форму авторизации</span>
+    </a>
     <div class="sign-form__title">
       <h1 class="title title--small">Авторизуйтесь на сайте</h1>
     </div>
@@ -29,29 +32,38 @@
         />
       </label>
     </div>
-    <Button @click="login" :disabled="disabledButton">Авторизоваться</Button>
+    <AppButton
+      :disabled="disabledButton"
+      @click="login"
+      >
+      Авторизоваться
+    </AppButton>
   </div>
 </template>
 
 <script>
-import Button from "@/common/components/Button";
+import AppButton from "@/common/components/AppButton";
 import isLoggedIn from "@/middlewares/isLoggedIn";
+
 export default {
   name: "Login",
   layout: "LoginLayout",
   middlewares: { middlewares: isLoggedIn },
-  components: { Button },
+  components: { AppButton },
+
   data: function () {
     return {
       email: "",
       password: "",
     };
   },
+
   computed: {
     disabledButton() {
       return !(this.password && this.email);
     },
   },
+
   methods: {
     login() {
       this.$store.dispatch("Auth/login", {
@@ -60,6 +72,7 @@ export default {
       });
       this.closeModal();
     },
+
     closeModal() {
       const element = document.querySelector(".sign-form");
       element?.classList.add("animate__animated", "animate__bounceOutLeft");

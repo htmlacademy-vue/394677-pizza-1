@@ -1,7 +1,7 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import Login from "@/views/Login";
-import Button from "@/common/components/Button";
+import Button from "@/common/components/AppButton";
 import { generateMockStore } from "@/store/mock";
 import VueRouter from "vue-router";
 const localVue = createLocalVue();

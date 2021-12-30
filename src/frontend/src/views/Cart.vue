@@ -6,7 +6,10 @@
           <h1 class="title title--big">Корзина</h1>
         </div>
 
-        <div v-if="isEmptyCart" class="sheet cart__empty">
+        <div
+          v-if="isEmptyCart"
+          class="sheet cart__empty"
+        >
           <p>В корзине нет ни одного товара</p>
         </div>
         <template v-else>
@@ -28,25 +31,33 @@
                   <h2>{{ item.name }}</h2>
                   <ul>
                     <li>
-                      <template v-for="(size, sizeIndex) in item.sizes"
-                        ><span :key="sizeIndex + size.name" v-if="size.checked">
+                      <template
+                        v-for="(size, sizeIndex) in item.sizes"
+                        >
+                        <span
+                          v-if="size.checked"
+                          :key="sizeIndex + size.name">
                           {{ size.name }}
-                        </span> </template
-                      >,
-                      <template v-for="(doughItem, doughIndex) in item.dough"
-                        ><span
-                          :key="doughIndex + doughItem.name"
+                        </span>
+                      </template>,
+                      <template
+                        v-for="(doughItem, doughIndex) in item.dough"
+                        >
+                        <span
                           v-if="doughItem.checked"
+                          :key="doughIndex + doughItem.name"
                         >
                           {{ doughItem.description }}
                         </span>
                       </template>
                     </li>
                     <li>
-                      <template v-for="(sauce, sauceIndex) in item.sauces"
-                        ><span
-                          :key="sauceIndex + sauce.name"
+                      <template
+                        v-for="(sauce, sauceIndex) in item.sauces"
+                        >
+                        <span
                           v-if="sauce.checked"
+                          :key="sauceIndex + sauce.name"
                         >
                           Соус: {{ sauce.name }}
                         </span>
@@ -59,12 +70,15 @@
                           ingredient, ingredientIndex
                         ) in item.ingredients"
                         ><span
-                          :key="ingredientIndex + ingredient.name"
                           v-if="ingredient.count"
+                          :key="ingredientIndex + ingredient.name"
                         >
                           {{ ingredient.name }}
-                          <span v-if="ingredient.count > 1"
-                            >X {{ ingredient.count }}</span
+                          <span
+                            v-if="ingredient.count > 1"
+                            >
+                            X {{ ingredient.count }}
+                          </span
                           >,
                         </span>
                       </template>
@@ -76,9 +90,9 @@
                 class="cart-list__counter"
                 :item="item"
                 :index="index"
-                classNameButton="counter__button--orange"
+                class-name-button="counter__button--orange"
                 @countItem="countPizza"
-              ></ItemCounter>
+              />
               <div class="cart-list__price">
                 <b>{{ item.total * item.count }} ₽</b>
               </div>
@@ -116,9 +130,9 @@
                     class="additional-list__counter"
                     :item="item"
                     :index="index"
-                    classNameButton="counter__button--orange"
+                    class-name-button="counter__button--orange"
                     @countItem="countAdditional"
-                  ></ItemCounter>
+                  />
                   <div class="additional-list__price">
                     <b>{{ item.price * item.count }} ₽</b>
                   </div>
@@ -133,9 +147,9 @@
                 <span class="cart-form__label">Получение заказа:</span>
                 <select
                   v-model="receiveOrder"
-                  @change="changeAddress"
                   name="test"
                   class="select"
+                  @change="changeAddress"
                 >
                   <option
                     v-for="item in shippingOptions"
@@ -156,12 +170,23 @@
                   placeholder="+7 999-999-99-99"
                 />
               </label>
-              <div v-if="!noDelivery" class="cart-form__address">
-                <span v-if="newAddress" class="cart-form__label"
-                  >Новый адрес:</span
+              <div
+                v-if="!noDelivery"
+                class="cart-form__address"
+              >
+                <span
+                  v-if="newAddress"
+                  class="cart-form__label"
+                  >
+                  Новый адрес:
+                </span
                 >
-                <span v-if="existingAddress" class="cart-form__label"
-                  >Существующий адрес:</span
+                <span
+                  v-if="existingAddress"
+                  class="cart-form__label"
+                  >
+                  Существующий адрес:
+                </span
                 >
                 <div class="cart-form__input">
                   <label class="input">
@@ -204,10 +229,17 @@
         </template>
       </div>
     </main>
-    <section v-if="!isEmptyCart" class="footer">
+    <section
+      v-if="!isEmptyCart"
+      class="footer"
+    >
       <div class="footer__more">
-        <router-link to="/" class="button button--border button--arrow"
-          >Хочу еще одну</router-link
+        <router-link
+          to="/"
+          class="button button--border button--arrow"
+          >
+          Хочу еще одну
+        </router-link
         >
       </div>
       <p class="footer__text">
@@ -217,9 +249,12 @@
         <b>Итого: {{ total }} ₽</b>
       </div>
       <div class="footer__submit">
-        <Button @click="setOrder" :disabled="disabledSubmitOrder"
-          >Оформить заказ</Button
-        >
+        <AppButton
+          :disabled="disabledSubmitOrder"
+          @click="setOrder"
+          >
+          Оформить заказ
+        </AppButton>
       </div>
     </section>
     <div class="central-form">
@@ -228,15 +263,18 @@
         appear
         enter-active-class="animate__animated animate__bounceIn"
       >
-        <Modal v-if="showModal" @closeModal="closeModal"></Modal>
+        <Modal
+          v-if="showModal"
+          @closeModal="closeModal"
+        />
       </transition>
     </div>
   </div>
 </template>
 
 <script>
-import ItemCounter from "@/common/components/ItemCounter";
-import Button from "@/common/components/Button";
+import ItemCounter from "@/common/components/AppItemCounter";
+import AppButton from "@/common/components/AppButton";
 import { mapState, mapMutations, mapActions } from "vuex";
 import {
   SET_BUILDER,
@@ -244,19 +282,23 @@ import {
   SET_ADDITIONAL_COUNT,
   CLEAN_CART,
 } from "@/store/modules/mutation-types";
-import Modal from "@/common/components/Modal";
+import Modal from "@/common/components/AppModal";
 import Options from "@/common/options/shipping";
 import pizzasOrderOptions from "@/common/mixins/formatOrderOptions";
 import miscOrderOptions from "@/common/mixins/formatOrderOptions";
 import { cloneDeep } from "lodash";
+
 export default {
   name: "Cart",
+
   components: {
-    Button,
+    AppButton,
     ItemCounter,
     Modal,
   },
+
   mixins: [pizzasOrderOptions, miscOrderOptions],
+
   data: function () {
     return {
       receiveOrder: { id: "self", name: "Получу сам" },
@@ -265,25 +307,16 @@ export default {
       showModal: false,
     };
   },
-  watch: {
-    userPhone: {
-      handler() {
-        if (this.user?.phone) {
-          this.phoneNumber = cloneDeep(this.user?.phone);
-        } else {
-          this.phoneNumber = "";
-        }
-      },
-      immediate: true,
-    },
-  },
+
   computed: {
     ...mapState("Cart", ["pizza", "total", "misc"]),
     ...mapState("Address", ["addresses"]),
     ...mapState("Auth", ["user", "isAuthenticated"]),
+
     isEmptyCart() {
       return this.pizza.length === 0;
     },
+
     disabledSubmitOrder() {
       let disabled = false;
       if (this.newAddress) {
@@ -295,6 +328,7 @@ export default {
       }
       return this.phoneNumber === "" || disabled;
     },
+
     shippingOptions() {
       let options = [];
       if (this.addresses) {
@@ -307,16 +341,33 @@ export default {
       }
       return Options.shipping().concat(options);
     },
+
     newAddress() {
       return this.receiveOrder.id === "new";
     },
+
     noDelivery() {
       return this.receiveOrder.id === "self";
     },
+
     existingAddress() {
       return this.receiveOrder.id !== "self" && this.receiveOrder.id !== "new";
     },
   },
+
+  watch: {
+    userPhone: {
+      handler() {
+        if (this.user?.phone) {
+          this.phoneNumber = cloneDeep(this.user?.phone);
+        } else {
+          this.phoneNumber = "";
+        }
+      },
+      immediate: true,
+    },
+  },
+
   methods: {
     ...mapMutations("Cart", [
       SET_PIZZA_COUNT,
@@ -325,16 +376,20 @@ export default {
     ]),
     ...mapMutations("Builder", [SET_BUILDER]),
     ...mapActions({ setOrders: "Orders/setOrders" }),
+
     countPizza(index, add) {
       this[SET_PIZZA_COUNT]({ index, add });
     },
+
     countAdditional(index, add) {
       this[SET_ADDITIONAL_COUNT]({ index, add });
     },
+
     changePizza(pizza, index) {
       this[SET_BUILDER]({ pizza, index });
       this.$router.push("/");
     },
+
     changeAddress() {
       if (this.newAddress) {
         this.localAddress = { street: "", building: "", flat: "" };
@@ -350,6 +405,7 @@ export default {
         });
       }
     },
+
     setOrder() {
       if (this.localAddress) {
         this.localAddress.name =
@@ -369,6 +425,7 @@ export default {
       });
       this.showModal = true;
     },
+
     closeModal() {
       const element = document.querySelector(".popup");
       element.classList.add("animate__animated", "animate__bounceOutLeft");

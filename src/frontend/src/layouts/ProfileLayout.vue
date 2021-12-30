@@ -1,7 +1,7 @@
 <template>
   <div>
-    <appHeader></appHeader>
-    <sidebar></sidebar>
+    <AppHeader />
+    <AppSidebar />
     <transition
       name="view"
       appear
@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import appHeader from "@/common/components/Header";
-import sidebar from "@/common/components/Sidebar";
+import AppHeader from "@/common/components/AppHeader";
+import AppSidebar from "@/common/components/AppSidebar";
 export default {
   name: "ProfileLayout",
   components: {
-    appHeader,
-    sidebar,
+    AppHeader,
+    AppSidebar,
   },
 };
 </script>

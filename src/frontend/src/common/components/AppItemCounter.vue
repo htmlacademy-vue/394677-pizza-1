@@ -1,13 +1,13 @@
 <template>
   <div class="counter">
-    <Button
+    <AppButton
       class="counter__button"
       :class="classButton({ operation: 'minus', disabled: disabledReduce })"
       :disabled="disabledReduce"
       @click="reduce"
     >
       <span class="visually-hidden">Меньше</span>
-    </Button>
+    </AppButton>
     <input
       type="text"
       name="counter"
@@ -15,7 +15,7 @@
       :value="item.count"
       :disabled="true"
     />
-    <Button
+    <AppButton
       class="counter__button"
       :class="
         classButton({ operation: 'plus', disabled: disabledAdd }) +
@@ -26,15 +26,18 @@
       @click="add"
     >
       <span class="visually-hidden">Больше</span>
-    </Button>
+    </AppButton>
   </div>
 </template>
 
 <script>
-import Button from "@/common/components/Button";
+import AppButton from "@/common/components/AppButton";
+
 export default {
   name: "ItemCounter",
-  components: { Button },
+
+  components: { AppButton },
+
   props: {
     item: {
       type: Object,
@@ -53,10 +56,12 @@ export default {
       required: false,
     },
   },
+
   computed: {
     disabledReduce() {
       return this.item.count === 0;
     },
+
     disabledAdd() {
       if (this.restrictions) {
         return this.item.count === this.restrictions;
@@ -64,16 +69,20 @@ export default {
       return false;
     },
   },
+
   methods: {
     add() {
       this.countItem(true);
     },
+
     reduce() {
       this.countItem(false);
     },
+
     countItem(add) {
       this.$emit("countItem", this.index, add);
     },
+
     classButton(data) {
       if (data.disabled) {
         return "counter__button--disabled counter__button--" + data.operation;

@@ -3,9 +3,17 @@
     <div class="layout__title">
       <h1 class="title title--big">Мои данные</h1>
     </div>
-    <div v-if="user" class="user">
+    <div
+      v-if="user"
+      class="user"
+    >
       <picture>
-        <img :src="user.avatar" :alt="user.name" width="72" height="72" />
+        <img
+          :src="user.avatar"
+          :alt="user.name"
+          width="72"
+          height="72"
+        />
       </picture>
       <div class="user__name">
         <span>{{ user.name }}</span>
@@ -17,14 +25,18 @@
     <div class="layout__address">
       <div
         v-for="(item, key) in addresses"
-        class="sheet address-form"
         :key="key"
+        class="sheet address-form"
       >
         <div class="address-form__header">
           <b>{{ item.name }}</b>
           <a href="#edit">
             <div class="address-form__edit">
-              <button @click="editAddress(item)" type="button" class="icon">
+              <button
+                type="button"
+                class="icon"
+                @click="editAddress(item)"
+              >
                 <span class="visually-hidden">Изменить адрес</span>
               </button>
             </div>
@@ -35,8 +47,13 @@
       </div>
     </div>
 
-    <article id="edit" v-if="isAddition || isEdit" class="layout__address">
-      <div v-if="isEdit" class="address-form__header">
+    <article
+v-if="isAddition || isEdit"
+id="edit"
+class="layout__address">
+      <div
+v-if="isEdit"
+class="address-form__header">
         <b>{{ localAddress.name }}</b>
       </div>
       <div class="address-form__wrapper">
@@ -101,38 +118,57 @@
       </div>
 
       <div class="address-form__buttons">
-        <Button v-if="isEdit" @click="deleteAddress" class="button--transparent"
-          >Удалить</Button
+        <AppButton
+          v-if="isEdit"
+          class="button--transparent"
+          @click="deleteAddress"
+          >Удалить</AppButton
         >
-        <Button @click="cancel" class="button--transparent">Отмена</Button>
-        <Button @click="saveAddress" name="save-button">Сохранить</Button>
+        <AppButton
+            class="button--transparent"
+            @click="cancel"
+          >
+          Отмена
+        </AppButton
+        >
+        <AppButton
+          name="save-button"
+          @click="saveAddress"
+        >
+          Сохранить
+        </AppButton>
       </div>
     </article>
     <div class="layout__button">
-      <Button
+      <AppButton
         v-if="!isAddition && !isEdit"
-        @click="addAddress"
         class="button--border"
         name="add-button"
+        @click="addAddress"
       >
         Добавить новый адрес
-      </Button>
+      </AppButton>
     </div>
   </div>
 </template>
 
 <script>
-import Button from "@/common/components/Button";
+import AppButton from "@/common/components/AppButton";
 import { mapState } from "vuex";
 import { cloneDeep } from "lodash";
 import auth from "@/middlewares/auth";
+
 export default {
   name: "Profile",
+
   middlewares: { middlewares: auth },
+
   layout: "ProfileLayout",
+
   components: {
-    Button,
+    AppButton,
   },
+
   data: function () {
     return {
       isEdit: false,
@@ -146,31 +182,37 @@ export default {
       },
     };
   },
+
   computed: {
     ...mapState("Auth", ["user"]),
     ...mapState("Address", ["addresses"]),
   },
+
   methods: {
     addAddress() {
       this.clearForm();
       this.isEdit = false;
       this.isAddition = true;
     },
+
     editAddress(data) {
       this.isAddition = false;
       this.isEdit = true;
       this.localAddress = cloneDeep(data);
       this.localAddress.userId = this.user.id;
     },
+
     clearForm() {
       Object.keys(this.localAddress).forEach((item) => {
         this.localAddress[item] = "";
       });
     },
+
     cancel() {
       this.isAddition = false;
       this.isEdit = false;
     },
+
     createAddress() {
       const data = cloneDeep(this.localAddress);
       if (data.flat === "") {
@@ -185,15 +227,18 @@ export default {
       this.$store.dispatch("Address/saveAddresses", data);
       this.isAddition = false;
     },
+
     deleteAddress() {
       const addressId = this.localAddress.id;
       this.$store.dispatch("Address/deleteAddresses", addressId);
       this.isEdit = false;
     },
+
     edit() {
       this.$store.dispatch("Address/editAddresses", this.localAddress);
       this.isEdit = false;
     },
+
     saveAddress() {
       if (this.isAddition) {
         this.createAddress();

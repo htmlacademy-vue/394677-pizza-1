@@ -1,7 +1,10 @@
 <template>
   <div class="popup">
-    <a @click="closeModal" class="close">
-      <span class="visually-hidden">Закрыть попап</span>
+    <a
+      class="close"
+      @click="closeModal"
+    >
+      <span class="visually-hidden">Закрыть модальное окно</span>
     </a>
     <div class="popup__title">
       <h2 class="title">Спасибо за заказ</h2>
@@ -14,12 +17,15 @@
 </template>
 
 <script>
-import Button from "@/common/components/Button";
+import Button from "@/common/components/AppButton";
+
 export default {
   name: "Modal",
+
   components: {
     Button,
   },
+
   methods: {
     closeModal() {
       this.$emit("closeModal");

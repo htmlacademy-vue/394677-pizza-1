@@ -1,6 +1,6 @@
 <template>
   <div>
-    <appHeader></appHeader>
+    <appHeader />
     <div class="central-form">
       <transition
         name="view"
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import appHeader from "@/common/components/Header";
+import appHeader from "@/common/components/AppHeader";
 export default {
   name: "LoginLayout",
   components: {
