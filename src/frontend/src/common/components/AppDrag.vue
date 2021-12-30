@@ -20,11 +20,13 @@ export default {
       required: true,
     },
   },
+
   computed: {
     draggable() {
       return this.transferData.count < 3;
     },
   },
+
   methods: {
     onDrag({ dataTransfer }) {
       dataTransfer.effectAllowed = MOVE;

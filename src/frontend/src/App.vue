@@ -10,6 +10,7 @@
 import { setAuth } from "@/common/helpers";
 import { getToken } from "@/services/jwt.service";
 const defaultLayout = "MainLayout";
+
 export default {
   name: "App",
   computed: {
@@ -18,6 +19,7 @@ export default {
       return () => import(`@/layouts/${layout}.vue`);
     },
   },
+
   created() {
     if (getToken()) {
       setAuth(this.$store);

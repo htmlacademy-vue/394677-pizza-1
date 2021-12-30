@@ -61,33 +61,41 @@ import {
   CHANGE_OPTIONS,
 } from "@/store/modules/mutation-types";
 import { mapMutations } from "vuex";
+
 export default {
   name: "BuilderIngredientsSelector",
+
   components: {
     ItemCounter,
     AppDrag,
   },
+
   props: {
     pizza: {
       type: Object,
       default: () => {},
     },
   },
+
   data() {
     return {
       ingredientClassList: [],
     };
   },
+
   methods: {
     ...mapMutations("Builder", [COUNT_INGREDIENT, CHANGE_OPTIONS]),
+
     changeSauce(index) {
       this[CHANGE_OPTIONS]({ index: index, name: "sauces" });
     },
+
     ingredientClassName(ingredient) {
       let className = ingredient.image.split("filling/")[1];
       className = className.split(".svg")[0];
       return className;
     },
+
     countIngredient(index, add) {
       this[COUNT_INGREDIENT]({ index: index, add: add });
     },

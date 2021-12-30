@@ -103,7 +103,7 @@
         }},
         <span
           v-if="order.orderAddress.flat"
-          >
+        >
           кв.{{ order.orderAddress.flat }}
         </span>
       </p>
@@ -120,30 +120,41 @@ import {
   CLEAN_CART,
 } from "@/store/modules/mutation-types";
 import pizzaHistoryOptions from "@/common/mixins/formatOrderOptions";
+
 export default {
   name: "Orders",
+
   middlewares: { middlewares: auth },
+
   layout: "ProfileLayout",
+
   components: {
     AppButton,
   },
+
   mixins: [pizzaHistoryOptions],
+
   computed: {
     ...mapGetters("Orders", ["formatOrders"]),
   },
+
   mounted() {
     this.setInitialData();
   },
+
   methods: {
     ...mapMutations("Cart", [SET_CART_REPEAT_ORDER, CLEAN_CART]),
+
     setInitialData() {
       this.$store.dispatch("Builder/getBuilder");
       this.$store.dispatch("Cart/getMisc");
       this.$store.dispatch("Orders/getOrders");
     },
+
     deleteOrder(id) {
       this.$store.dispatch("Orders/deleteOrders", id);
     },
+
     repeatOrders(order) {
       this.$router.push("/cart");
       this[CLEAN_CART]();

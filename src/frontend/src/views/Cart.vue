@@ -287,14 +287,18 @@ import Options from "@/common/options/shipping";
 import pizzasOrderOptions from "@/common/mixins/formatOrderOptions";
 import miscOrderOptions from "@/common/mixins/formatOrderOptions";
 import { cloneDeep } from "lodash";
+
 export default {
   name: "Cart",
+
   components: {
     AppButton,
     ItemCounter,
     Modal,
   },
+
   mixins: [pizzasOrderOptions, miscOrderOptions],
+
   data: function () {
     return {
       receiveOrder: { id: "self", name: "Получу сам" },
@@ -303,13 +307,16 @@ export default {
       showModal: false,
     };
   },
+
   computed: {
     ...mapState("Cart", ["pizza", "total", "misc"]),
     ...mapState("Address", ["addresses"]),
     ...mapState("Auth", ["user", "isAuthenticated"]),
+
     isEmptyCart() {
       return this.pizza.length === 0;
     },
+
     disabledSubmitOrder() {
       let disabled = false;
       if (this.newAddress) {
@@ -321,6 +328,7 @@ export default {
       }
       return this.phoneNumber === "" || disabled;
     },
+
     shippingOptions() {
       let options = [];
       if (this.addresses) {
@@ -333,16 +341,20 @@ export default {
       }
       return Options.shipping().concat(options);
     },
+
     newAddress() {
       return this.receiveOrder.id === "new";
     },
+
     noDelivery() {
       return this.receiveOrder.id === "self";
     },
+
     existingAddress() {
       return this.receiveOrder.id !== "self" && this.receiveOrder.id !== "new";
     },
   },
+
   watch: {
     userPhone: {
       handler() {
@@ -355,6 +367,7 @@ export default {
       immediate: true,
     },
   },
+
   methods: {
     ...mapMutations("Cart", [
       SET_PIZZA_COUNT,
@@ -363,16 +376,20 @@ export default {
     ]),
     ...mapMutations("Builder", [SET_BUILDER]),
     ...mapActions({ setOrders: "Orders/setOrders" }),
+
     countPizza(index, add) {
       this[SET_PIZZA_COUNT]({ index, add });
     },
+
     countAdditional(index, add) {
       this[SET_ADDITIONAL_COUNT]({ index, add });
     },
+
     changePizza(pizza, index) {
       this[SET_BUILDER]({ pizza, index });
       this.$router.push("/");
     },
+
     changeAddress() {
       if (this.newAddress) {
         this.localAddress = { street: "", building: "", flat: "" };
@@ -388,6 +405,7 @@ export default {
         });
       }
     },
+
     setOrder() {
       if (this.localAddress) {
         this.localAddress.name =
@@ -407,6 +425,7 @@ export default {
       });
       this.showModal = true;
     },
+
     closeModal() {
       const element = document.querySelector(".popup");
       element.classList.add("animate__animated", "animate__bounceOutLeft");

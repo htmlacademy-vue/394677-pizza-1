@@ -32,20 +32,26 @@ export default {
     BuilderPizzaView,
     AppDrop,
   },
+
   mounted() {
     this.setInitialData();
   },
+
   computed: {
     ...mapState("Builder", ["pizza"]),
   },
+
   methods: {
+
     ...mapMutations("Builder", [MOVE_INGREDIENT]),
+
     setInitialData() {
       if (!("id" in this.pizza)) {
         this.$store.dispatch("Builder/getBuilder");
       }
       this.$store.dispatch("Cart/getMisc");
     },
+
     moveIngredient(transferData) {
       this[MOVE_INGREDIENT](transferData.name);
     },

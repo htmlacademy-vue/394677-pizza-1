@@ -18,11 +18,14 @@
 
 <script>
 import Button from "@/common/components/AppButton";
+
 export default {
   name: "Modal",
+
   components: {
     Button,
   },
+
   methods: {
     closeModal() {
       this.$emit("closeModal");

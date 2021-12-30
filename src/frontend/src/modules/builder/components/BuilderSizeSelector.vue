@@ -28,6 +28,7 @@
 <script>
 import { CHANGE_OPTIONS } from "@/store/modules/mutation-types";
 import { mapMutations } from "vuex";
+
 export default {
   props: {
     sizes: {
@@ -37,12 +38,16 @@ export default {
       },
     },
   },
+
   name: "BuilderSizeSelector",
+
   methods: {
     ...mapMutations("Builder", [CHANGE_OPTIONS]),
+
     changeSize(index) {
       this[CHANGE_OPTIONS]({ index: index, name: "sizes" });
     },
+
     className(size) {
       let name = "";
       if (size.name === "23 см") {

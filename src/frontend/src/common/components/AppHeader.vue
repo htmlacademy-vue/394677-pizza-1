@@ -56,12 +56,15 @@
 
 <script>
 import { mapState } from "vuex";
+
 export default {
   name: "Header",
+
   computed: {
     ...mapState("Cart", ["total"]),
     ...mapState("Auth", ["user", "isAuthenticated"]),
   },
+
   methods: {
     logout() {
       this.$store.dispatch("Auth/logout").then(() => {

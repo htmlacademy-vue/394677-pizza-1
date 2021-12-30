@@ -17,6 +17,7 @@ export default {
       type: Boolean,
       default: false,
     },
+
     button: {
       type: Boolean,
       default: true,

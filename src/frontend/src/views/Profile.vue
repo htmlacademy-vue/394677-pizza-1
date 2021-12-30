@@ -125,13 +125,18 @@ class="address-form__header">
           >Удалить</AppButton
         >
         <AppButton
-class="button--transparent"
-@click="cancel"
-          >Отмена</AppButton
+            class="button--transparent"
+            @click="cancel"
+          >
+          Отмена
+        </AppButton
         >
         <AppButton
-name="save-button"
-@click="saveAddress">Сохранить</AppButton>
+          name="save-button"
+          @click="saveAddress"
+        >
+          Сохранить
+        </AppButton>
       </div>
     </article>
     <div class="layout__button">
@@ -152,13 +157,18 @@ import AppButton from "@/common/components/AppButton";
 import { mapState } from "vuex";
 import { cloneDeep } from "lodash";
 import auth from "@/middlewares/auth";
+
 export default {
   name: "Profile",
+
   middlewares: { middlewares: auth },
+
   layout: "ProfileLayout",
+
   components: {
     AppButton,
   },
+
   data: function () {
     return {
       isEdit: false,
@@ -172,31 +182,37 @@ export default {
       },
     };
   },
+
   computed: {
     ...mapState("Auth", ["user"]),
     ...mapState("Address", ["addresses"]),
   },
+
   methods: {
     addAddress() {
       this.clearForm();
       this.isEdit = false;
       this.isAddition = true;
     },
+
     editAddress(data) {
       this.isAddition = false;
       this.isEdit = true;
       this.localAddress = cloneDeep(data);
       this.localAddress.userId = this.user.id;
     },
+
     clearForm() {
       Object.keys(this.localAddress).forEach((item) => {
         this.localAddress[item] = "";
       });
     },
+
     cancel() {
       this.isAddition = false;
       this.isEdit = false;
     },
+
     createAddress() {
       const data = cloneDeep(this.localAddress);
       if (data.flat === "") {
@@ -211,15 +227,18 @@ export default {
       this.$store.dispatch("Address/saveAddresses", data);
       this.isAddition = false;
     },
+
     deleteAddress() {
       const addressId = this.localAddress.id;
       this.$store.dispatch("Address/deleteAddresses", addressId);
       this.isEdit = false;
     },
+
     edit() {
       this.$store.dispatch("Address/editAddresses", this.localAddress);
       this.isEdit = false;
     },
+
     saveAddress() {
       if (this.isAddition) {
         this.createAddress();

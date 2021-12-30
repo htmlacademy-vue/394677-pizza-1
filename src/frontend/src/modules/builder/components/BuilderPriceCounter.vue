@@ -13,11 +13,14 @@
 <script>
 import AppButton from "@/common/components/AppButton";
 import { mapGetters } from "vuex";
+
 export default {
   name: "BuilderPriceCounter",
+
   components: {
     AppButton,
   },
+
   props: {
     pizza: {
       type: Object,
@@ -26,6 +29,7 @@ export default {
       },
     },
   },
+
   computed: {
     ...mapGetters("Builder", ["total"]),
     disabled() {
@@ -40,6 +44,7 @@ export default {
       return !(isSelectedIngredient && this.pizza.name);
     },
   },
+
   methods: {
     addToCart() {
       this.$store.dispatch("Cart/addToCart", {

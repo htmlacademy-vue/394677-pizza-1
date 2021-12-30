@@ -35,9 +35,12 @@
 import BuilderPriceCounter from "@/modules/builder/components/BuilderPriceCounter";
 import { INPUT_SET_NAME } from "@/store/modules/mutation-types";
 import { mapMutations } from "vuex";
+
 export default {
   name: "BuilderPizzaView",
+
   components: { BuilderPriceCounter },
+
   props: {
     pizza: {
       type: Object,
@@ -46,6 +49,7 @@ export default {
       },
     },
   },
+
   data() {
     return {
       doughPrice: 0,
@@ -56,6 +60,7 @@ export default {
       disabledButton: true,
     };
   },
+
   computed: {
     pizzaClassList() {
       let classList = [];
@@ -84,6 +89,7 @@ export default {
       }
       return classList;
     },
+
     pizzaDoughClass() {
       let className = "";
       if (this.pizza && this.pizza.dough) {
@@ -100,6 +106,7 @@ export default {
 
       return className;
     },
+
     pizzaSauceClass() {
       let className = "";
       if (this.pizza && this.pizza.sauces) {
@@ -116,8 +123,10 @@ export default {
       return className;
     },
   },
+
   methods: {
     ...mapMutations("Builder", [INPUT_SET_NAME]),
+
     changeName(e) {
       this[INPUT_SET_NAME](e.target.value);
     },
