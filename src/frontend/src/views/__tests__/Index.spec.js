@@ -18,6 +18,7 @@ localVue.use(Vuex);
 const setBuilder = (store) => {
   store.commit("Builder/" + SET_BUILDER, { pizza: pizza });
 };
+
 describe("Index", () => {
   // Заглушка вместо реального router-view
   const stubs = ["router-link", "router-view"];
@@ -35,6 +36,7 @@ describe("Index", () => {
       Builder: {
         getBuilder: jest.fn(),
       },
+
       Cart: {
         getMisc: jest.fn(),
       },
@@ -58,6 +60,7 @@ describe("Index", () => {
       setBuilder(store);
       createComponent({ localVue, store, stubs });
     });
+
     it("should set dough options", () => {
       store.commit("Builder/" + SET_PIZZA_OPTIONS, {
         name: "dough",
@@ -108,10 +111,12 @@ describe("Index", () => {
     beforeEach(() => {
       createComponent({ localVue, store, stubs });
     });
+
     //Проверяем, что при монтировании компонента, если в pizza нет id, мы вызываем getBuilder
     it("when pizza has not an index call getBuilder", () => {
       expect(actions.Builder.getBuilder).toHaveBeenCalled();
     });
+
     it("when pizza has not an index call getMisc", () => {
       expect(actions.Cart.getMisc).toHaveBeenCalled();
     });
@@ -123,6 +128,7 @@ describe("Index", () => {
       store.commit("Builder/" + SET_BUILDER, { pizza, index: 0 });
       createComponent({ localVue, store, stubs });
     });
+
     it("when pizza has an index dont call getBuilder", () => {
       expect(actions.Builder.getBuilder).toHaveBeenCalledTimes(0);
     });

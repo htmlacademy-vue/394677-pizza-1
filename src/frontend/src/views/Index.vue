@@ -24,7 +24,9 @@ import AppDrop from "@/common/components/AppDrop";
 
 export default {
   name: "Index",
+
   layout: "MainLayout",
+
   components: {
     BuilderDoughSelector,
     BuilderIngredientsSelector,

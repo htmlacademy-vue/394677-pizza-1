@@ -67,10 +67,12 @@ export default {
       return orders;
     },
   },
+
   mutations: {
     [SET_ORDERS](state, payload) {
       state.orders = payload;
     },
+
     [DELETE_ORDER](state, payload) {
       state.orders.forEach((order, index) => {
         if (order.id === payload) {
@@ -79,6 +81,7 @@ export default {
       });
     },
   },
+
   actions: {
     async setOrders({ dispatch }, payload) {
       try {
@@ -91,6 +94,7 @@ export default {
         dispatch("Address/getAddresses", null, { root: true });
       }
     },
+
     async getOrders({ commit }, payload) {
       try {
         const data = await this.$api.orders.query(payload);
@@ -99,6 +103,7 @@ export default {
         console.log("Ошибка получения заказов");
       }
     },
+
     async deleteOrders({ commit }, payload) {
       try {
         await this.$api.orders.delete(payload);

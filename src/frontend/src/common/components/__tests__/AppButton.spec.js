@@ -1,8 +1,10 @@
 import { shallowMount } from "@vue/test-utils";
 import AppButton from "@/common/components/AppButton";
+
 describe("AppButton", () => {
   // Определяем входные параметры по умолчанию и заглушки.
   const slots = { default: "content" };
+
   const listeners = { click: null };
 
   // wrapper — тест-обёртка над компонентом.
@@ -26,6 +28,7 @@ describe("AppButton", () => {
 
   // Проверяем, что при получение пропса disabled true устанавливается атрибут disabled и соответствующий класс.
   describe("when disabled true", () => {
+
     beforeEach(() => {
       createComponent({
         propsData: {
@@ -46,6 +49,7 @@ describe("AppButton", () => {
   });
 
   describe("when disabled not set", () => {
+
     beforeEach(() => {
       createComponent();
     });

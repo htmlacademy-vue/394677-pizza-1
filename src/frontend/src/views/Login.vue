@@ -47,8 +47,11 @@ import isLoggedIn from "@/middlewares/isLoggedIn";
 
 export default {
   name: "Login",
+
   layout: "LoginLayout",
+
   middlewares: { middlewares: isLoggedIn },
+
   components: { AppButton },
 
   data: function () {

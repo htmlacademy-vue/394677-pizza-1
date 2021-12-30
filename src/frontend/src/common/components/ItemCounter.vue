@@ -43,14 +43,17 @@ export default {
       type: Object,
       required: true,
     },
+
     index: {
       type: Number,
       required: true,
     },
+
     classNameButton: {
       type: String,
       default: "",
     },
+
     restrictions: {
       type: Number,
       required: false,

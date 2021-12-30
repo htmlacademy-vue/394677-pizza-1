@@ -32,6 +32,7 @@ export default {
 
   computed: {
     ...mapGetters("Builder", ["total"]),
+
     disabled() {
       let isSelectedIngredient = false;
       if (this.pizza.ingredients) {

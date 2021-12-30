@@ -5,17 +5,21 @@ Vue.use(Vuex);
 
 export default {
   namespaced: true,
+
   state: {
     user: null,
     isAuthenticated: false,
   },
+
   getters: {},
+
   mutations: {
     [SET_USER](state, payload) {
       state.isAuthenticated = payload.isAuthenticated;
       state.user = payload.user;
     },
   },
+
   actions: {
     async login({ dispatch }, credentials) {
       const data = await this.$api.auth.login(credentials);
@@ -23,6 +27,7 @@ export default {
       this.$api.auth.setAuthHeader();
       dispatch("getMe");
     },
+
     async logout({ commit }, sendRequest = true) {
       if (sendRequest) {
         await this.$api.auth.logout();
@@ -31,6 +36,7 @@ export default {
       this.$api.auth.setAuthHeader();
       commit(SET_USER, { isAuthenticated: false, user: null });
     },
+
     async getMe({ state, commit, dispatch }) {
       try {
         const data = await this.$api.auth.getMe();

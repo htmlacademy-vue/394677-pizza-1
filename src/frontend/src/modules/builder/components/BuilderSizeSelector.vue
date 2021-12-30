@@ -30,6 +30,8 @@ import { CHANGE_OPTIONS } from "@/store/modules/mutation-types";
 import { mapMutations } from "vuex";
 
 export default {
+  name: "BuilderSizeSelector",
+
   props: {
     sizes: {
       type: Array,
@@ -38,8 +40,6 @@ export default {
       },
     },
   },
-
-  name: "BuilderSizeSelector",
 
   methods: {
     ...mapMutations("Builder", [CHANGE_OPTIONS]),

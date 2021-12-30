@@ -15,6 +15,7 @@ Vue.use(Vuex);
 
 export default {
   namespaced: true,
+
   state: {
     pizza: {
       name: "",
@@ -24,6 +25,7 @@ export default {
       sizes: [],
     },
   },
+
   getters: {
     total(state) {
       let pizzaPrice = 0;
@@ -47,6 +49,7 @@ export default {
       return pizzaPrice * multiplier;
     },
   },
+
   mutations: {
     [SET_INGREDIENTS](state, payload) {
       Vue.set(state.pizza, "ingredients", payload.ingredients);
@@ -64,16 +67,19 @@ export default {
       state.pizza = payload.pizza;
       Vue.set(state.pizza, "id", payload.index);
     },
+
     [RESET_INGREDIENTS](state) {
       state.pizza.ingredients.forEach((ingredient) => {
         Vue.set(ingredient, "count", 0);
       });
     },
+
     [RESET_OPTIONS](state, payload) {
       for (let i = 0; i < state.pizza[payload].length; i++) {
         Vue.set(state.pizza[payload][i], "checked", i === 0);
       }
     },
+
     [COUNT_INGREDIENT](state, payload) {
       let count = state.pizza.ingredients[payload.index].count;
       if (payload.add) {
@@ -83,6 +89,7 @@ export default {
       }
       Vue.set(state.pizza.ingredients[payload.index], "count", count);
     },
+
     [MOVE_INGREDIENT](state, payload) {
       state.pizza.ingredients.forEach((ingredient) => {
         if (ingredient.name === payload) {
@@ -91,15 +98,18 @@ export default {
         }
       });
     },
+
     [CHANGE_OPTIONS](state, payload) {
       for (let i = 0; i < state.pizza[payload.name].length; i++) {
         Vue.set(state.pizza[payload.name][i], "checked", i === payload.index);
       }
     },
+
     [INPUT_SET_NAME](state, payload) {
       Vue.set(state.pizza, "name", payload);
     },
   },
+
   actions: {
     async getBuilder({ commit }) {
       const ingredients = this.$api.ingredients.query();
@@ -112,6 +122,7 @@ export default {
       commit(SET_PIZZA_OPTIONS, { name: "sauces", options: values[2] });
       commit(SET_PIZZA_OPTIONS, { name: "sizes", options: values[3] });
     },
+
     resetBuilder({ commit, state }) {
       Vue.set(state.pizza, "name", "");
       commit(RESET_INGREDIENTS);

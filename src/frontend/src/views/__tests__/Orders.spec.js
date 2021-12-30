@@ -15,8 +15,11 @@ import {
 import user from "@/static/user.json";
 import pizza from "@/static/pizza.json";
 import misc from "@/static/misc.json";
+
 const localVue = createLocalVue();
+
 localVue.use(VueRouter, Vuex);
+
 const router = new VueRouter();
 
 const authenticateUser = (store) => {
@@ -49,6 +52,7 @@ const setPizzaSauces = (store) => {
     options: pizza.sauces,
   });
 };
+
 const setMisc = (store) => {
   store.commit("Cart/" + SET_MISC, { misc: misc });
 };
@@ -103,6 +107,7 @@ const orders = [
 const setOrders = (store) => {
   store.commit("Orders/" + SET_ORDERS, orders);
 };
+
 describe("Orders", () => {
   const stubs = ["router-link", "router-view"];
   let actions;
@@ -111,18 +116,22 @@ describe("Orders", () => {
   const createComponent = (options) => {
     wrapper = mount(Orders, options);
   };
+
   beforeEach(() => {
     actions = {
       Builder: {
         getBuilder: jest.fn(),
       },
+
       Cart: {
         getMisc: jest.fn(),
       },
+
       Orders: {
         getOrders: jest.fn(),
         deleteOrders: jest.fn(),
       },
+
       Auth: {
         login: jest.fn(),
         logout: jest.fn(),
@@ -141,6 +150,7 @@ describe("Orders", () => {
     createComponent({ localVue, store, stubs });
     expect(wrapper.exists()).toBeTruthy();
   });
+
   it("when user has an orders, all orders must be displayed", () => {
     authenticateUser(store);
     setOrders(store);
@@ -148,6 +158,7 @@ describe("Orders", () => {
     let ordersContainer = wrapper.findAll(".order");
     expect(ordersContainer.length).toBe(2);
   });
+
   describe("when user has an order in history should display order data", () => {
     beforeEach(() => {
       authenticateUser(store);
@@ -174,9 +185,11 @@ describe("Orders", () => {
         "Соус: Сливочный"
       );
     });
+
     it("should display size name", () => {
       expect(wrapper.find(".product__text").text()).toContain("23 см");
     });
+
     it("should display dough name", () => {
       expect(wrapper.find(".product__text").text()).toContain("Тонкое");
     });
@@ -184,41 +197,51 @@ describe("Orders", () => {
     it("should display ingredient name", () => {
       expect(wrapper.find(".product__text").text()).toContain("Бекон");
     });
+
     it("should display pizza price", () => {
       expect(wrapper.find(".order__price").text()).toContain("392");
     });
+
     it("should display order price", () => {
       expect(wrapper.find(".order__wrapper").text()).toContain(
         "Сумма заказа: 412"
       );
     });
+
     describe("if the order came with additional items should display misc data ", () => {
+
       it("should display misc name", () => {
         expect(wrapper.find(".order__additional").text()).toContain(
           "Острый соус"
         );
       });
+
       it("should display misc price", () => {
         expect(wrapper.find(".order__additional").text()).toContain("20₽");
       });
     });
   });
   describe("if order delivery should display address data ", () => {
+
     beforeEach(() => {
       authenticateUser(store);
       setOrders(store);
       createComponent({ localVue, store, stubs, router });
     });
+
     it("should display order address street", () => {
       expect(wrapper.find(".order__address").text()).toContain("Улица");
     });
+
     it("should display order address building", () => {
       expect(wrapper.find(".order__address").text()).toContain("666");
     });
+
     it("should display order address flat", () => {
       expect(wrapper.find(".order__address").text()).toContain("44");
     });
   });
+
   it("delete order button is should delete action", async () => {
     authenticateUser(store);
     setOrders(store);
@@ -227,6 +250,7 @@ describe("Orders", () => {
     await link.trigger("click");
     expect(actions.Orders.deleteOrders).toHaveBeenCalled();
   });
+
   it("repeat order button is should calls repeat mutation", async () => {
     authenticateUser(store);
     setOrders(store);
@@ -235,6 +259,7 @@ describe("Orders", () => {
     await button.trigger("click");
     expect(store.state.Cart.pizza[0].name).toEqual("foo");
   });
+
   it("repeat order button is should calls router push cart page", async () => {
     authenticateUser(store);
     setOrders(store);
