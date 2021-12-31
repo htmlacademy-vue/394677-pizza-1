@@ -58,7 +58,7 @@
 import { mapState } from "vuex";
 
 export default {
-  name: "Header",
+  name: "AppHeader",
 
   computed: {
     ...mapState("Cart", ["total"]),

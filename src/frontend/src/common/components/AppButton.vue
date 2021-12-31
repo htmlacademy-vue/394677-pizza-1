@@ -11,17 +11,12 @@
 
 <script>
 export default {
-  name: "Button",
+  name: "AppButton",
 
   props: {
     disabled: {
       type: Boolean,
       default: false,
-    },
-
-    button: {
-      type: Boolean,
-      default: true,
     },
   },
 };

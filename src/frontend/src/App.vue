@@ -13,6 +13,7 @@ const defaultLayout = "MainLayout";
 
 export default {
   name: "App",
+
   computed: {
     layout() {
       const layout = this.$route.meta.layout || defaultLayout;
