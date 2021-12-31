@@ -35,12 +35,12 @@ export default {
     AppDrop,
   },
 
-  mounted() {
-    this.setInitialData();
-  },
-
   computed: {
     ...mapState("Builder", ["pizza"]),
+  },
+
+  mounted() {
+    this.setInitialData();
   },
 
   methods: {

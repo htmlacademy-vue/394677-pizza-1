@@ -20,7 +20,7 @@
 import Button from "@/common/components/AppButton";
 
 export default {
-  name: "Modal",
+  name: "AppModal",
 
   components: {
     Button,
